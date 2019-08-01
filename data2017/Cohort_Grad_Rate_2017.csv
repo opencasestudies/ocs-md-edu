@@ -1,0 +1,580 @@
+Class of Year,LEA,LEA Name,School Number,School Name,Cohort,Grad Rate,Diplomas Earned,Adjusted Cohort Count,Create Date
+2017,1,Allegany,405,Fort Hill High,4-year adjusted cohort,82.86,145,175,20180117
+2017,1,Allegany,405,Fort Hill High,3-year adjusted cohort,<= 5.00,*,163,20180117
+2017,1,Allegany,601,Center for Career & Technical Education,4-year adjusted cohort,>= 95.00,*,132,20180117
+2017,1,Allegany,601,Center for Career & Technical Education,3-year adjusted cohort,<= 5.00,*,137,20180117
+2017,1,Allegany,606,Allegany High,4-year adjusted cohort,90.78,128,141,20180117
+2017,1,Allegany,606,Allegany High,3-year adjusted cohort,<= 5.00,*,133,20180117
+2017,1,Allegany,2404,Mountain Ridge High School,4-year adjusted cohort,87.82,137,156,20180117
+2017,1,Allegany,2404,Mountain Ridge High School,3-year adjusted cohort,<= 5.00,*,154,20180117
+2017,1,Allegany,A,All Allegany Schools,4-year adjusted cohort,88.74,536,604,20180117
+2017,1,Allegany,A,All Allegany Schools,3-year adjusted cohort,<= 5.00,*,587,20180117
+2017,2,Anne Arundel,1033,Glen Burnie High,4-year adjusted cohort,90.3,391,433,20180117
+2017,2,Anne Arundel,1033,Glen Burnie High,3-year adjusted cohort,<= 5.00,*,438,20180117
+2017,2,Anne Arundel,1274,Marley Glen School,4-year adjusted cohort,*,*,*,20180117
+2017,2,Anne Arundel,1274,Marley Glen School,3-year adjusted cohort,*,*,*,20180117
+2017,2,Anne Arundel,1323,North County High,4-year adjusted cohort,86.18,424,492,20180117
+2017,2,Anne Arundel,1323,North County High,3-year adjusted cohort,<= 5.00,*,499,20180117
+2017,2,Anne Arundel,2013,Severna Park High,4-year adjusted cohort,>= 95.00,*,418,20180117
+2017,2,Anne Arundel,2013,Severna Park High,3-year adjusted cohort,<= 5.00,*,414,20180117
+2017,2,Anne Arundel,2023,Northeast High,4-year adjusted cohort,90.88,299,329,20180117
+2017,2,Anne Arundel,2023,Northeast High,3-year adjusted cohort,<= 5.00,*,330,20180117
+2017,2,Anne Arundel,2233,Anne Arundel Evening High,4-year adjusted cohort,14.69,21,143,20180117
+2017,2,Anne Arundel,2233,Anne Arundel Evening High,3-year adjusted cohort,<= 5.00,*,103,20180117
+2017,2,Anne Arundel,2273,Chesapeake High,4-year adjusted cohort,90.06,317,352,20180117
+2017,2,Anne Arundel,2273,Chesapeake High,3-year adjusted cohort,<= 5.00,*,354,20180117
+2017,2,Anne Arundel,2363,Broadneck High,4-year adjusted cohort,94.73,485,512,20180117
+2017,2,Anne Arundel,2363,Broadneck High,3-year adjusted cohort,<= 5.00,*,515,20180117
+2017,2,Anne Arundel,3013,Arundel High,4-year adjusted cohort,92.22,510,553,20180117
+2017,2,Anne Arundel,3013,Arundel High,3-year adjusted cohort,<= 5.00,*,536,20180117
+2017,2,Anne Arundel,3323,Meade High,4-year adjusted cohort,86.59,439,507,20180117
+2017,2,Anne Arundel,3323,Meade High,3-year adjusted cohort,<= 5.00,*,505,20180117
+2017,2,Anne Arundel,3353,Old Mill High,4-year adjusted cohort,93.36,506,542,20180117
+2017,2,Anne Arundel,3353,Old Mill High,3-year adjusted cohort,<= 5.00,*,539,20180117
+2017,2,Anne Arundel,3414,Ruth Parker Eason School,4-year adjusted cohort,*,*,*,20180117
+2017,2,Anne Arundel,3414,Ruth Parker Eason School,3-year adjusted cohort,*,*,*,20180117
+2017,2,Anne Arundel,4013,Annapolis High,4-year adjusted cohort,86.41,426,493,20180117
+2017,2,Anne Arundel,4013,Annapolis High,3-year adjusted cohort,<= 5.00,*,490,20180117
+2017,2,Anne Arundel,4023,Southern High,4-year adjusted cohort,92.57,249,269,20180117
+2017,2,Anne Arundel,4023,Southern High,3-year adjusted cohort,<= 5.00,*,261,20180117
+2017,2,Anne Arundel,4074,Phoenix Academy,4-year adjusted cohort,61.29,38,62,20180117
+2017,2,Anne Arundel,4074,Phoenix Academy,3-year adjusted cohort,<= 5.00,*,71,20180117
+2017,2,Anne Arundel,4293,South River High,4-year adjusted cohort,93.06,523,562,20180117
+2017,2,Anne Arundel,4293,South River High,3-year adjusted cohort,<= 5.00,*,565,20180117
+2017,2,Anne Arundel,4304,Central Special School,4-year adjusted cohort,*,*,*,20180117
+2017,2,Anne Arundel,4304,Central Special School,3-year adjusted cohort,*,*,*,20180117
+2017,2,Anne Arundel,6223,Chesapeake Science Point,4-year adjusted cohort,>= 95.00,*,61,20180117
+2017,2,Anne Arundel,6223,Chesapeake Science Point,3-year adjusted cohort,<= 5.00,*,60,20180117
+2017,2,Anne Arundel,A,All Anne Arundel Schools,4-year adjusted cohort,88.53,5086,5745,20180117
+2017,2,Anne Arundel,A,All Anne Arundel Schools,3-year adjusted cohort,<= 5.00,*,5700,20180117
+2017,3,Baltimore County,54,Extended Day Learning Program,4-year adjusted cohort,<= 5.00,*,70,20180117
+2017,3,Baltimore County,54,Extended Day Learning Program,3-year adjusted cohort,<= 5.00,*,97,20180117
+2017,3,Baltimore County,58,Home Assignments-Secondary,4-year adjusted cohort,<= 5.00,*,25,20180117
+2017,3,Baltimore County,58,Home Assignments-Secondary,3-year adjusted cohort,<= 5.00,*,45,20180117
+2017,3,Baltimore County,69,Catonsville Center for Alternative Studies,4-year adjusted cohort,<= 5.00,*,12,20180117
+2017,3,Baltimore County,69,Catonsville Center for Alternative Studies,3-year adjusted cohort,<= 5.00,*,26,20180117
+2017,3,Baltimore County,72,Rosedale Center,4-year adjusted cohort,<= 5.00,*,13,20180117
+2017,3,Baltimore County,72,Rosedale Center,3-year adjusted cohort,<= 5.00,*,43,20180117
+2017,3,Baltimore County,75,Crossroads Center,4-year adjusted cohort,*,*,*,20180117
+2017,3,Baltimore County,75,Crossroads Center,3-year adjusted cohort,<= 5.00,*,15,20180117
+2017,3,Baltimore County,77,BCDC Educational Center,4-year adjusted cohort,<= 5.00,*,20,20180117
+2017,3,Baltimore County,77,BCDC Educational Center,3-year adjusted cohort,<= 5.00,*,10,20180117
+2017,3,Baltimore County,111,Maiden Choice School,4-year adjusted cohort,*,*,*,20180117
+2017,3,Baltimore County,111,Maiden Choice School,3-year adjusted cohort,*,*,*,20180117
+2017,3,Baltimore County,172,Woodlawn High Center for Pre-Eng. Res.,4-year adjusted cohort,88.72,291,328,20180117
+2017,3,Baltimore County,172,Woodlawn High Center for Pre-Eng. Res.,3-year adjusted cohort,10.48,35,334,20180117
+2017,3,Baltimore County,174,Catonsville High,4-year adjusted cohort,>= 95.00,*,432,20180117
+2017,3,Baltimore County,174,Catonsville High,3-year adjusted cohort,<= 5.00,*,428,20180117
+2017,3,Baltimore County,175,Western School of Technology & Env. Science,4-year adjusted cohort,>= 95.00,*,228,20180117
+2017,3,Baltimore County,175,Western School of Technology & Env. Science,3-year adjusted cohort,<= 5.00,*,228,20180117
+2017,3,Baltimore County,271,Milford Mill Academy,4-year adjusted cohort,93.39,325,348,20180117
+2017,3,Baltimore County,271,Milford Mill Academy,3-year adjusted cohort,<= 5.00,*,342,20180117
+2017,3,Baltimore County,272,Randallstown High,4-year adjusted cohort,93.44,242,259,20180117
+2017,3,Baltimore County,272,Randallstown High,3-year adjusted cohort,<= 5.00,*,265,20180117
+2017,3,Baltimore County,371,Pikesville High,4-year adjusted cohort,>= 95.00,*,215,20180117
+2017,3,Baltimore County,371,Pikesville High,3-year adjusted cohort,<= 5.00,*,208,20180117
+2017,3,Baltimore County,452,Owings Mills High,4-year adjusted cohort,87.44,188,215,20180117
+2017,3,Baltimore County,452,Owings Mills High,3-year adjusted cohort,<= 5.00,*,210,20180117
+2017,3,Baltimore County,472,Franklin High,4-year adjusted cohort,91.07,357,392,20180117
+2017,3,Baltimore County,472,Franklin High,3-year adjusted cohort,<= 5.00,*,379,20180117
+2017,3,Baltimore County,473,New Town High,4-year adjusted cohort,94.46,256,271,20180117
+2017,3,Baltimore County,473,New Town High,3-year adjusted cohort,<= 5.00,*,260,20180117
+2017,3,Baltimore County,772,Hereford High,4-year adjusted cohort,>= 95.00,*,319,20180117
+2017,3,Baltimore County,772,Hereford High,3-year adjusted cohort,<= 5.00,*,317,20180117
+2017,3,Baltimore County,872,Dulaney High,4-year adjusted cohort,>= 95.00,*,493,20180117
+2017,3,Baltimore County,872,Dulaney High,3-year adjusted cohort,<= 5.00,*,475,20180117
+2017,3,Baltimore County,922,Ridge Ruxton,4-year adjusted cohort,*,*,*,20180117
+2017,3,Baltimore County,922,Ridge Ruxton,3-year adjusted cohort,*,*,*,20180117
+2017,3,Baltimore County,971,Towson High Law & Public Policy,4-year adjusted cohort,93.92,371,395,20180117
+2017,3,Baltimore County,971,Towson High Law & Public Policy,3-year adjusted cohort,<= 5.00,*,389,20180117
+2017,3,Baltimore County,972,Parkville High & Center for Math/Science,4-year adjusted cohort,83.96,382,455,20180117
+2017,3,Baltimore County,972,Parkville High & Center for Math/Science,3-year adjusted cohort,6.28,27,430,20180117
+2017,3,Baltimore County,973,Loch Raven High,4-year adjusted cohort,93.46,200,214,20180117
+2017,3,Baltimore County,973,Loch Raven High,3-year adjusted cohort,<= 5.00,*,218,20180117
+2017,3,Baltimore County,975,George W. Carver Center for Arts & Technology,4-year adjusted cohort,>= 95.00,*,201,20180117
+2017,3,Baltimore County,975,George W. Carver Center for Arts & Technology,3-year adjusted cohort,<= 5.00,*,203,20180117
+2017,3,Baltimore County,1171,Perry Hall High,4-year adjusted cohort,92.24,499,541,20180117
+2017,3,Baltimore County,1171,Perry Hall High,3-year adjusted cohort,<= 5.00,*,529,20180117
+2017,3,Baltimore County,1215,Battle Monument School,4-year adjusted cohort,*,*,*,20180117
+2017,3,Baltimore County,1215,Battle Monument School,3-year adjusted cohort,*,*,*,20180117
+2017,3,Baltimore County,1272,Patapsco High & Center for Arts,4-year adjusted cohort,85.5,342,400,20180117
+2017,3,Baltimore County,1272,Patapsco High & Center for Arts,3-year adjusted cohort,<= 5.00,*,387,20180117
+2017,3,Baltimore County,1273,Dundalk High,4-year adjusted cohort,78.16,297,380,20180117
+2017,3,Baltimore County,1273,Dundalk High,3-year adjusted cohort,7.22,27,374,20180117
+2017,3,Baltimore County,1371,Lansdowne High & Academy of Finance,4-year adjusted cohort,84,294,350,20180117
+2017,3,Baltimore County,1371,Lansdowne High & Academy of Finance,3-year adjusted cohort,11.85,41,346,20180117
+2017,3,Baltimore County,1473,Overlea High & Academy of Finance,4-year adjusted cohort,84.92,214,252,20180117
+2017,3,Baltimore County,1473,Overlea High & Academy of Finance,3-year adjusted cohort,<= 5.00,*,223,20180117
+2017,3,Baltimore County,1572,Kenwood High IB and Sports Science,4-year adjusted cohort,81.98,364,444,20180117
+2017,3,Baltimore County,1572,Kenwood High IB and Sports Science,3-year adjusted cohort,6.35,28,441,20180117
+2017,3,Baltimore County,1573,Sparrows Point High,4-year adjusted cohort,>= 95.00,*,225,20180117
+2017,3,Baltimore County,1573,Sparrows Point High,3-year adjusted cohort,<= 5.00,*,224,20180117
+2017,3,Baltimore County,1574,Chesapeake High,4-year adjusted cohort,84.4,211,250,20180117
+2017,3,Baltimore County,1574,Chesapeake High,3-year adjusted cohort,<= 5.00,*,229,20180117
+2017,3,Baltimore County,1575,Eastern Technical High School,4-year adjusted cohort,>= 95.00,*,275,20180117
+2017,3,Baltimore County,1575,Eastern Technical High School,3-year adjusted cohort,<= 5.00,*,280,20180117
+2017,3,Baltimore County,A,All Baltimore County Schools,4-year adjusted cohort,89,7155,8039,20180117
+2017,3,Baltimore County,A,All Baltimore County Schools,3-year adjusted cohort,<= 5.00,*,7967,20180117
+2017,4,Calvert,113,Patuxent High,4-year adjusted cohort,93.98,250,266,20180117
+2017,4,Calvert,113,Patuxent High,3-year adjusted cohort,<= 5.00,*,264,20180117
+2017,4,Calvert,206,Calvert Country School,4-year adjusted cohort,*,*,*,20180117
+2017,4,Calvert,206,Calvert Country School,3-year adjusted cohort,*,*,*,20180117
+2017,4,Calvert,213,Calvert High,4-year adjusted cohort,93.45,257,275,20180117
+2017,4,Calvert,213,Calvert High,3-year adjusted cohort,<= 5.00,*,261,20180117
+2017,4,Calvert,217,Huntingtown High School,4-year adjusted cohort,>= 95.00,*,359,20180117
+2017,4,Calvert,217,Huntingtown High School,3-year adjusted cohort,<= 5.00,*,355,20180117
+2017,4,Calvert,314,Northern High,4-year adjusted cohort,>= 95.00,*,379,20180117
+2017,4,Calvert,314,Northern High,3-year adjusted cohort,<= 5.00,*,378,20180117
+2017,4,Calvert,500,Calvert County Alternative School,4-year adjusted cohort,*,*,*,20180117
+2017,4,Calvert,500,Calvert County Alternative School,3-year adjusted cohort,*,*,*,20180117
+2017,4,Calvert,A,All Calvert Schools,4-year adjusted cohort,94.62,1214,1283,20180117
+2017,4,Calvert,A,All Calvert Schools,3-year adjusted cohort,<= 5.00,*,1265,20180117
+2017,5,Caroline,703,North Caroline High School,4-year adjusted cohort,80.36,225,280,20180117
+2017,5,Caroline,703,North Caroline High School,3-year adjusted cohort,<= 5.00,*,282,20180117
+2017,5,Caroline,801,Colonel Richardson High School,4-year adjusted cohort,87.07,101,116,20180117
+2017,5,Caroline,801,Colonel Richardson High School,3-year adjusted cohort,<= 5.00,*,112,20180117
+2017,5,Caroline,A,All Caroline Schools,4-year adjusted cohort,82.32,326,396,20180117
+2017,5,Caroline,A,All Caroline Schools,3-year adjusted cohort,<= 5.00,*,394,20180117
+2017,6,Carroll,202,Francis Scott Key High,4-year adjusted cohort,>= 95.00,*,230,20180117
+2017,6,Carroll,202,Francis Scott Key High,3-year adjusted cohort,<= 5.00,*,231,20180117
+2017,6,Carroll,507,Liberty High,4-year adjusted cohort,>= 95.00,*,241,20180117
+2017,6,Carroll,507,Liberty High,3-year adjusted cohort,<= 5.00,*,241,20180117
+2017,6,Carroll,510,Century High,4-year adjusted cohort,>= 95.00,*,261,20180117
+2017,6,Carroll,510,Century High,3-year adjusted cohort,<= 5.00,*,257,20180117
+2017,6,Carroll,602,Manchester Valley High,4-year adjusted cohort,>= 95.00,*,316,20180117
+2017,6,Carroll,602,Manchester Valley High,3-year adjusted cohort,<= 5.00,*,178,20180117
+2017,6,Carroll,704,Winters Mill High,4-year adjusted cohort,92.11,245,266,20180117
+2017,6,Carroll,704,Winters Mill High,3-year adjusted cohort,<= 5.00,*,268,20180117
+2017,6,Carroll,707,Westminster High,4-year adjusted cohort,>= 95.00,*,373,20180117
+2017,6,Carroll,707,Westminster High,3-year adjusted cohort,<= 5.00,*,371,20180117
+2017,6,Carroll,712,Carroll Springs School,4-year adjusted cohort,*,*,*,20180117
+2017,6,Carroll,712,Carroll Springs School,3-year adjusted cohort,*,*,*,20180117
+2017,6,Carroll,716,Gateway School,4-year adjusted cohort,47.22,17,36,20180117
+2017,6,Carroll,716,Gateway School,3-year adjusted cohort,<= 5.00,*,26,20180117
+2017,6,Carroll,903,Flexible Student Support,4-year adjusted cohort,83.67,41,49,20180117
+2017,6,Carroll,903,Flexible Student Support,3-year adjusted cohort,25,3,12,20180117
+2017,6,Carroll,1401,South Carroll High,4-year adjusted cohort,>= 95.00,*,257,20180117
+2017,6,Carroll,1401,South Carroll High,3-year adjusted cohort,<= 5.00,*,256,20180117
+2017,6,Carroll,A,All Carroll Schools,4-year adjusted cohort,>= 95.00,*,2044,20180117
+2017,6,Carroll,A,All Carroll Schools,3-year adjusted cohort,<= 5.00,*,2013,20180117
+2017,7,Cecil,204,Bohemia Manor High,4-year adjusted cohort,91.67,143,156,20180117
+2017,7,Cecil,204,Bohemia Manor High,3-year adjusted cohort,<= 5.00,*,156,20180117
+2017,7,Cecil,302,Elkton High,4-year adjusted cohort,88.58,225,254,20180117
+2017,7,Cecil,302,Elkton High,3-year adjusted cohort,<= 5.00,*,251,20180117
+2017,7,Cecil,514,North East High,4-year adjusted cohort,89.03,211,237,20180117
+2017,7,Cecil,514,North East High,3-year adjusted cohort,<= 5.00,*,231,20180117
+2017,7,Cecil,705,Perryville High,4-year adjusted cohort,88.64,195,220,20180117
+2017,7,Cecil,705,Perryville High,3-year adjusted cohort,<= 5.00,*,220,20180117
+2017,7,Cecil,905,Rising Sun High,4-year adjusted cohort,94.12,288,306,20180117
+2017,7,Cecil,905,Rising Sun High,3-year adjusted cohort,<= 5.00,*,307,20180117
+2017,7,Cecil,A,All Cecil Schools,4-year adjusted cohort,90.54,1062,1173,20180117
+2017,7,Cecil,A,All Cecil Schools,3-year adjusted cohort,<= 5.00,*,1165,20180117
+2017,8,Charles,106,La Plata High School,4-year adjusted cohort,>= 95.00,*,259,20180117
+2017,8,Charles,106,La Plata High School,3-year adjusted cohort,<= 5.00,*,257,20180117
+2017,8,Charles,108,Maurice J. McDonough High School,4-year adjusted cohort,88.83,183,206,20180117
+2017,8,Charles,108,Maurice J. McDonough High School,3-year adjusted cohort,<= 5.00,*,196,20180117
+2017,8,Charles,605,Thomas Stone High School,4-year adjusted cohort,91.22,291,319,20180117
+2017,8,Charles,605,Thomas Stone High School,3-year adjusted cohort,<= 5.00,*,307,20180117
+2017,8,Charles,619,Westlake High School,4-year adjusted cohort,>= 95.00,*,279,20180117
+2017,8,Charles,619,Westlake High School,3-year adjusted cohort,<= 5.00,*,273,20180117
+2017,8,Charles,623,North Point High School,4-year adjusted cohort,>= 95.00,*,456,20180117
+2017,8,Charles,623,North Point High School,3-year adjusted cohort,<= 5.00,*,458,20180117
+2017,8,Charles,708,Robert D. Stethem Educational Center,3-year adjusted cohort,<= 5.00,*,15,20180117
+2017,8,Charles,802,St. Charles High School,4-year adjusted cohort,>= 95.00,*,284,20180117
+2017,8,Charles,802,St. Charles High School,3-year adjusted cohort,<= 5.00,*,278,20180117
+2017,8,Charles,1002,Henry E. Lackey High School,4-year adjusted cohort,>= 95.00,*,250,20180117
+2017,8,Charles,1002,Henry E. Lackey High School,3-year adjusted cohort,<= 5.00,*,249,20180117
+2017,8,Charles,A,All Charles Schools,4-year adjusted cohort,94.74,1945,2053,20180117
+2017,8,Charles,A,All Charles Schools,3-year adjusted cohort,<= 5.00,*,2033,20180117
+2017,9,Dorchester,207,North Dorchester High School,4-year adjusted cohort,90.18,101,112,20180117
+2017,9,Dorchester,207,North Dorchester High School,3-year adjusted cohort,<= 5.00,*,115,20180117
+2017,9,Dorchester,713,Cambridge-South Dorchester High School,4-year adjusted cohort,78.77,141,179,20180117
+2017,9,Dorchester,713,Cambridge-South Dorchester High School,3-year adjusted cohort,<= 5.00,*,180,20180117
+2017,9,Dorchester,A,All Dorchester Schools,4-year adjusted cohort,83.16,242,291,20180117
+2017,9,Dorchester,A,All Dorchester Schools,3-year adjusted cohort,<= 5.00,*,295,20180117
+2017,10,Frederick,100,Frederick County Virtual School,4-year adjusted cohort,*,*,*,20180117
+2017,10,Frederick,100,Frederick County Virtual School,3-year adjusted cohort,*,*,*,20180117
+2017,10,Frederick,208,Heather Ridge High School,4-year adjusted cohort,*,*,*,20180117
+2017,10,Frederick,209,Frederick High,4-year adjusted cohort,78.36,239,305,20180117
+2017,10,Frederick,209,Frederick High,3-year adjusted cohort,<= 5.00,*,309,20180117
+2017,10,Frederick,213,Gov. Thomas Johnson High,4-year adjusted cohort,89.26,324,363,20180117
+2017,10,Frederick,213,Gov. Thomas Johnson High,3-year adjusted cohort,<= 5.00,*,346,20180117
+2017,10,Frederick,313,Middletown High,4-year adjusted cohort,>= 95.00,*,264,20180117
+2017,10,Frederick,313,Middletown High,3-year adjusted cohort,<= 5.00,*,263,20180117
+2017,10,Frederick,713,Urbana High,4-year adjusted cohort,>= 95.00,*,428,20180117
+2017,10,Frederick,713,Urbana High,3-year adjusted cohort,<= 5.00,*,427,20180117
+2017,10,Frederick,912,Linganore High,4-year adjusted cohort,>= 95.00,*,381,20180117
+2017,10,Frederick,912,Linganore High,3-year adjusted cohort,<= 5.00,*,382,20180117
+2017,10,Frederick,920,Oakdale High,4-year adjusted cohort,>= 95.00,*,310,20180117
+2017,10,Frederick,920,Oakdale High,3-year adjusted cohort,<= 5.00,*,312,20180117
+2017,10,Frederick,1509,Catoctin High,4-year adjusted cohort,93.84,198,211,20180117
+2017,10,Frederick,1509,Catoctin High,3-year adjusted cohort,<= 5.00,*,216,20180117
+2017,10,Frederick,2307,Tuscarora High,4-year adjusted cohort,90.21,341,378,20180117
+2017,10,Frederick,2307,Tuscarora High,3-year adjusted cohort,<= 5.00,*,368,20180117
+2017,10,Frederick,2404,Rock Creek School,4-year adjusted cohort,*,*,*,20180117
+2017,10,Frederick,2404,Rock Creek School,3-year adjusted cohort,*,*,*,20180117
+2017,10,Frederick,2503,Brunswick High,4-year adjusted cohort,93.63,147,157,20180117
+2017,10,Frederick,2503,Brunswick High,3-year adjusted cohort,<= 5.00,*,155,20180117
+2017,10,Frederick,2610,Walkersville High,4-year adjusted cohort,94.51,258,273,20180117
+2017,10,Frederick,2610,Walkersville High,3-year adjusted cohort,<= 5.00,*,265,20180117
+2017,10,Frederick,A,All Frederick Schools,4-year adjusted cohort,92.48,2852,3084,20180117
+2017,10,Frederick,A,All Frederick Schools,3-year adjusted cohort,<= 5.00,*,3051,20180117
+2017,11,Garrett,512,Northern Garrett High School,4-year adjusted cohort,92.97,119,128,20180117
+2017,11,Garrett,512,Northern Garrett High School,3-year adjusted cohort,<= 5.00,*,131,20180117
+2017,11,Garrett,709,Southern Garrett High School,4-year adjusted cohort,91.93,148,161,20180117
+2017,11,Garrett,709,Southern Garrett High School,3-year adjusted cohort,<= 5.00,*,157,20180117
+2017,11,Garrett,A,All Garrett Schools,4-year adjusted cohort,92.39,267,289,20180117
+2017,11,Garrett,A,All Garrett Schools,3-year adjusted cohort,<= 5.00,*,288,20180117
+2017,12,Harford,176,Edgewood High,4-year adjusted cohort,83.84,249,297,20180117
+2017,12,Harford,176,Edgewood High,3-year adjusted cohort,<= 5.00,*,303,20180117
+2017,12,Harford,181,Joppatowne High,4-year adjusted cohort,75.63,121,160,20180117
+2017,12,Harford,181,Joppatowne High,3-year adjusted cohort,<= 5.00,*,156,20180117
+2017,12,Harford,187,Patterson Mill High School,4-year adjusted cohort,>= 95.00,*,215,20180117
+2017,12,Harford,187,Patterson Mill High School,3-year adjusted cohort,<= 5.00,*,210,20180117
+2017,12,Harford,270,Aberdeen High,4-year adjusted cohort,80.22,296,369,20180117
+2017,12,Harford,270,Aberdeen High,3-year adjusted cohort,<= 5.00,*,363,20180117
+2017,12,Harford,292,Center for Educational Opportunity,4-year adjusted cohort,22.86,8,35,20180117
+2017,12,Harford,292,Center for Educational Opportunity,3-year adjusted cohort,<= 5.00,*,29,20180117
+2017,12,Harford,304,Harford Technical High,4-year adjusted cohort,92.86,221,238,20180117
+2017,12,Harford,304,Harford Technical High,3-year adjusted cohort,<= 5.00,*,243,20180117
+2017,12,Harford,373,Bel Air High,4-year adjusted cohort,93.91,370,394,20180117
+2017,12,Harford,373,Bel Air High,3-year adjusted cohort,<= 5.00,*,388,20180117
+2017,12,Harford,382,Fallston High,4-year adjusted cohort,>= 95.00,*,284,20180117
+2017,12,Harford,382,Fallston High,3-year adjusted cohort,<= 5.00,*,281,20180117
+2017,12,Harford,385,C. Milton Wright High,4-year adjusted cohort,>= 95.00,*,338,20180117
+2017,12,Harford,385,C. Milton Wright High,3-year adjusted cohort,<= 5.00,*,338,20180117
+2017,12,Harford,391,John Archer School,4-year adjusted cohort,*,*,*,20180117
+2017,12,Harford,391,John Archer School,3-year adjusted cohort,*,*,*,20180117
+2017,12,Harford,580,North Harford High,4-year adjusted cohort,91.13,267,293,20180117
+2017,12,Harford,580,North Harford High,3-year adjusted cohort,<= 5.00,*,288,20180117
+2017,12,Harford,678,Havre de Grace High,4-year adjusted cohort,93.33,112,120,20180117
+2017,12,Harford,678,Havre de Grace High,3-year adjusted cohort,<= 5.00,*,123,20180117
+2017,12,Harford,A,All Harford Schools,4-year adjusted cohort,88.94,2445,2749,20180117
+2017,12,Harford,A,All Harford Schools,3-year adjusted cohort,<= 5.00,*,2728,20180117
+2017,13,Howard,80,Homewood School,4-year adjusted cohort,42.22,19,45,20180117
+2017,13,Howard,80,Homewood School,3-year adjusted cohort,<= 5.00,*,38,20180117
+2017,13,Howard,203,Howard High,4-year adjusted cohort,94.79,400,422,20180117
+2017,13,Howard,203,Howard High,3-year adjusted cohort,<= 5.00,*,418,20180117
+2017,13,Howard,207,Mount Hebron High,4-year adjusted cohort,94.12,352,374,20180117
+2017,13,Howard,207,Mount Hebron High,3-year adjusted cohort,<= 5.00,*,369,20180117
+2017,13,Howard,214,Centennial High,4-year adjusted cohort,>= 95.00,*,354,20180117
+2017,13,Howard,214,Centennial High,3-year adjusted cohort,<= 5.00,*,350,20180117
+2017,13,Howard,308,Marriotts Ridge High,4-year adjusted cohort,>= 95.00,*,298,20180117
+2017,13,Howard,308,Marriotts Ridge High,3-year adjusted cohort,<= 5.00,*,296,20180117
+2017,13,Howard,404,Glenelg High,4-year adjusted cohort,>= 95.00,*,313,20180117
+2017,13,Howard,404,Glenelg High,3-year adjusted cohort,<= 5.00,*,311,20180117
+2017,13,Howard,509,Atholton High,4-year adjusted cohort,>= 95.00,*,340,20180117
+2017,13,Howard,509,Atholton High,3-year adjusted cohort,<= 5.00,*,342,20180117
+2017,13,Howard,516,Wilde Lake High,4-year adjusted cohort,82.72,249,301,20180117
+2017,13,Howard,516,Wilde Lake High,3-year adjusted cohort,<= 5.00,*,303,20180117
+2017,13,Howard,522,Cedar Lane Special Center,4-year adjusted cohort,*,*,*,20180117
+2017,13,Howard,522,Cedar Lane Special Center,3-year adjusted cohort,*,*,*,20180117
+2017,13,Howard,524,River Hill High,4-year adjusted cohort,93.88,276,294,20180117
+2017,13,Howard,524,River Hill High,3-year adjusted cohort,<= 5.00,*,291,20180117
+2017,13,Howard,527,Reservoir High,4-year adjusted cohort,94.23,359,381,20180117
+2017,13,Howard,527,Reservoir High,3-year adjusted cohort,<= 5.00,*,379,20180117
+2017,13,Howard,611,Oakland Mills High,4-year adjusted cohort,90.37,244,270,20180117
+2017,13,Howard,611,Oakland Mills High,3-year adjusted cohort,<= 5.00,*,276,20180117
+2017,13,Howard,619,Hammond High,4-year adjusted cohort,90.15,293,325,20180117
+2017,13,Howard,619,Hammond High,3-year adjusted cohort,<= 5.00,*,316,20180117
+2017,13,Howard,623,Long Reach High,4-year adjusted cohort,84.72,305,360,20180117
+2017,13,Howard,623,Long Reach High,3-year adjusted cohort,<= 5.00,*,356,20180117
+2017,13,Howard,A,All Howard Schools,4-year adjusted cohort,92.28,3766,4081,20180117
+2017,13,Howard,A,All Howard Schools,3-year adjusted cohort,<= 5.00,*,4049,20180117
+2017,14,Kent,301,Kent County High,4-year adjusted cohort,90.48,133,147,20180117
+2017,14,Kent,301,Kent County High,3-year adjusted cohort,<= 5.00,*,144,20180117
+2017,14,Kent,A,All Kent Schools,4-year adjusted cohort,90.48,133,147,20180117
+2017,14,Kent,A,All Kent Schools,3-year adjusted cohort,<= 5.00,*,144,20180117
+2017,15,Montgomery,104,Seneca Valley High,4-year adjusted cohort,86.21,250,290,20180117
+2017,15,Montgomery,104,Seneca Valley High,3-year adjusted cohort,<= 5.00,*,291,20180117
+2017,15,Montgomery,125,Quince Orchard High,4-year adjusted cohort,>= 95.00,*,503,20180117
+2017,15,Montgomery,125,Quince Orchard High,3-year adjusted cohort,<= 5.00,*,497,20180117
+2017,15,Montgomery,152,Poolesville High,4-year adjusted cohort,>= 95.00,*,290,20180117
+2017,15,Montgomery,152,Poolesville High,3-year adjusted cohort,<= 5.00,*,287,20180117
+2017,15,Montgomery,201,Richard Montgomery High,4-year adjusted cohort,92.24,535,580,20180117
+2017,15,Montgomery,201,Richard Montgomery High,3-year adjusted cohort,<= 5.00,*,569,20180117
+2017,15,Montgomery,230,Rockville High,4-year adjusted cohort,86.02,277,322,20180117
+2017,15,Montgomery,230,Rockville High,3-year adjusted cohort,<= 5.00,*,318,20180117
+2017,15,Montgomery,234,Thomas S. Wootton High,4-year adjusted cohort,>= 95.00,*,542,20180117
+2017,15,Montgomery,234,Thomas S. Wootton High,3-year adjusted cohort,<= 5.00,*,539,20180117
+2017,15,Montgomery,239,Alternative Programs,4-year adjusted cohort,44.68,21,47,20180117
+2017,15,Montgomery,239,Alternative Programs,3-year adjusted cohort,12.2,5,41,20180117
+2017,15,Montgomery,246,Northwest High,4-year adjusted cohort,94.95,508,535,20180117
+2017,15,Montgomery,246,Northwest High,3-year adjusted cohort,<= 5.00,*,532,20180117
+2017,15,Montgomery,249,Clarksburg High,4-year adjusted cohort,91.52,464,507,20180117
+2017,15,Montgomery,249,Clarksburg High,3-year adjusted cohort,<= 5.00,*,493,20180117
+2017,15,Montgomery,315,Paint Branch High,4-year adjusted cohort,90.55,441,487,20180117
+2017,15,Montgomery,315,Paint Branch High,3-year adjusted cohort,<= 5.00,*,491,20180117
+2017,15,Montgomery,321,James Hubert Blake High,4-year adjusted cohort,90.21,350,388,20180117
+2017,15,Montgomery,321,James Hubert Blake High,3-year adjusted cohort,<= 5.00,*,381,20180117
+2017,15,Montgomery,406,Bethesda-Chevy Chase High,4-year adjusted cohort,94.42,474,502,20180117
+2017,15,Montgomery,406,Bethesda-Chevy Chase High,3-year adjusted cohort,<= 5.00,*,505,20180117
+2017,15,Montgomery,424,Walter Johnson High,4-year adjusted cohort,>= 95.00,*,568,20180117
+2017,15,Montgomery,424,Walter Johnson High,3-year adjusted cohort,<= 5.00,*,557,20180117
+2017,15,Montgomery,427,Walt Whitman High,4-year adjusted cohort,>= 95.00,*,524,20180117
+2017,15,Montgomery,427,Walt Whitman High,3-year adjusted cohort,<= 5.00,*,516,20180117
+2017,15,Montgomery,503,Sherwood High,4-year adjusted cohort,93.89,461,491,20180117
+2017,15,Montgomery,503,Sherwood High,3-year adjusted cohort,<= 5.00,*,484,20180117
+2017,15,Montgomery,510,Col. Zadok Magruder High,4-year adjusted cohort,89.59,327,365,20180117
+2017,15,Montgomery,510,Col. Zadok Magruder High,3-year adjusted cohort,<= 5.00,*,359,20180117
+2017,15,Montgomery,545,Watkins Mill High,4-year adjusted cohort,84.5,327,387,20180117
+2017,15,Montgomery,545,Watkins Mill High,3-year adjusted cohort,<= 5.00,*,381,20180117
+2017,15,Montgomery,551,Gaithersburg High,4-year adjusted cohort,77.39,421,544,20180117
+2017,15,Montgomery,551,Gaithersburg High,3-year adjusted cohort,<= 5.00,*,551,20180117
+2017,15,Montgomery,602,Winston Churchill High,4-year adjusted cohort,>= 95.00,*,502,20180117
+2017,15,Montgomery,602,Winston Churchill High,3-year adjusted cohort,<= 5.00,*,503,20180117
+2017,15,Montgomery,701,Damascus High,4-year adjusted cohort,93.98,250,266,20180117
+2017,15,Montgomery,701,Damascus High,3-year adjusted cohort,<= 5.00,*,262,20180117
+2017,15,Montgomery,757,Montgomery Blair High,4-year adjusted cohort,86.21,625,725,20180117
+2017,15,Montgomery,757,Montgomery Blair High,3-year adjusted cohort,<= 5.00,*,722,20180117
+2017,15,Montgomery,782,Wheaton High,4-year adjusted cohort,77.36,287,371,20180117
+2017,15,Montgomery,782,Wheaton High,3-year adjusted cohort,<= 5.00,*,368,20180117
+2017,15,Montgomery,789,Albert Einstein High,4-year adjusted cohort,81.93,340,415,20180117
+2017,15,Montgomery,789,Albert Einstein High,3-year adjusted cohort,<= 5.00,*,410,20180117
+2017,15,Montgomery,796,Northwood High School,4-year adjusted cohort,79.36,323,407,20180117
+2017,15,Montgomery,796,Northwood High School,3-year adjusted cohort,<= 5.00,*,401,20180117
+2017,15,Montgomery,798,Springbrook High,4-year adjusted cohort,87.83,397,452,20180117
+2017,15,Montgomery,798,Springbrook High,3-year adjusted cohort,<= 5.00,*,451,20180117
+2017,15,Montgomery,799,Stephen Knolls School,4-year adjusted cohort,*,*,*,20180117
+2017,15,Montgomery,799,Stephen Knolls School,3-year adjusted cohort,*,*,*,20180117
+2017,15,Montgomery,815,John F. Kennedy High,4-year adjusted cohort,81.22,307,378,20180117
+2017,15,Montgomery,815,John F. Kennedy High,3-year adjusted cohort,<= 5.00,*,382,20180117
+2017,15,Montgomery,916,Rock Terrace School,4-year adjusted cohort,<= 5.00,*,14,20180117
+2017,15,Montgomery,916,Rock Terrace School,3-year adjusted cohort,<= 5.00,*,10,20180117
+2017,15,Montgomery,951,Longview School,4-year adjusted cohort,*,*,*,20180117
+2017,15,Montgomery,951,Longview School,3-year adjusted cohort,*,*,*,20180117
+2017,15,Montgomery,965,Regional Institute for Children & Adolescents,4-year adjusted cohort,54.55,12,22,20180117
+2017,15,Montgomery,965,Regional Institute for Children & Adolescents,3-year adjusted cohort,<= 5.00,*,22,20180117
+2017,15,Montgomery,A,All Montgomery Schools,4-year adjusted cohort,89.52,10233,11431,20180117
+2017,15,Montgomery,A,All Montgomery Schools,3-year adjusted cohort,<= 5.00,*,11331,20180117
+2017,16,Prince George's,102,High Point High,4-year adjusted cohort,62.86,440,700,20180117
+2017,16,Prince George's,102,High Point High,3-year adjusted cohort,<= 5.00,*,711,20180117
+2017,16,Prince George's,108,James E. Duckworth Regional Center,4-year adjusted cohort,*,*,*,20180117
+2017,16,Prince George's,108,James E. Duckworth Regional Center,3-year adjusted cohort,*,*,*,20180117
+2017,16,Prince George's,208,Bladensburg High,4-year adjusted cohort,70.12,352,502,20180117
+2017,16,Prince George's,208,Bladensburg High,3-year adjusted cohort,<= 5.00,*,506,20180117
+2017,16,Prince George's,216,Annapolis Road Academy,4-year adjusted cohort,<= 5.00,*,12,20180117
+2017,16,Prince George's,216,Annapolis Road Academy,3-year adjusted cohort,<= 5.00,*,16,20180117
+2017,16,Prince George's,303,Croom High,4-year adjusted cohort,75.86,44,58,20180117
+2017,16,Prince George's,303,Croom High,3-year adjusted cohort,<= 5.00,*,20,20180117
+2017,16,Prince George's,511,Friendly High,4-year adjusted cohort,84.46,212,251,20180117
+2017,16,Prince George's,511,Friendly High,3-year adjusted cohort,<= 5.00,*,268,20180117
+2017,16,Prince George's,603,Suitland High,4-year adjusted cohort,83.95,429,511,20180117
+2017,16,Prince George's,603,Suitland High,3-year adjusted cohort,<= 5.00,*,446,20180117
+2017,16,Prince George's,608,Green Valley Academy at Edgar Allan Poe,4-year adjusted cohort,<= 5.00,*,11,20180117
+2017,16,Prince George's,608,Green Valley Academy at Edgar Allan Poe,3-year adjusted cohort,<= 5.00,*,21,20180117
+2017,16,Prince George's,705,Tall Oaks High,4-year adjusted cohort,90.63,58,64,20180117
+2017,16,Prince George's,705,Tall Oaks High,3-year adjusted cohort,<= 5.00,*,28,20180117
+2017,16,Prince George's,723,C. Elizabeth Rieg Regional Center,4-year adjusted cohort,*,*,*,20180117
+2017,16,Prince George's,723,C. Elizabeth Rieg Regional Center,3-year adjusted cohort,*,*,*,20180117
+2017,16,Prince George's,908,Surrattsville High,4-year adjusted cohort,92.74,166,179,20180117
+2017,16,Prince George's,908,Surrattsville High,3-year adjusted cohort,<= 5.00,*,169,20180117
+2017,16,Prince George's,1008,Laurel High,4-year adjusted cohort,84.39,400,474,20180117
+2017,16,Prince George's,1008,Laurel High,3-year adjusted cohort,<= 5.00,*,461,20180117
+2017,16,Prince George's,1015,Chesapeake Math and IT Public Charter,4-year adjusted cohort,94.29,66,70,20180117
+2017,16,Prince George's,1015,Chesapeake Math and IT Public Charter,3-year adjusted cohort,<= 5.00,*,72,20180117
+2017,16,Prince George's,1103,Gwynn Park High,4-year adjusted cohort,91.22,239,262,20180117
+2017,16,Prince George's,1103,Gwynn Park High,3-year adjusted cohort,<= 5.00,*,252,20180117
+2017,16,Prince George's,1209,Oxon Hill High,4-year adjusted cohort,88.83,326,367,20180117
+2017,16,Prince George's,1209,Oxon Hill High,3-year adjusted cohort,<= 5.00,*,382,20180117
+2017,16,Prince George's,1217,Crossland High,4-year adjusted cohort,78.81,212,269,20180117
+2017,16,Prince George's,1217,Crossland High,3-year adjusted cohort,<= 5.00,*,261,20180117
+2017,16,Prince George's,1220,Potomac High,4-year adjusted cohort,78.86,250,317,20180117
+2017,16,Prince George's,1220,Potomac High,3-year adjusted cohort,<= 5.00,*,320,20180117
+2017,16,Prince George's,1314,Largo High,4-year adjusted cohort,89.41,228,255,20180117
+2017,16,Prince George's,1314,Largo High,3-year adjusted cohort,<= 5.00,*,256,20180117
+2017,16,Prince George's,1327,Charles Herbert Flowers High,4-year adjusted cohort,92.2,508,551,20180117
+2017,16,Prince George's,1327,Charles Herbert Flowers High,3-year adjusted cohort,<= 5.00,*,546,20180117
+2017,16,Prince George's,1350,Academy of Health Sciences at PGCC,4-year adjusted cohort,>= 95.00,*,102,20180117
+2017,16,Prince George's,1350,Academy of Health Sciences at PGCC,3-year adjusted cohort,<= 5.00,*,104,20180117
+2017,16,Prince George's,1352,International High school @ Largo,4-year adjusted cohort,*,*,*,20180117
+2017,16,Prince George's,1352,International High school @ Largo,3-year adjusted cohort,*,*,*,20180117
+2017,16,Prince George's,1409,Duval High,4-year adjusted cohort,91.49,301,329,20180117
+2017,16,Prince George's,1409,Duval High,3-year adjusted cohort,<= 5.00,*,344,20180117
+2017,16,Prince George's,1423,Bowie High,4-year adjusted cohort,94.03,551,586,20180117
+2017,16,Prince George's,1423,Bowie High,3-year adjusted cohort,<= 5.00,*,581,20180117
+2017,16,Prince George's,1502,Frederick Douglass High,4-year adjusted cohort,>= 95.00,*,223,20180117
+2017,16,Prince George's,1502,Frederick Douglass High,3-year adjusted cohort,<= 5.00,*,218,20180117
+2017,16,Prince George's,1519,"Dr. Henry A. Wise, Jr. High",4-year adjusted cohort,90.96,493,542,20180117
+2017,16,Prince George's,1519,"Dr. Henry A. Wise, Jr. High",3-year adjusted cohort,<= 5.00,*,524,20180117
+2017,16,Prince George's,1708,Northwestern High,4-year adjusted cohort,66.25,373,563,20180117
+2017,16,Prince George's,1708,Northwestern High,3-year adjusted cohort,<= 5.00,*,589,20180117
+2017,16,Prince George's,1806,Fairmont Heights High,4-year adjusted cohort,90.2,184,204,20180117
+2017,16,Prince George's,1806,Fairmont Heights High,3-year adjusted cohort,<= 5.00,*,206,20180117
+2017,16,Prince George's,1810,Central High,4-year adjusted cohort,77.41,185,239,20180117
+2017,16,Prince George's,1810,Central High,3-year adjusted cohort,<= 5.00,*,246,20180117
+2017,16,Prince George's,1909,Parkdale High,4-year adjusted cohort,78.64,427,543,20180117
+2017,16,Prince George's,1909,Parkdale High,3-year adjusted cohort,<= 5.00,*,538,20180117
+2017,16,Prince George's,2012,Margaret Brent Regional Center,4-year adjusted cohort,*,*,*,20180117
+2017,16,Prince George's,2012,Margaret Brent Regional Center,3-year adjusted cohort,*,*,*,20180117
+2017,16,Prince George's,2114,Eleanor Roosevelt High,4-year adjusted cohort,>= 95.00,*,585,20180117
+2017,16,Prince George's,2114,Eleanor Roosevelt High,3-year adjusted cohort,<= 5.00,*,583,20180117
+2017,16,Prince George's,2211,Northwestern Evening/Saturday High,4-year adjusted cohort,22.22,12,54,20180117
+2017,16,Prince George's,2211,Northwestern Evening/Saturday High,3-year adjusted cohort,<= 5.00,*,35,20180117
+2017,16,Prince George's,2213,Crossland Evening/Saturday High,4-year adjusted cohort,52.83,28,53,20180117
+2017,16,Prince George's,2213,Crossland Evening/Saturday High,3-year adjusted cohort,<= 5.00,*,18,20180117
+2017,16,Prince George's,2217,Incarcerated Youth Center (JACS),4-year adjusted cohort,*,*,*,20180117
+2017,16,Prince George's,2217,Incarcerated Youth Center (JACS),3-year adjusted cohort,*,*,*,20180117
+2017,16,Prince George's,2220,Community Based Classrooms,4-year adjusted cohort,93.94,31,33,20180117
+2017,16,Prince George's,2220,Community Based Classrooms,3-year adjusted cohort,*,*,*,20180117
+2017,16,Prince George's,A,All Prince George's Schools,4-year adjusted cohort,82.69,7402,8951,20180117
+2017,16,Prince George's,A,All Prince George's Schools,3-year adjusted cohort,<= 5.00,*,8878,20180117
+2017,17,Queen Anne's,301,Queen Anne's County High School,4-year adjusted cohort,>= 95.00,*,281,20180117
+2017,17,Queen Anne's,301,Queen Anne's County High School,3-year adjusted cohort,<= 5.00,*,275,20180117
+2017,17,Queen Anne's,405,Kent Island High School,4-year adjusted cohort,>= 95.00,*,279,20180117
+2017,17,Queen Anne's,405,Kent Island High School,3-year adjusted cohort,<= 5.00,*,280,20180117
+2017,17,Queen Anne's,A,All Queen Anne's Schools,4-year adjusted cohort,>= 95.00,*,560,20180117
+2017,17,Queen Anne's,A,All Queen Anne's Schools,3-year adjusted cohort,<= 5.00,*,555,20180117
+2017,18,Saint Mary's,303,Chopticon High,4-year adjusted cohort,>= 95.00,*,424,20180117
+2017,18,Saint Mary's,303,Chopticon High,3-year adjusted cohort,<= 5.00,*,414,20180117
+2017,18,Saint Mary's,306,Leonardtown High,4-year adjusted cohort,>= 95.00,*,449,20180117
+2017,18,Saint Mary's,306,Leonardtown High,3-year adjusted cohort,<= 5.00,*,442,20180117
+2017,18,Saint Mary's,801,Great Mills High,4-year adjusted cohort,88.65,336,379,20180117
+2017,18,Saint Mary's,801,Great Mills High,3-year adjusted cohort,5.43,20,368,20180117
+2017,18,Saint Mary's,A,All Saint Mary's Schools,4-year adjusted cohort,93.93,1176,1252,20180117
+2017,18,Saint Mary's,A,All Saint Mary's Schools,3-year adjusted cohort,<= 5.00,*,1224,20180117
+2017,19,Somerset,102,Washington Academy and High School,4-year adjusted cohort,84.4,92,109,20180117
+2017,19,Somerset,102,Washington Academy and High School,3-year adjusted cohort,<= 5.00,*,117,20180117
+2017,19,Somerset,702,Crisfield Academy and High School,4-year adjusted cohort,88.16,67,76,20180117
+2017,19,Somerset,702,Crisfield Academy and High School,3-year adjusted cohort,<= 5.00,*,75,20180117
+2017,19,Somerset,A,All Somerset Schools,4-year adjusted cohort,85.95,159,185,20180117
+2017,19,Somerset,A,All Somerset Schools,3-year adjusted cohort,<= 5.00,*,192,20180117
+2017,20,Talbot,101,Easton High,4-year adjusted cohort,84.69,249,294,20180117
+2017,20,Talbot,101,Easton High,3-year adjusted cohort,<= 5.00,*,289,20180117
+2017,20,Talbot,202,St. Michaels Middle/High School,4-year adjusted cohort,>= 95.00,*,63,20180117
+2017,20,Talbot,202,St. Michaels Middle/High School,3-year adjusted cohort,<= 5.00,*,66,20180117
+2017,20,Talbot,A,All Talbot Schools,4-year adjusted cohort,87.11,311,357,20180117
+2017,20,Talbot,A,All Talbot Schools,3-year adjusted cohort,<= 5.00,*,355,20180117
+2017,21,Washington,40,Barbara Ingram School for the Arts,4-year adjusted cohort,>= 95.00,*,69,20180117
+2017,21,Washington,40,Barbara Ingram School for the Arts,3-year adjusted cohort,<= 5.00,*,68,20180117
+2017,21,Washington,204,Williamsport High,4-year adjusted cohort,86.29,170,197,20180117
+2017,21,Washington,204,Williamsport High,3-year adjusted cohort,<= 5.00,*,190,20180117
+2017,21,Washington,301,South Hagerstown High,4-year adjusted cohort,88.24,270,306,20180117
+2017,21,Washington,301,South Hagerstown High,3-year adjusted cohort,7.41,22,297,20180117
+2017,21,Washington,305,Washington County Technical High,4-year adjusted cohort,>= 95.00,*,282,20180117
+2017,21,Washington,305,Washington County Technical High,3-year adjusted cohort,<= 5.00,*,292,20180117
+2017,21,Washington,403,Clear Spring High,4-year adjusted cohort,92.79,103,111,20180117
+2017,21,Washington,403,Clear Spring High,3-year adjusted cohort,5.66,6,106,20180117
+2017,21,Washington,501,Hancock Middle Senior High,4-year adjusted cohort,90.32,28,31,20180117
+2017,21,Washington,501,Hancock Middle Senior High,3-year adjusted cohort,6.45,2,31,20180117
+2017,21,Washington,601,Boonsboro High,4-year adjusted cohort,92.5,185,200,20180117
+2017,21,Washington,601,Boonsboro High,3-year adjusted cohort,<= 5.00,*,196,20180117
+2017,21,Washington,701,Smithsburg High,4-year adjusted cohort,>= 95.00,*,184,20180117
+2017,21,Washington,701,Smithsburg High,3-year adjusted cohort,<= 5.00,*,180,20180117
+2017,21,Washington,705,Washington County Job Development Center,4-year adjusted cohort,*,*,*,20180117
+2017,21,Washington,2101,North Hagerstown High,4-year adjusted cohort,92.13,234,254,20180117
+2017,21,Washington,2101,North Hagerstown High,3-year adjusted cohort,5.6,14,250,20180117
+2017,21,Washington,2505,Marshall Street School,4-year adjusted cohort,*,*,*,20180117
+2017,21,Washington,2505,Marshall Street School,3-year adjusted cohort,*,*,*,20180117
+2017,21,Washington,A,All Washington Schools,4-year adjusted cohort,92.21,1516,1644,20180117
+2017,21,Washington,A,All Washington Schools,3-year adjusted cohort,<= 5.00,*,1616,20180117
+2017,22,Wicomico,102,Mardela Middle & High,4-year adjusted cohort,93.26,83,89,20180117
+2017,22,Wicomico,102,Mardela Middle & High,3-year adjusted cohort,<= 5.00,*,92,20180117
+2017,22,Wicomico,513,Wicomico High,4-year adjusted cohort,83.09,226,272,20180117
+2017,22,Wicomico,513,Wicomico High,3-year adjusted cohort,<= 5.00,*,272,20180117
+2017,22,Wicomico,520,Wicomico County Evening High,4-year adjusted cohort,40.54,15,37,20180117
+2017,22,Wicomico,520,Wicomico County Evening High,3-year adjusted cohort,5.56,1,18,20180117
+2017,22,Wicomico,1307,James M. Bennett High,4-year adjusted cohort,84.02,305,363,20180117
+2017,22,Wicomico,1307,James M. Bennett High,3-year adjusted cohort,<= 5.00,*,355,20180117
+2017,22,Wicomico,1309,Parkside High,4-year adjusted cohort,86.67,260,300,20180117
+2017,22,Wicomico,1309,Parkside High,3-year adjusted cohort,<= 5.00,*,295,20180117
+2017,22,Wicomico,A,All Wicomico Schools,4-year adjusted cohort,83.79,889,1061,20180117
+2017,22,Wicomico,A,All Wicomico Schools,3-year adjusted cohort,<= 5.00,*,1032,20180117
+2017,23,Worcester,107,Pocomoke High,4-year adjusted cohort,87.36,76,87,20180117
+2017,23,Worcester,107,Pocomoke High,3-year adjusted cohort,<= 5.00,*,84,20180117
+2017,23,Worcester,207,Snow Hill High,4-year adjusted cohort,>= 95.00,*,80,20180117
+2017,23,Worcester,207,Snow Hill High,3-year adjusted cohort,<= 5.00,*,73,20180117
+2017,23,Worcester,310,Stephen Decatur High,4-year adjusted cohort,93.09,337,362,20180117
+2017,23,Worcester,310,Stephen Decatur High,3-year adjusted cohort,<= 5.00,*,359,20180117
+2017,23,Worcester,401,Cedar Chapel Special School,4-year adjusted cohort,*,*,*,20180117
+2017,23,Worcester,401,Cedar Chapel Special School,3-year adjusted cohort,*,*,*,20180117
+2017,23,Worcester,A,All Worcester Schools,4-year adjusted cohort,91.79,492,536,20180117
+2017,23,Worcester,A,All Worcester Schools,3-year adjusted cohort,<= 5.00,*,524,20180117
+2017,30,Baltimore City,177,George W. F. McMechen,4-year adjusted cohort,*,*,*,20180117
+2017,30,Baltimore City,177,George W. F. McMechen,3-year adjusted cohort,*,*,*,20180117
+2017,30,Baltimore City,178,Excel Academy @ Francis M. Wood High,4-year adjusted cohort,20.73,40,193,20180117
+2017,30,Baltimore City,178,Excel Academy @ Francis M. Wood High,3-year adjusted cohort,8.24,7,85,20180117
+2017,30,Baltimore City,239,Benjamin Franklin High School at Masonville Cove,4-year adjusted cohort,63.91,85,133,20180117
+2017,30,Baltimore City,239,Benjamin Franklin High School at Masonville Cove,3-year adjusted cohort,<= 5.00,*,134,20180117
+2017,30,Baltimore City,301,William S. Baer School,4-year adjusted cohort,*,*,*,20180117
+2017,30,Baltimore City,301,William S. Baer School,3-year adjusted cohort,*,*,*,20180117
+2017,30,Baltimore City,307,Claremont School,4-year adjusted cohort,<= 5.00,*,13,20180117
+2017,30,Baltimore City,307,Claremont School,3-year adjusted cohort,<= 5.00,*,13,20180117
+2017,30,Baltimore City,325,ConneXions: A  Community Based Arts School,4-year adjusted cohort,70.45,31,44,20180117
+2017,30,Baltimore City,325,ConneXions: A  Community Based Arts School,3-year adjusted cohort,<= 5.00,*,45,20180117
+2017,30,Baltimore City,333,Independence School Local I,4-year adjusted cohort,63.64,21,33,20180117
+2017,30,Baltimore City,333,Independence School Local I,3-year adjusted cohort,<= 5.00,*,33,20180117
+2017,30,Baltimore City,339,Friendship Academy of Engineering and Technology,4-year adjusted cohort,68.83,53,77,20180117
+2017,30,Baltimore City,339,Friendship Academy of Engineering and Technology,3-year adjusted cohort,<= 5.00,*,82,20180117
+2017,30,Baltimore City,341,The Reach! Partnership School,4-year adjusted cohort,60.63,77,127,20180117
+2017,30,Baltimore City,341,The Reach! Partnership School,3-year adjusted cohort,<= 5.00,*,122,20180117
+2017,30,Baltimore City,342,K.A.S.A. (Knowledge And Success Academy),4-year adjusted cohort,50.91,28,55,20180117
+2017,30,Baltimore City,342,K.A.S.A. (Knowledge And Success Academy),3-year adjusted cohort,<= 5.00,*,58,20180117
+2017,30,Baltimore City,345,New Hope Academy,4-year adjusted cohort,5.56,1,18,20180117
+2017,30,Baltimore City,345,New Hope Academy,3-year adjusted cohort,<= 5.00,*,19,20180117
+2017,30,Baltimore City,348,Baltimore Leadership School for Young Women,4-year adjusted cohort,>= 95.00,*,50,20180117
+2017,30,Baltimore City,348,Baltimore Leadership School for Young Women,3-year adjusted cohort,<= 5.00,*,52,20180117
+2017,30,Baltimore City,349,N.A.C.A. Freedom and Democracy Academy II,4-year adjusted cohort,80.39,41,51,20180117
+2017,30,Baltimore City,349,N.A.C.A. Freedom and Democracy Academy II,3-year adjusted cohort,<= 5.00,*,51,20180117
+2017,30,Baltimore City,362,Bard High School Early College,4-year adjusted cohort,93.75,45,48,20180117
+2017,30,Baltimore City,362,Bard High School Early College,3-year adjusted cohort,<= 5.00,*,44,20180117
+2017,30,Baltimore City,364,Bluford Drew Jemison STEM Academy West,4-year adjusted cohort,73.91,34,46,20180117
+2017,30,Baltimore City,364,Bluford Drew Jemison STEM Academy West,3-year adjusted cohort,<= 5.00,*,57,20180117
+2017,30,Baltimore City,376,City Neighbors High School,4-year adjusted cohort,89.32,92,103,20180117
+2017,30,Baltimore City,376,City Neighbors High School,3-year adjusted cohort,<= 5.00,*,101,20180117
+2017,30,Baltimore City,377,Green Street Academy,4-year adjusted cohort,74.47,35,47,20180117
+2017,30,Baltimore City,377,Green Street Academy,3-year adjusted cohort,<= 5.00,*,51,20180117
+2017,30,Baltimore City,382,Baltimore Design School,4-year adjusted cohort,92.31,36,39,20180117
+2017,30,Baltimore City,382,Baltimore Design School,3-year adjusted cohort,<= 5.00,*,41,20180117
+2017,30,Baltimore City,400,Edmondson-Westside High,4-year adjusted cohort,84.95,175,206,20180117
+2017,30,Baltimore City,400,Edmondson-Westside High,3-year adjusted cohort,<= 5.00,*,204,20180117
+2017,30,Baltimore City,401,Northwestern High,4-year adjusted cohort,53.28,65,122,20180117
+2017,30,Baltimore City,401,Northwestern High,3-year adjusted cohort,<= 5.00,*,135,20180117
+2017,30,Baltimore City,403,Baltimore Polytechnic Institute,4-year adjusted cohort,>= 95.00,*,357,20180117
+2017,30,Baltimore City,403,Baltimore Polytechnic Institute,3-year adjusted cohort,<= 5.00,*,358,20180117
+2017,30,Baltimore City,405,Patterson High,4-year adjusted cohort,59.25,189,319,20180117
+2017,30,Baltimore City,405,Patterson High,3-year adjusted cohort,<= 5.00,*,327,20180117
+2017,30,Baltimore City,406,Forest Park High,4-year adjusted cohort,64.76,68,105,20180117
+2017,30,Baltimore City,406,Forest Park High,3-year adjusted cohort,<= 5.00,*,112,20180117
+2017,30,Baltimore City,407,Western High,4-year adjusted cohort,92.16,235,255,20180117
+2017,30,Baltimore City,407,Western High,3-year adjusted cohort,<= 5.00,*,255,20180117
+2017,30,Baltimore City,410,Mergenthaler Vocational-Technical High,4-year adjusted cohort,84.51,322,381,20180117
+2017,30,Baltimore City,410,Mergenthaler Vocational-Technical High,3-year adjusted cohort,<= 5.00,*,413,20180117
+2017,30,Baltimore City,413,Achievement Academy @ Harbor City High,4-year adjusted cohort,23.3,41,176,20180117
+2017,30,Baltimore City,413,Achievement Academy @ Harbor City High,3-year adjusted cohort,7.59,6,79,20180117
+2017,30,Baltimore City,414,Paul Laurence Dunbar High,4-year adjusted cohort,84.02,184,219,20180117
+2017,30,Baltimore City,414,Paul Laurence Dunbar High,3-year adjusted cohort,<= 5.00,*,219,20180117
+2017,30,Baltimore City,415,Baltimore School for the Arts,4-year adjusted cohort,>= 95.00,*,93,20180117
+2017,30,Baltimore City,415,Baltimore School for the Arts,3-year adjusted cohort,<= 5.00,*,94,20180117
+2017,30,Baltimore City,416,Digital Harbor High School,4-year adjusted cohort,64.16,222,346,20180117
+2017,30,Baltimore City,416,Digital Harbor High School,3-year adjusted cohort,<= 5.00,*,360,20180117
+2017,30,Baltimore City,419,Reginald F. Lewis High School,4-year adjusted cohort,43.22,51,118,20180117
+2017,30,Baltimore City,419,Reginald F. Lewis High School,3-year adjusted cohort,<= 5.00,*,123,20180117
+2017,30,Baltimore City,421,National Academy Foundation,4-year adjusted cohort,64.22,70,109,20180117
+2017,30,Baltimore City,421,National Academy Foundation,3-year adjusted cohort,<= 5.00,*,110,20180117
+2017,30,Baltimore City,422,New Era Academy,4-year adjusted cohort,63.93,39,61,20180117
+2017,30,Baltimore City,422,New Era Academy,3-year adjusted cohort,<= 5.00,*,57,20180117
+2017,30,Baltimore City,427,Academy for College and Career Exploration,4-year adjusted cohort,66.97,73,109,20180117
+2017,30,Baltimore City,427,Academy for College and Career Exploration,3-year adjusted cohort,<= 5.00,*,112,20180117
+2017,30,Baltimore City,429,Vivien T. Thomas Medical Arts Academy,4-year adjusted cohort,77.92,60,77,20180117
+2017,30,Baltimore City,429,Vivien T. Thomas Medical Arts Academy,3-year adjusted cohort,<= 5.00,*,81,20180117
+2017,30,Baltimore City,430,Augusta Fells Savage Institute of Visual Arts,4-year adjusted cohort,54.2,71,131,20180117
+2017,30,Baltimore City,430,Augusta Fells Savage Institute of Visual Arts,3-year adjusted cohort,<= 5.00,*,115,20180117
+2017,30,Baltimore City,432,Coppin Academy,4-year adjusted cohort,91.57,76,83,20180117
+2017,30,Baltimore City,432,Coppin Academy,3-year adjusted cohort,<= 5.00,*,84,20180117
+2017,30,Baltimore City,433,Renaissance Academy,4-year adjusted cohort,52,52,100,20180117
+2017,30,Baltimore City,433,Renaissance Academy,3-year adjusted cohort,<= 5.00,*,90,20180117
+2017,30,Baltimore City,450,Frederick Douglass High,4-year adjusted cohort,70.1,143,204,20180117
+2017,30,Baltimore City,450,Frederick Douglass High,3-year adjusted cohort,<= 5.00,*,196,20180117
+2017,30,Baltimore City,454,Carver Vocational-Technical High,4-year adjusted cohort,76.17,147,193,20180117
+2017,30,Baltimore City,454,Carver Vocational-Technical High,3-year adjusted cohort,<= 5.00,*,202,20180117
+2017,30,Baltimore City,480,Baltimore City College,4-year adjusted cohort,>= 95.00,*,303,20180117
+2017,30,Baltimore City,480,Baltimore City College,3-year adjusted cohort,<= 5.00,*,318,20180117
+2017,30,Baltimore City,A,All Baltimore City Schools,4-year adjusted cohort,70.67,3701,5237,20180117
+2017,30,Baltimore City,A,All Baltimore City Schools,3-year adjusted cohort,<= 5.00,*,5232,20180117
+2017,32,SEED,1000,The Seed School of Maryland,4-year adjusted cohort,91.3,42,46,20180117
+2017,32,SEED,1000,The Seed School of Maryland,3-year adjusted cohort,<= 5.00,*,51,20180117
+2017,32,SEED,A,All SEED Schools,4-year adjusted cohort,91.3,42,46,20180117
+2017,32,SEED,A,All SEED Schools,3-year adjusted cohort,<= 5.00,*,51,20180117
+2017,A,All Public Schools,A,All Maryland Schools,4-year adjusted cohort,87.67,55438,63238,20180117
+2017,A,All Public Schools,A,All Maryland Schools,3-year adjusted cohort,1.78,1115,62669,20180117
