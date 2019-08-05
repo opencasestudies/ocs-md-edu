@@ -26,6 +26,7 @@ library(dplyr)
 
 # Motivation
 
+There are over 1400 public schools in Maryland and there are also outstanding students in each school. The federal Every Student Succeeds Act (ESSA) prompted states to develop long term plans to improve schools through accountability and innovation, which sets Maryland's schools on the path to continuous improvement. [Maryland Report Card website](http://reportcard.msde.maryland.gov/Graphs/#/Introduction/Intro/uction/17/uction/17/3) aims to share the most current information available to help stakeholders understand and measure student achievement in all 24 local school systems. Here is a message from the State Superintendent of Schools that enables you to know more about how it functions.
 
 
 <div align="center">
@@ -37,38 +38,50 @@ library(dplyr)
 [source: https://www.youtube.com/watch?time_continue=8&v=g5ylQgdisTM]
 </center>
 
+Our analysis is inspired by this plan - figure out how well schools were performing and how different factors influenced their performance. Once we indentify schools that need improvements and influential factors, both Maryland's government and local ordanizations can prompt actions and provide necessary support, in a way that is understanable and reliable.
 
+The libraries used in this study are listed in the following table, 
+along with their purpose in this particular case study:
+
+|Library|Purpose|
+|---|-------------------------------------------------------------------------------------------|
+|`kableExtra`|Helps with building common complex tables and manipulating table styles; creates awesome HTML tables|
+|`tidyverse`|A coherent system of packages for data manipulation, exploration and visualization |
+|`dplyr`| Helps you solve the most common data manipulation challenges|
+
+
+In order to run this code please ensure you have these packages installed. 
+
+The learning objectives for this case study include:
+
+  * data cleaning and wrangling
+  * nested data structure
 
 # What is the data?
 
 
-The data files were downloaded from [the Maryland Report Card website](http://reportcard.msde.maryland.gov/Graphs/#/Introduction/Intro/uction/17/uction/17/3). It aims to share the most current information available to help stakeholders understand and measure student achievement in all 24 local school systems. You can find [`Data Download`](http://reportcard.msde.maryland.gov/Graphs/#/DataDownloads/datadownload/3/17/6/99/XXXX) on the bottom part of the web page, which provides public data for download. 
+The data files were downloaded from [the Maryland Report Card website](http://reportcard.msde.maryland.gov/Graphs/#/Introduction/Intro/uction/17/uction/17/3).You can find [`Data Download`](http://reportcard.msde.maryland.gov/Graphs/#/DataDownloads/datadownload/3/17/6/99/XXXX) on the bottom part of the web page, which provides public data for download. 
 
-While all this knowledge can be empowering, too much information can be overwhelming. Important details may be lost in a flood of data, and a large amount of information can make it difficult to make decisions. These files are large because they contain information for 1600+ schools in Maryland, based on school level and county level, ranging from 2003 to 2018. Admittedly, county level data are less and tidier, so it is easier to deal with. But we believe it is school level data's 'untidiness' that guarantees a detailed and diverse anaysis. So we decide to focus on 5 files of year 2017, and mainly make use of school level data. 
-
-
+While all this knowledge can be empowering, too much information can be overwhelming. Important details may be lost in a flood of data, and a large amount of information can make it difficult to make decisions. These files are large because they contain information for 1400+ schools in Maryland, based on school level and county level, ranging from 2003 to 2018. Admittedly, county level data are less and tidier, and it is easier to deal with. But we believe it is the 'untidiness' of school level data that guarantees a detailed and diverse anaysis. So we decide to focus on 5 files of year 2017, and mainly make use of school level data. 
 
 # Data Import
 
-We saved all files in a folder called 'data2017', when you need to deal with multiple files in a folder, setting environment is necessary since it enables you to find what you want more quickly and accurately.
+We saved all files in a folder - 'data2017'. In R, you can write a script to read all the files in the same folder and bring them relatively easily.
+
+![](plots/import.png)
+
+Here, setting environment is necessary since it enables R to find what these files quickly and accurately. We use function `setwd()` to change the working directory (folder 'data2017'), and specify the path to the desired folder. Also, instead of importing them all individually, function `lapply()` can import them all simultaneously.
 
 ```{r }
 setwd('./data2017')
-
 files = list.files(pattern="*.csv")
 
 data <- lapply(files, function(x){
   read.csv(x, header=T)})
-
 ```
 
-'data' is a large list containing 5 files:
 
-  * Cohort_Grad_Rate_2017.csv
-  * PARCC_2017.csv
-  * Special_Services_2017.csv
-  * Student_Mobility_2017.csv
-  * Wealth_Expenditures_Data_2017.csv
+`list.files(pattern="*.csv")` tries to find all the files whose names ending with 'csv', and stores the file location information into `files`. Function `lapply()` reads the files one by one and saves in list `data`.
 
 # Data Wrangling
 
@@ -78,7 +91,7 @@ This section includes large amount of data wrangling such as gather, merge, muta
 
 ## Graduation Rate
 
-Have a qucik look of graduation rate file:
+The first file (Cohort_Grad_Rate_2017.csv) records the percentage of students who received a Maryland high school diploma during 2017. Before we extract this variable, let's have a qucik look of graduation rate file:
 
 ```{r eval = FALSE}
 View(data[[1]])
@@ -86,12 +99,14 @@ View(data[[1]])
 
 ![](plots/grad.1.png)
 
-From above, in the original dataset, there are several problems need to be fixed. We would deal with them one by one in later steps.
+There are totally `r ncol(data[[1]])` variables and `r nrow(data[[1]])` observations in it. From above, in the original dataset, there are several problems need to be fixed, such as missing value. We will deal with them one by one in later steps.
 
+### Feature Selection and Rename 
 
-### selection, rename 
-
-We notice that if 'School.Number' equals to 'A', then this row corresponds to county level data. Also, there are two kinds of graduation rate and we may use 4-years graduation rate since it is more representative. The last step is the selection of necessary variables 
+The first step is to get school level data. We notice that if `School.Number` equals to 'A', then this row corresponds to county level data. Also, there are two kinds of graduation rate:
+ * 4-year adjusted cohort: a school's cohort of first-time 9th grade students who graduate within four years, adjusted for students who transfer in and out of the cohort after 9th grade.
+ * 3-year adjusted cohort: a school's cohort of first-time 9th grade students who graduate within three years, adjusted for students who transfer in and out of the cohort after 9th grade.
+4-year adjusted cohort is kept since it is more representative. The last step is the selection of necessary variables. 
 
 Function `filter()` and `select()` in [package `dplyr`](https://dplyr.tidyverse.org) will help us to finish the first wrangling step.  
 
@@ -109,24 +124,24 @@ colnames(df_grad) <- c('county', 'sch.num',
 
 ![](plots/grad_2.png)
 
-See what we get! Only school level information and useful variables are kept, which is neater. Next, let's try to deal with missing values.
+See what we get! Only school level information and useful variables are kept, leaving us a neater dataset. Next, missing values should be fixed.
 
+### Missing Value
 
-### missing value
+There are a lot of missing values in the dataset, which would influence further analysis if we leave them there. From the first plot, missing values exist in different forms:
 
-There are a lot of missing values in the dataset, which would influence further analysis if we leave them there. As we shown before, missing values exist in different forms:
-
-* `'>= 95.00','<= 5.00'` : The graduation rate is too high or too low.
+* `'>= 95.00','<= 5.00'` : The graduation rate is higher than 95% or lower than 5%.
 * `'*'` : This schools' graduation rate is simply not present in the data.
+
+Use function `summary()` to produce the descriptive statistics of these missing values.
 
 ```{r}
 summary(df_grad[2:4]) 
 ```
 
+Pay attention to the first kind of missing value. It is impossible to calculate the exact graduate rate because of the lack of information, so we decide to use [`gsub()` function](https://www.rdocumentation.org/packages/base/versions/3.6.1/topics/grep) to replace incomplete values. `gsub()` function replaces all matches of a string. Elements of string vectors which are not substituted will be returned unchanged.
 
-Pay attention to the first kinds of missing value. We are not able to calculate the exact graduate rate because of the lack of information so we decide to use `gsub()` function to replace incomplete values. `gsub()` function replaces all matches of a string. Elements of string vectors which are not substituted will be returned unchanged.
-
-We would use 2.5 to replace '<= 5.00' and 97.5 to replace '>= 95.00'.
+2.5 and 97.5 are used to replace '<= 5.00' and '>= 95.00' respectively.
 
 ```{r}
 df_grad$grad.rate<- gsub('<= 5.00','2.5', df_grad$grad.rate)
@@ -141,60 +156,54 @@ The second type of missing value ('*') is confusing, let's extract them out and 
 head(df_grad[df_grad$grad.rate == '*', ])
 ```
 
-If we search [Marley Glen School](https://www.aacps.org/domain/1364), we may found it mainly provides program for students with disabilities. Also, [Ruth Parker Eason School](https://www.aacps.org/Page/3684) provides a special education program for students with moderate to severe disabilities. So we guess schools with '*' graduation rate mainly provide education for students with moderate to severe disabilities. We can either delete it or replace them as 'NA'. Here we use the second method.
+If we search [Marley Glen School](https://www.aacps.org/domain/1364), we may found it mainly provides program for students with disabilities. Also, [Ruth Parker Eason School](https://www.aacps.org/Page/3684) provides a special education program for students with moderate to severe disabilities. So we guess schools with '*' graduation rate mainly provide education for students with moderate to severe disabilities. We can either delete it or replace them as 'NA'. Considering we need to merge multiple files in later steps, such kind of information may be dropped out automatically. Ths most appropriate method for us is replacing them as 'NA' and deal with them all together.
 
 ```{r}
 df_grad$grad.rate <- na_if(df_grad$grad.rate, '*')
-
 ```
-
 
 ![](plots/grad_4.png)
 
+### Unique id
 
-
-### unique id
-
-As we mentioned, we need to extract information from several files and merge them together, requiring a key that specifies each observation uniquely. Possible choice in present dataset can be `sch.num` or `sch.name` but we need to check whether each of them appear once in the dataset. If not, they are not suitable choice because of the lack of uniqueness.
+Our last step is to extract information from several files and merge them together, requiring a key that specifies each observation uniquely. Possible choices in present dataset can be `sch.num` or `sch.name` but we need to check whether each of them appear once in the dataset. If not, they are not suitable choice because of the lack of uniqueness.
 
 ```{r}
 summary(df_grad[,2:3])
 ```
 
-From the summary, whether for `sch.num` or `sch.name`, the frequency of some values is larger than 1. Therefore it is definitely important to define a unique element by ourselves. 
+From the summary, whether `sch.num` or `sch.name`, the frequency of some values is larger than 1. Therefore it is definitely important to define a unique element by ourselves. 
 
 ```{r}
 df_grad <- df_grad %>%
     within( id <- paste(county, sch, sep = '-'))
-
 ```
 
 The combination of `county` and `sch` generates a new variable - `id`. To check its uniqueness, we use function `table()`, which builds a contingency table of the counts at each combination of factor levels. The `as.data.frame()` function converts the array-based representation of a contingency table to a data frame containing two variable: each factor `Var1`and its frequency `Freq`.
 
 ```{r}
 tab <- as.data.frame(table(df_grad$id))
-str(tab)
 tab[tab$Freq > 1,]
 ```
 
-Up to now, we get a unique key element `id` and finally create the ideal dataset - a tidy dataset.
+Up to now, a unique key element `id` is generated and we finally create the ideal dataset - a tidy dataset.
 
 
 ![](plots/grad_5.png)
 
 ## PARCC
 
-[Partnership for Assessment of Readiness for College and Careers (PARCC)](https://parcc.pearson.com) 
-
-Patcc is a large file with `r nrow(data[[2]] )` observations and `r ncol(data[[2]] )` variables.
-
-### selection, rename 
+[Partnership for Assessment of Readiness for College and Careers (PARCC)](https://parcc.pearson.com) reflects schools' academic achievements through assessing the performance of students on state standardized tests, such as English and Math. It not only provides information about students mastery of state standards, but also offers teachers and parents with timely information to inform instruction and how to provide support. From this file, we want to extract the percentage of students scoring 'high performance', which works as the target variable is data analysis part.
 
 ```{r}
 colnames(data[[2]])
 ```
 
+PARCC is a large file with `r nrow(data[[2]] )` observations and `r ncol(data[[2]] )` variables. We notice there are five levels of performance indicators, ranging from Level 1 to Level 5. First, we use percentage information rather than count information. Second, we will create a new variable, `pro`, that indicates the percentage of students performing at the 'met expectations' and 'exceeded expectations' levels.
 
+### Feature Selection and Rename 
+
+Similiar to graduation rate file, only school level information and necessary variables will be kept and renamed.
 ```{r}
 df_parcc <- data[[2]] %>%
   filter( School.Number != 'A' ) %>%
@@ -204,12 +213,13 @@ colnames(df_parcc) <- c('county','sch.num',
                         'sch', 'subject','L1',
                         'L2','L3','L4','L5')
 
-summary(data[[2]]$Assessment)
-
 ```
 
-
 ![](plots/parcc_1.png)
+
+Different with graduation rate file that just contains high school information, PARCC file also includes information of middle schools and elementary school. We would leave them there ????? 
+
+Variable `subject` reflects the kind of subject test. English/Language Arts Grade 10, Algebra 1 and 2 are filtered out by function `filter()` in package `dplyr`. You are encouraged to keep other assessments that you are interested in.
 
 ```{r}
 df_parcc <- df_parcc %>%
@@ -218,28 +228,25 @@ df_parcc <- df_parcc %>%
 
 ![](plots/parcc_2.png)
 
+### Missing Value
 
-### missing value
+Missing value is the toughest problem in this wrangling part. Let's see its summary first.
 
 ```{r}
 summary(df_parcc[, 5:9])
 ```
 
-
+There is only one kind of missing value: <=5.0 in these 5 levels indicators. We will replace it as NA, then transform them to numerical data.
+ 
 ```{r}
 df_parcc[,5:9] <- 
   lapply(df_parcc[,5:9], function(x) as.numeric(as.character(x)))
-
-sapply(df_parcc[,5:9], class)
 ```
 
 
 ![](plots/parcc_3.png)
 
-We only care about the proportion of L4 and L5 but NAs are distributed differently. To simply wrangling steps, we reduce these five levels into two new levels : weak performance (L1, L2 and L3) and excellent performance (L4 and L5). Then deal with NAs in three ways. If values of excellent performance are complete, then `pro` equals to sum of L4 and L5. Such as Algebra 1 assessment of 'Washington Middle', its `pro` should be $85.5 + 9.7 = 95.2$; If values of weak performance exist, `pro` equals to 100 percent minus the sum of L1, L2 and L3. For example, the `pro` of Algebra 1 for 'Fort Hill High' equlas to $100-23.9-44.6-21.7 = 9.8$ ; 
-
-If missing values exist both in these two levels, we will first use 100 percent minus existing values. Then divide the difference to the number of missing value and replace NA with this quotient. For instance - 'Brooklyn Park Middle', there are three NAs, so $NA = (100-20.8-72.7)/3=2.2$, and `pro` equals to $72.7+2.2=74.9$. The reason we don't replace these NAs as 2.5 directly is that there is a restriction we don't want to obey - the sum of 5 levels equals to 100 percent. It is more reasonable to assume missing values are uniformly distributed than replace them with a fixed value directly.
-
+We only care about the proportion of L4 and L5 but NAs are distributed differently. To simply wrangling steps, we reduce these five levels into two new levels : 'Level weak' (L1, L2 and L3) and 'Level excellent' (L4 and L5). Then deal with NAs in three ways. If values of 'Level excellent' are complete, then `pro` equals to sum of L4 and L5. Such as Algebra 1 assessment of 'Washington Middle', its `pro` should be $85.5 + 9.7 = 95.2$; If values of 'Level weak' all exist, `pro` equals to 100 percent minus the sum of L1, L2 and L3. For example, the `pro` of Algebra 1 for 'Fort Hill High' equals to $100-23.9-44.6-21.7 = 9.8$; 
 
 ```{r}
 df_parcc$pro <- NA
@@ -250,13 +257,15 @@ df_parcc[indx1, 'pro'] <- rowSums(df_parcc[indx1,8:9])
 sum(is.na(df_parcc$pro))
 
 indx2 <- !is.na(df_parcc$L1) &  !is.na(df_parcc$L2) & !is.na(df_parcc$L3)
-#indx1 <- !is.na(df_parcc[, 5:7])
+
 df_parcc[indx2, 'pro'] <-  100-rowSums(df_parcc[indx2,5:7])
 
 sum(is.na(df_parcc$pro)) 
 ```
 
+Function `is.na()` indicates which elements are missing and returns a boolean index of the same shape as the original data frame. `df_parcc[indx1,]` and `df_parcc[indx2,]` specify observations have complete information of 'Level excellent' and 'Level weak' respectively. `sum(is.na(df_parcc$pro))` shows the counts of NA in variable `pro`. Undoubtedly, our methods reduce NAs greatly after we apply corresponding methods mentioned above. 
 
+If missing values exist both in these two levels, we will first use 100 percent minus existing values. Then divide the difference to the number of missing value and replace NA with this quotient. For instance - 'Brooklyn Park Middle', there are three NAs, so $NA = (100-20.8-72.7)/3=2.2$, and `pro` equals to $72.7+2.2=74.9$. The reason we don't replace these NAs as 2.5 directly is that there is a restriction we don't want to obey - the sum of 5 levels equals to 100 percent. It is more reasonable to assume missing values are uniformly distributed than replace them with a fixed value directly.
 
 ```{r}
 indx3 <- is.na(df_parcc$pro)
@@ -265,7 +274,7 @@ n <- rowSums(is.na(df_parcc[indx3, 5:9]))
 na_sum <- 100-rowSums(df_parcc[indx3, 5:9], na.rm = TRUE)
 na <- round(na_sum/n,1)
 
-for (i in 1:203){
+for (i in 1:length(indx3)){
   df_parcc[indx3, 5:9][i,
                        which(is.na(df_parcc[indx3, 5:9][i,]))] <- na[i]
 }
@@ -274,8 +283,7 @@ df_parcc[indx3, 'pro'] <- rowSums(df_parcc[indx3,8:9])
 sum(is.na(df_parcc$pro)) 
 ```
 
-
-
+Now, we have `r sum(is.na(df_parcc$pro))` NAs, which proves the validity and feasibility of our methods. The following step is to create a unique id - still use the combination of county name and school name. 
 
 ```{r}
 pac <- df_parcc %>%
@@ -283,7 +291,11 @@ pac <- df_parcc %>%
   select(1,2,3,4,10,11)
 ```
 
-### extract assessment information
+This is how the final parcc file looks like:
+
+![](plots/parcc_4.png)
+
+### Extract Assessment Information
 
 The proportion of high performance in these assessment ($p$) plays an role of response variable in our later analysis. Thus, splicting them out first makes further analysis convenient.
 
@@ -303,7 +315,6 @@ df_alg2 <- pac[grep("Algebra 2", pac$subject), ]
 df_spc <- data[[3]] %>%
   filter( School.Number != 'A', School.Type == 'High' ) %>%
   within( id <- paste(LEA.Name, School.Name, sep = '-')) %>%
-  #subset(id %in% pac$id) %>%
   select(3,4,5,9,21) 
 
 colnames(df_spc) <- c('county', 'sch.num', 'sch', 'farms', 'id')
@@ -313,14 +324,11 @@ summary(df_spc)
 
 ![](plots/farms_1.png)
 
-
 ### missing value
 
 ```{r}
 df_spc[df_spc$farms == '*',]
 ```
-
-
 
 ```{r}
 df_spc$farms <- gsub('<= 5.0','2.5', df_spc$farms)
@@ -328,7 +336,6 @@ df_spc$farms <- na_if(df_spc$farms, '*')
 ```
 
 ![](plots/farms_2.png)
-
 
 ## Student Mobility
 
@@ -354,15 +361,18 @@ df_mob$withdraw <- as.numeric(df_mob$withdraw)
 summary(df_mob)
 ```
 
-
-
 ## Wealth Expenditures
 
+![](plots/exp_1.png)
+
 ```{r}
-df_exp <- data[[5]]
+df_exp <- data[[5]] %>%
+  mutate(exp = round(Wealth.Per.Pupil/Expenditures.Per.Pupil, 1)) %>%
+  select(3,12)
+
+colnames(df_exp) <- c('county','exp')
 ```
 
-![](plots/exp_1.png)
 
 ## Final dataset
 
@@ -372,7 +382,8 @@ temp1 <- df_ela %>%
   select(6,1,5) %>%
   left_join(df_grad[, c('grad.rate', 'id')], by = 'id') %>%
   left_join( df_mob[, c('withdraw', 'id')], by = 'id') %>%
-  left_join( df_spc[, c('farms', 'id')], by = 'id')
+  left_join( df_spc[, c('farms', 'id')], by = 'id') %>%
+  left_join(df_exp, by = 'county')
 ```
 
 ```{r}
@@ -391,13 +402,16 @@ all(temp1$id== temp3$id)
 func_merge <- function(data){
   L <- list(data[, c('id', 'county', 'pro')], df_grad[, c('grad.rate', 'id')], 
               df_mob[, c('withdraw', 'id')], df_spc[, c('farms', 'id')])
-  final_data <- Reduce(function(x,y) left_join(x, y, by = 'id'), L)
+  d1 <- Reduce(function(x,y) left_join(x, y, by = 'id'), L)
+  final_data <- left_join(d1, df_exp, by = 'county')
   return(final_data)
 }
-
-
 df_ELA <- func_merge(df_ela)
-df_ALG1 <- func_merge(df_alg1)
-df_ALG2 <- func_merge(df_alg2)
-
+summary(df_ELA)
 ```
+
+
+# Exploratory data analysis
+
+
+# Data analysis
