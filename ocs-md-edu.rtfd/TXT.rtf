@@ -1,0 +1,860 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf200
+{\fonttbl\f0\fnil\fcharset0 HelveticaNeue;\f1\fnil\fcharset0 HelveticaNeue-Medium;\f2\fmodern\fcharset0 Courier;
+}
+{\colortbl;\red255\green255\blue255;\red38\green38\blue38;\red242\green242\blue242;\red0\green0\blue0;
+\red41\green101\blue168;\red255\green255\blue255;}
+{\*\expandedcolortbl;;\cssrgb\c20000\c20000\c20000;\cssrgb\c96078\c96078\c96078;\cssrgb\c0\c0\c0\c3922;
+\cssrgb\c20000\c47843\c71765;\cssrgb\c100000\c100000\c100000;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid2}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}}
+{\info
+{\title OpenCaseStudies - Maryland Education Analysis}
+{\author Open Case Study Team}}\vieww28600\viewh18000\viewkind0
+\deftab720
+\pard\pardeftab720\sl400\partightenfactor0
+
+\f0\fs28 \cf2 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \
+\pard\pardeftab720\sl820\sa200\partightenfactor0
+
+\f1\fs76 \cf2 OpenCaseStudies - Maryland Education Analysis\
+\pard\pardeftab720\sl380\sa200\partightenfactor0
+
+\fs36 \cf2 Open Case Study Team\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\f2\fs26 \cf2 \cb3 library(kableExtra)\
+library(tidyverse)\
+library(dplyr)\
+\pard\pardeftab720\sl740\sa200\partightenfactor0
+
+\f1\fs68 \cf2 \cb1 Motivation
+\f2\fs26 \cb3 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs25\fsmilli12600 \cf2 \cb4 \
+\
+\pard\pardeftab720\sl740\sa200\partightenfactor0
+
+\fs68 \cf2 Data Wrangling
+\fs25\fsmilli12600 \
+\pard\pardeftab720\sl500\partightenfactor0
+
+\fs35 \cf2 \
+Tidy datasets are all alike, but every messy dataset is messy in its own way. - Hadley Wickham\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs25\fsmilli12600 \cf2 \
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 This section includes large amount of data wrangling such as gather, merge, mutate etc. Each step requires a specific tool to complete, and we would like to show the data set again and again everytime we apply a specific tool. RStudio prodives a data viewer that enables you to look inside data frames and other rectangular data structures. You can invoke the viewer in a console by calling the 
+\fs22\fsmilli11340 View()
+\fs25\fsmilli12600  function on the data frame you want to look at.\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \
+\pard\pardeftab720\sl660\sa200\partightenfactor0
+
+\fs60 \cf2 Graduation Rate
+\fs25\fsmilli12600 \
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 The first file (Cohort_Grad_Rate_2017.csv) records the percentage of students who received a Maryland high school diploma during 2017. Before we extract this variable, let\'92s have a qucik look of graduation rate file:\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 View(data[[1]])
+\fs25\fsmilli12600 \cb4 \
+\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb1 {{\NeXTGraphic unknown.png \width28220 \height10480 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb4 \
+\
+\
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 There are totally 10 variables and 579 observations in it. From above, in the original dataset, there are several problems need to be fixed, such as missing value. We will deal with them one by one in later steps.\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \
+\pard\pardeftab720\sl520\sa200\partightenfactor0
+
+\fs48 \cf2 Feature Selection and Rename
+\fs25\fsmilli12600 \
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 <<<<<<< HEAD\
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 The first step is to get school level data. We notice that if 
+\fs22\fsmilli11340 School.Number
+\fs25\fsmilli12600  equals to \'91A\'92, then this row corresponds to county level data. Also, there are two kinds of graduation rate:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl360\partightenfactor0
+\ls1\ilvl0\cf2 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl360\partightenfactor0
+\ls1\ilvl0\cf2 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 4-year adjusted cohort: a school\'92s cohort of first-time 9th grade students who graduate within four years, adjusted for students who transfer in and out of the cohort after 9th grade.\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 3-year adjusted cohort: a school\'92s cohort of first-time 9th grade students who graduate within three years, adjusted for students who transfer in and out of the cohort after 9th grade. 4-year adjusted cohort is kept since it is more representative. The last step is the selection of necessary variables.\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \
+=======\
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 The first step is to get school level data. We notice that if 
+\fs22\fsmilli11340 School.Number
+\fs25\fsmilli12600  equals to \'91A\'92, then this row corresponds to county level data. Also, there are two kinds of graduation rate: * 4-year adjusted cohort: a school\'92s cohort of first-time 9th grade students who graduate within four years, adjusted for students who transfer in and out of the cohort after 9th grade. * 3-year adjusted cohort: a school\'92s cohort of first-time 9th grade students who graduate within three years, adjusted for students who transfer in and out of the cohort after 9th grade. 4-year adjusted cohort is kept since it is more representative. The last step is the selection of necessary variables.\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 >>>>>>> 74c2e103410e917f65b38f0bd9ec34a679f24948\
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 Function 
+\fs22\fsmilli11340 filter()
+\fs25\fsmilli12600  and 
+\fs22\fsmilli11340 select()
+\fs25\fsmilli12600  in {\field{\*\fldinst{HYPERLINK "https://dplyr.tidyverse.org/"}}{\fldrslt \cf5 \strokec5 package 
+\fs22\fsmilli11340 dplyr}} will help us to finish the first wrangling step.\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 df_grad <- data[[1]] %>%\
+ filter( School.Number != 'A', \
+        Cohort == '4-year adjusted cohort') %>%\
+ select(LEA.Name, School.Number,\
+         School.Name, Grad.Rate)\
+\
+colnames(df_grad) <- c('county', 'sch.num',\
+                       'sch', 'grad.rate')
+\fs25\fsmilli12600 \cb4 \
+\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb1 {{\NeXTGraphic 1__#$!@%!#__unknown.png \width12360 \height12100 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb4 \
+\
+\
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 See what we get! Only school level information and useful variables are kept, leaving us a neater dataset. Next, missing values should be fixed.\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \
+\
+\pard\pardeftab720\sl520\sa200\partightenfactor0
+
+\fs48 \cf2 Missing Value
+\fs25\fsmilli12600 \
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 There are a lot of missing values in the dataset, which would influence further analysis if we leave them there. From the first plot, missing values exist in different forms:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl360\partightenfactor0
+\ls2\ilvl0\cf2 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl320\partightenfactor0
+\ls2\ilvl0
+\fs22\fsmilli11340 \cf2 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 '>= 95.00','<= 5.00'
+\fs25\fsmilli12600  : The graduation rate is higher than 95% or lower than 5%.\
+\ls2\ilvl0
+\fs22\fsmilli11340 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 '*'
+\fs25\fsmilli12600  : This schools\'92 graduation rate is simply not present in the data.\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 Use function 
+\fs22\fsmilli11340 summary()
+\fs25\fsmilli12600  to produce the descriptive statistics of these missing values.\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 summary(df_grad[2:4]) 
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb6 ##     sch.num                                            sch     \
+##  301    :  4   Chesapeake High                           :  2  \
+##  102    :  3   Frederick Douglass High                   :  2  \
+##  207    :  3   Northwestern High                         :  2  \
+##  405    :  3   Aberdeen High                             :  1  \
+##  705    :  3   Academy for College and Career Exploration:  1  \
+##  108    :  2   Academy of Health Sciences at PGCC        :  1  \
+##  (Other):246   (Other)                                   :255  \
+##     grad.rate  \
+##  >= 95.00: 57  \
+##  *       : 27  \
+##  <= 5.00 :  9  \
+##  84.02   :  2  \
+##  84.4    :  2  \
+##  86.21   :  2  \
+##  (Other) :165
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 Pay attention to the first kind of missing value. It is impossible to calculate the exact graduate rate because of the lack of information, so we decide to use {\field{\*\fldinst{HYPERLINK "https://www.rdocumentation.org/packages/base/versions/3.6.1/topics/grep"}}{\fldrslt 
+\fs22\fsmilli11340 \cf5 \strokec5 gsub()
+\fs25\fsmilli12600  function}} to replace incomplete values. 
+\fs22\fsmilli11340 gsub()
+\fs25\fsmilli12600  function replaces all matches of a string. Elements of string vectors which are not substituted will be returned unchanged.\
+2.5 and 97.5 are used to replace \'91<= 5.00\'92 and \'91>= 95.00\'92 respectively.\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 df_grad$grad.rate<- gsub('<= 5.00','2.5', df_grad$grad.rate)\
+df_grad$grad.rate <- gsub('>= 95.00','97.5', df_grad$grad.rate)
+\fs25\fsmilli12600 \cb4 \
+\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb1 {{\NeXTGraphic 2__#$!@%!#__unknown.png \width12240 \height12140 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb4 \
+\
+\
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 The second type of missing value (\'92*\'92) is confusing, let\'92s extract them out and have a look:\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 head(df_grad[df_grad$grad.rate == '*', ])
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb6 ##              county sch.num                      sch grad.rate\
+## 6      Anne Arundel    1274       Marley Glen School         *\
+## 16     Anne Arundel    3414 Ruth Parker Eason School         *\
+## 21     Anne Arundel    4304   Central Special School         *\
+## 27 Baltimore County      75        Crossroads Center         *\
+## 29 Baltimore County     111     Maiden Choice School         *\
+## 41 Baltimore County     922             Ridge Ruxton         *
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 If we search {\field{\*\fldinst{HYPERLINK "https://www.aacps.org/domain/1364"}}{\fldrslt \cf5 \strokec5 Marley Glen School}}, we may found it mainly provides program for students with disabilities. Also, {\field{\*\fldinst{HYPERLINK "https://www.aacps.org/Page/3684"}}{\fldrslt \cf5 \strokec5 Ruth Parker Eason School}} provides a special education program for students with moderate to severe disabilities. So we guess schools with \'92*\'91graduation rate mainly provide education for students with moderate to severe disabilities. We can either delete it or replace them as \'92NA\'92. Considering we need to merge multiple files in later steps, such kind of information may be dropped out automatically. Ths most appropriate method for us is replacing them as \'91NA\'92 and deal with them all together.\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 df_grad$grad.rate <- na_if(df_grad$grad.rate, '*')
+\fs25\fsmilli12600 \cb4 \
+\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb1 {{\NeXTGraphic 3__#$!@%!#__unknown.png \width12080 \height12100 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb4 \
+\
+\
+\
+\
+\pard\pardeftab720\sl520\sa200\partightenfactor0
+
+\fs48 \cf2 Unique id
+\fs25\fsmilli12600 \
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 Our last step is to extract information from several files and merge them together, requiring a key that specifies each observation uniquely. Possible choices in present dataset can be 
+\fs22\fsmilli11340 sch.num
+\fs25\fsmilli12600  or 
+\fs22\fsmilli11340 sch.name
+\fs25\fsmilli12600  but we need to check whether each of them appear once in the dataset. If not, they are not suitable choice because of the lack of uniqueness.\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 summary(df_grad[,2:3])
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb6 ##     sch.num                                            sch     \
+##  301    :  4   Chesapeake High                           :  2  \
+##  102    :  3   Frederick Douglass High                   :  2  \
+##  207    :  3   Northwestern High                         :  2  \
+##  405    :  3   Aberdeen High                             :  1  \
+##  705    :  3   Academy for College and Career Exploration:  1  \
+##  108    :  2   Academy of Health Sciences at PGCC        :  1  \
+##  (Other):246   (Other)                                   :255
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 From the summary, whether 
+\fs22\fsmilli11340 sch.num
+\fs25\fsmilli12600  or 
+\fs22\fsmilli11340 sch.name
+\fs25\fsmilli12600 , the frequency of some values is larger than 1. Therefore it is definitely important to define a unique element by ourselves.\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 df_grad <- df_grad %>%\
+    within( id <- paste(county, sch, sep = '-'))
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 The combination of 
+\fs22\fsmilli11340 county
+\fs25\fsmilli12600  and 
+\fs22\fsmilli11340 sch
+\fs25\fsmilli12600  generates a new variable - 
+\fs22\fsmilli11340 id
+\fs25\fsmilli12600 . To check its uniqueness, we use function 
+\fs22\fsmilli11340 table()
+\fs25\fsmilli12600 , which builds a contingency table of the counts at each combination of factor levels. The 
+\fs22\fsmilli11340 as.data.frame()
+\fs25\fsmilli12600  function converts the array-based representation of a contingency table to a data frame containing two variable: each factor 
+\fs22\fsmilli11340 Var1
+\fs25\fsmilli12600 and its frequency 
+\fs22\fsmilli11340 Freq
+\fs25\fsmilli12600 .\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 tab <- as.data.frame(table(df_grad$id))\
+tab[tab$Freq > 1,]
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb6 ## [1] Var1 Freq\
+## <0 rows> (or 0-length row.names)
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 Up to now, a unique key element 
+\fs22\fsmilli11340 id
+\fs25\fsmilli12600  is generated and we finally create the ideal dataset - a tidy dataset.\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb1 {{\NeXTGraphic 4__#$!@%!#__unknown.png \width19740 \height12160 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb4 \
+\
+\
+\
+\
+\
+\pard\pardeftab720\sl660\sa200\partightenfactor0
+
+\fs60 \cf2 PARCC
+\fs25\fsmilli12600 \
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+{\field{\*\fldinst{HYPERLINK "https://parcc.pearson.com/"}}{\fldrslt \cf5 \strokec5 Partnership for Assessment of Readiness for College and Careers (PARCC)}} reflects schools\'92 academic achievements through assessing the performance of students on state standardized tests, such as English and Math. It not only provides information about students mastery of state standards, but also offers teachers and parents with timely information to inform instruction and how to provide support. From this file, we want to extract the percentage of students scoring \'91high performance\'92, which works as the target variable is data analysis part.\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 colnames(data[[2]])
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb6 ##  [1] "Academic.Year"                                   \
+##  [2] "LEA.Number"                                      \
+##  [3] "LEA.Name"                                        \
+##  [4] "School.Number"                                   \
+##  [5] "School.Name"                                     \
+##  [6] "Assessment"                                      \
+##  [7] "Tested.Count"                                    \
+##  [8] "Level.1..Did.not.yet.meet.expectations...Count"  \
+##  [9] "Level.1..Did.not.yet.meet.expectations...Percent"\
+## [10] "Level.2..Partially.met.expectations...Count"     \
+## [11] "Level.2..Partially.met.expectations...Percent"   \
+## [12] "Level.3..Approached.expectations...Count"        \
+## [13] "Level.3..Approached.expectations...Percent"      \
+## [14] "Level.4..Met.expectations...Count"               \
+## [15] "Level.4..Met.expectations...Percent"             \
+## [16] "Level.5..Exceeded.expectations...Count"          \
+## [17] "Level.5..Exceeded.expectations...Percent"        \
+## [18] "Create.Date"
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 PARCC is a large file with 8989 observations and 18 variables. We notice there are five levels of performance indicators, ranging from Level 1 to Level 5. First, we use percentage information rather than count information. Second, we will create a new variable, 
+\fs22\fsmilli11340 pro
+\fs25\fsmilli12600 , that indicates the percentage of students performing at the \'91met expectations\'92 and \'91exceeded expectations\'92 levels.\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \
+\pard\pardeftab720\sl520\sa200\partightenfactor0
+
+\fs48 \cf2 Feature Selection and Rename
+\fs25\fsmilli12600 \
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 Similiar to graduation rate file, only school level information and necessary variables will be kept and renamed.\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 df_parcc <- data[[2]] %>%\
+  filter( School.Number != 'A' ) %>%\
+  select(3,4,5,6,9,11,13,15,17)\
+\
+colnames(df_parcc) <- c('county','sch.num', \
+                        'sch', 'subject','L1',\
+                        'L2','L3','L4','L5')
+\fs25\fsmilli12600 \cb4 \
+\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb1 {{\NeXTGraphic 5__#$!@%!#__unknown.png \width19320 \height12540 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb4 \
+\
+\
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 Different with graduation rate file that just contains high school information, PARCC file also includes information of middle schools and elementary school. We would leave them there ?????\
+Variable 
+\fs22\fsmilli11340 subject
+\fs25\fsmilli12600  reflects the kind of subject test. English/Language Arts Grade 10, Algebra 1 and 2 are filtered out by function 
+\fs22\fsmilli11340 filter()
+\fs25\fsmilli12600  in package 
+\fs22\fsmilli11340 dplyr
+\fs25\fsmilli12600 . You are encouraged to keep other assessments that you are interested in.\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 df_parcc <- df_parcc %>%\
+  filter(subject %in% c('English/Language Arts Grade 10','Algebra 1','Algebra 2'))
+\fs25\fsmilli12600 \cb4 \
+\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb1 {{\NeXTGraphic 6__#$!@%!#__unknown.png \width20760 \height12120 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb4 \
+\
+\
+\
+\
+\pard\pardeftab720\sl520\sa200\partightenfactor0
+
+\fs48 \cf2 Missing Value
+\fs25\fsmilli12600 \
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 Missing value is the toughest problem in this wrangling part. Let\'92s see its summary first.\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 summary(df_parcc[, 5:9])
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb6 ##        L1            L2            L3            L4            L5     \
+##  <= 5.0 :273   <= 5.0 :176   <= 5.0 :127   <= 5.0 :151   <= 5.0 :597  \
+##  17.6   :  7   28.6   :  9   33.3   : 10   33.3   :  7   6.8    :  7  \
+##  5.5    :  7   15.2   :  8   22.7   :  8   75     :  7   19.8   :  5  \
+##  15.8   :  6   16.7   :  7   25     :  8   11.4   :  5   5.6    :  5  \
+##  5.6    :  6   17.9   :  7   14.3   :  7   17.6   :  5   5.1    :  4  \
+##  6.7    :  6   18.2   :  7   19.7   :  7   34.1   :  5   8.6    :  4  \
+##  (Other):569   (Other):660   (Other):707   (Other):694   (Other):252
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 There is only one kind of missing value: <=5.0 in these 5 levels indicators. We will replace it as NA, then transform them to numerical data.\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 df_parcc[,5:9] <- \
+  lapply(df_parcc[,5:9], function(x) as.numeric(as.character(x)))
+\fs25\fsmilli12600 \cb4 \
+\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb1 {{\NeXTGraphic 7__#$!@%!#__unknown.png \width20540 \height14340 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb4 \
+\
+\
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 We only care about the proportion of L4 and L5 but NAs are distributed differently. To simply wrangling steps, we reduce these five levels into two new levels : \'91Level weak\'92 (L1, L2 and L3) and \'91Level excellent\'92 (L4 and L5). Then deal with NAs in three ways. If values of \'91Level excellent\'92 are complete, then 
+\fs22\fsmilli11340 pro
+\fs25\fsmilli12600  equals to sum of L4 and L5. Such as Algebra 1 assessment of \'91Washington Middle\'92, its 
+\fs22\fsmilli11340 pro
+\fs25\fsmilli12600  should be \\(85.5 + 9.7 = 95.2\\); If values of \'91Level weak\'92 all exist, 
+\fs22\fsmilli11340 pro
+\fs25\fsmilli12600  equals to 100 percent minus the sum of L1, L2 and L3. For example, the 
+\fs22\fsmilli11340 pro
+\fs25\fsmilli12600  of Algebra 1 for \'91Fort Hill High\'92 equals to \\(100-23.9-44.6-21.7 = 9.8\\);\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 df_parcc$pro <- NA\
+\
+indx1 <- !is.na(df_parcc$L4) &  !is.na(df_parcc$L5)\
+df_parcc[indx1, 'pro'] <- rowSums(df_parcc[indx1,8:9])\
+\
+sum(is.na(df_parcc$pro))
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb6 ## [1] 597
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 indx2 <- !is.na(df_parcc$L1) &  !is.na(df_parcc$L2) & !is.na(df_parcc$L3)\
+\
+df_parcc[indx2, 'pro'] <-  100-rowSums(df_parcc[indx2,5:7])\
+\
+sum(is.na(df_parcc$pro)) 
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb6 ## [1] 203
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 Function 
+\fs22\fsmilli11340 is.na()
+\fs25\fsmilli12600  indicates which elements are missing and returns a boolean index of the same shape as the original data frame. 
+\fs22\fsmilli11340 df_parcc[indx1,]
+\fs25\fsmilli12600  and 
+\fs22\fsmilli11340 df_parcc[indx2,]
+\fs25\fsmilli12600  specify observations have complete information of \'91Level excellent\'92 and \'91Level weak\'92 respectively. 
+\fs22\fsmilli11340 sum(is.na(df_parcc$pro))
+\fs25\fsmilli12600  shows the counts of NA in variable 
+\fs22\fsmilli11340 pro
+\fs25\fsmilli12600 . Undoubtedly, our methods reduce NAs greatly after we apply corresponding methods mentioned above.\
+If missing values exist both in these two levels, we will first use 100 percent minus existing values. Then divide the difference to the number of missing value and replace NA with this quotient. For instance - \'91Brooklyn Park Middle\'92, there are three NAs, so \\(NA = (100-20.8-72.7)/3=2.2\\), and 
+\fs22\fsmilli11340 pro
+\fs25\fsmilli12600  equals to \\(72.7+2.2=74.9\\). The reason we don\'92t replace these NAs as 2.5 directly is that there is a restriction we don\'92t want to obey - the sum of 5 levels equals to 100 percent. It is more reasonable to assume missing values are uniformly distributed than replace them with a fixed value directly.\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 indx3 <- is.na(df_parcc$pro)\
+\
+n <- rowSums(is.na(df_parcc[indx3, 5:9]))\
+na_sum <- 100-rowSums(df_parcc[indx3, 5:9], na.rm = TRUE)\
+na <- round(na_sum/n,1)\
+\
+for (i in 1:length(indx3))\{\
+  df_parcc[indx3, 5:9][i,\
+                       which(is.na(df_parcc[indx3, 5:9][i,]))] <- na[i]\
+\}\
+\
+df_parcc[indx3, 'pro'] <- rowSums(df_parcc[indx3,8:9])\
+sum(is.na(df_parcc$pro)) 
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb6 ## [1] 0
+\fs25\fsmilli12600 \cb4 \
+<<<<<<< HEAD\
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 Now, we have 0 NAs, which proves the validity and feasibility of our methods. The following step is to create a unique id - still use the combination of county name and school name. And we only keep new variable 
+\fs22\fsmilli11340 pro
+\fs25\fsmilli12600  in the final dataset\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 pac <- df_parcc %>%\
+  within( id <- paste(county, sch, sep = '-')) %>%\
+  select(1,2,3,4,10,11)
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 This is how the final parcc dataset looks like:\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 =======\
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 Now, we have 0 NAs, which proves the validity and feasibility of our methods. The following step is to create a unique id - still use the combination of county name and school name.\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 pac <- df_parcc %>%\
+  within( id <- paste(county, sch, sep = '-')) %>%\
+  select(1,2,3,4,10,11)
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 This is how the final parcc file looks like:\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 >>>>>>> 74c2e103410e917f65b38f0bd9ec34a679f24948\
+\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb1 {{\NeXTGraphic 8__#$!@%!#__unknown.png \width23480 \height11960 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb4 \
+\
+\
+\
+\
+\pard\pardeftab720\sl520\sa200\partightenfactor0
+
+\fs48 \cf2 Extract Assessment Information
+\fs25\fsmilli12600 \
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 The proportion of high performance in these assessment (\\(p\\)) plays an role of response variable in our later analysis. Thus, splicting them out first makes further analysis convenient.\
+\\[ p_\{ela\} = \\beta_0+\\beta_\{1\} x_1+ \\beta_\{2\} x_2 \\]\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 df_ela <- pac[grep("English/Language Arts Grade 10", pac$subject), ]\
+df_alg1 <- pac[grep("Algebra 1", pac$subject), ]\
+df_alg2 <- pac[grep("Algebra 2", pac$subject), ]
+\fs25\fsmilli12600 \cb4 \
+\
+\
+\
+\pard\pardeftab720\sl660\sa200\partightenfactor0
+
+\fs60 \cf2 Special Services
+\fs25\fsmilli12600 \
+\pard\pardeftab720\sl360\sa200\partightenfactor0
+\cf2 The third file (Special_Services_2017.csv) records the percentage\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 df_spc <- data[[3]] %>%\
+  filter( School.Number != 'A', School.Type == 'High' ) %>%\
+  within( id <- paste(LEA.Name, School.Name, sep = '-')) %>%\
+  select(3,4,5,9,21) \
+\
+colnames(df_spc) <- c('county', 'sch.num', 'sch', 'farms', 'id')\
+\
+summary(df_spc)
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb6 ##               county      sch.num   \
+##  Baltimore City  :41   0301   :  4  \
+##  Prince George's :37   0102   :  3  \
+##  Baltimore County:33   0207   :  3  \
+##  Montgomery      :31   0405   :  3  \
+##  Anne Arundel    :18   0705   :  3  \
+##  Howard          :14   0108   :  2  \
+##  (Other)         :94   (Other):250  \
+##                                          sch          farms    \
+##  Chesapeake High                           :  2   *      : 12  \
+##  Frederick Douglass High                   :  2   <= 5.0 :  7  \
+##  Northwestern High                         :  2   35.1   :  3  \
+##  Aberdeen High                             :  1   55.4   :  3  \
+##  Academy for College and Career Exploration:  1   12.5   :  2  \
+##  Academy of Health Sciences at PGCC        :  1   13.8   :  2  \
+##  (Other)                                   :259   (Other):239  \
+##       id           \
+##  Length:268        \
+##  Class :character  \
+##  Mode  :character  \
+##                    \
+##                    \
+##                    \
+## 
+\fs25\fsmilli12600 \cb4 \
+\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb1 {{\NeXTGraphic 9__#$!@%!#__unknown.png \width19300 \height12140 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb4 \
+\
+\
+\
+\pard\pardeftab720\sl520\sa200\partightenfactor0
+
+\fs48 \cf2 missing value
+\fs25\fsmilli12600 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 df_spc[df_spc$farms == '*',]
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb6 ##               county sch.num                              sch farms\
+## 6       Anne Arundel    1274               Marley Glen School     *\
+## 10      Anne Arundel    2233        Anne Arundel Evening High     *\
+## 28  Baltimore County    0077          BCDC Educational Center     *\
+## 57           Calvert    0206           Calvert Country School     *\
+## 70           Carroll    0712           Carroll Springs School     *\
+## 72           Carroll    0717           Post Secondary Program     *\
+## 123           Howard    0522        Cedar Lane Special Center     *\
+## 156       Montgomery    0799            Stephen Knolls School     *\
+## 159       Montgomery    0951                  Longview School     *\
+## 196  Prince George's    2217 Incarcerated Youth Center (JACS)     *\
+## 220         Wicomico    0520     Wicomico County Evening High     *\
+## 267   Baltimore City    0884             Eager Street Academy     *\
+##                                                   id\
+## 6                    Anne Arundel-Marley Glen School\
+## 10            Anne Arundel-Anne Arundel Evening High\
+## 28          Baltimore County-BCDC Educational Center\
+## 57                    Calvert-Calvert Country School\
+## 70                    Carroll-Carroll Springs School\
+## 72                    Carroll-Post Secondary Program\
+## 123                 Howard-Cedar Lane Special Center\
+## 156                 Montgomery-Stephen Knolls School\
+## 159                       Montgomery-Longview School\
+## 196 Prince George's-Incarcerated Youth Center (JACS)\
+## 220            Wicomico-Wicomico County Evening High\
+## 267              Baltimore City-Eager Street Academy
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 df_spc$farms <- gsub('<= 5.0','2.5', df_spc$farms)\
+df_spc$farms <- na_if(df_spc$farms, '*')
+\fs25\fsmilli12600 \cb4 \
+\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb1 {{\NeXTGraphic 10__#$!@%!#__unknown.png \width19340 \height12120 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb4 \
+\
+\
+\
+\
+\
+\pard\pardeftab720\sl660\sa200\partightenfactor0
+
+\fs60 \cf2 Student Mobility
+\fs25\fsmilli12600 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 df_mob <- data[[4]] %>%\
+  filter( School.Number != 'A', School.Type == 'High' )%>%\
+  within( id <- paste(LEA.Name, School.Name, sep = '-')) %>%\
+  select(3,4,5,11,15)\
+\
+colnames(df_mob) <- c('county', 'sch.num', 'sch', 'withdraw', 'id')\
+\
+summary(df_mob)
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb6 ##               county      sch.num   \
+##  Baltimore City  :41   301    :  4  \
+##  Prince George's :37   102    :  3  \
+##  Baltimore County:33   207    :  3  \
+##  Montgomery      :31   405    :  3  \
+##  Anne Arundel    :18   705    :  3  \
+##  Howard          :14   108    :  2  \
+##  (Other)         :94   (Other):250  \
+##                                          sch         withdraw  \
+##  Chesapeake High                           :  2   <= 5.0 : 77  \
+##  Frederick Douglass High                   :  2   >= 95.0:  9  \
+##  Northwestern High                         :  2   5.5    :  8  \
+##  Aberdeen High                             :  1   8.6    :  5  \
+##  Academy for College and Career Exploration:  1   10.3   :  3  \
+##  Academy of Health Sciences at PGCC        :  1   10.9   :  3  \
+##  (Other)                                   :259   (Other):163  \
+##       id           \
+##  Length:268        \
+##  Class :character  \
+##  Mode  :character  \
+##                    \
+##                    \
+##                    \
+## 
+\fs25\fsmilli12600 \cb4 \
+\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb1 {{\NeXTGraphic 11__#$!@%!#__unknown.png \width20400 \height14340 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb4 \
+\
+\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 df_mob$withdraw <- gsub('<= 5.00','2.5', df_mob$withdraw)\
+df_mob$withdraw <- gsub('>= 95.00','97.5', df_mob$withdraw)\
+df_mob$withdraw <- as.numeric(df_mob$withdraw)\
+\
+summary(df_mob)
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb6 ##               county      sch.num   \
+##  Baltimore City  :41   301    :  4  \
+##  Prince George's :37   102    :  3  \
+##  Baltimore County:33   207    :  3  \
+##  Montgomery      :31   405    :  3  \
+##  Anne Arundel    :18   705    :  3  \
+##  Howard          :14   108    :  2  \
+##  (Other)         :94   (Other):250  \
+##                                          sch         withdraw    \
+##  Chesapeake High                           :  2   Min.   : 5.10  \
+##  Frederick Douglass High                   :  2   1st Qu.: 7.70  \
+##  Northwestern High                         :  2   Median :10.30  \
+##  Aberdeen High                             :  1   Mean   :15.56  \
+##  Academy for College and Career Exploration:  1   3rd Qu.:15.72  \
+##  Academy of Health Sciences at PGCC        :  1   Max.   :91.90  \
+##  (Other)                                   :259   NA's   :88     \
+##       id           \
+##  Length:268        \
+##  Class :character  \
+##  Mode  :character  \
+##                    \
+##                    \
+##                    \
+## 
+\fs25\fsmilli12600 \cb4 \
+\
+\
+\pard\pardeftab720\sl660\sa200\partightenfactor0
+
+\fs60 \cf2 Wealth Expenditures
+\fs25\fsmilli12600 \
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb1 {{\NeXTGraphic 12__#$!@%!#__unknown.png \width27660 \height14360 \appleattachmentpadding0 \appleembedtype0 \appleaqc
+}¬}\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \cb4 \
+\
+\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 df_exp <- data[[5]] %>%\
+  mutate(exp = round(Wealth.Per.Pupil/Expenditures.Per.Pupil, 1)) %>%\
+  select(3,12)\
+\
+colnames(df_exp) <- c('county','exp')
+\fs25\fsmilli12600 \cb4 \
+\
+\
+\pard\pardeftab720\sl660\sa200\partightenfactor0
+
+\fs60 \cf2 Final dataset
+\fs25\fsmilli12600 \
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \
+\pard\pardeftab720\sl520\sa200\partightenfactor0
+
+\fs48 \cf2 example
+\fs25\fsmilli12600 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 temp1 <- df_ela %>%\
+  select(6,1,5) %>%\
+  left_join(df_grad[, c('grad.rate', 'id')], by = 'id') %>%\
+  left_join( df_mob[, c('withdraw', 'id')], by = 'id') %>%\
+  left_join( df_spc[, c('farms', 'id')], by = 'id') %>%\
+  left_join(df_exp, by = 'county')
+\fs25\fsmilli12600 \cb4 \
+
+\fs26 \cb3 L_ela <- list(df_ela[, c('id', 'county', 'pro')], df_grad[, c('grad.rate', 'id')], \
+              df_mob[, c('withdraw', 'id')], df_spc[, c('farms', 'id')])\
+\
+temp2 <- Reduce(function(x, y) merge(x, y, by = 'id'), L_ela)\
+temp3 <- Reduce(function(x,y) left_join(x, y, by = 'id'), L_ela)\
+\
+all(temp1$id== temp3$id)
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb6 ## [1] TRUE
+\fs25\fsmilli12600 \cb4 \
+\
+\
+\pard\pardeftab720\sl520\sa200\partightenfactor0
+
+\fs48 \cf2 apply function
+\fs25\fsmilli12600 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb3 func_merge <- function(data)\{\
+  L <- list(data[, c('id', 'county', 'pro')], df_grad[, c('grad.rate', 'id')], \
+              df_mob[, c('withdraw', 'id')], df_spc[, c('farms', 'id')])\
+  d1 <- Reduce(function(x,y) left_join(x, y, by = 'id'), L)\
+  final_data <- left_join(d1, df_exp, by = 'county')\
+  return(final_data)\
+\}\
+df_ELA <- func_merge(df_ela)\
+summary(df_ELA)
+\fs25\fsmilli12600 \cb4 \
+\pard\pardeftab720\sl360\partightenfactor0
+
+\fs26 \cf2 \cb6 ##       id               county               pro         grad.rate        \
+##  Length:234         Length:234         Min.   : 0.00   Length:234        \
+##  Class :character   Class :character   1st Qu.:18.93   Class :character  \
+##  Mode  :character   Mode  :character   Median :46.50   Mode  :character  \
+##                                        Mean   :42.67                     \
+##                                        3rd Qu.:64.90                     \
+##                                        Max.   :99.10                     \
+##                                                                          \
+##     withdraw        farms                exp       \
+##  Min.   : 5.10   Length:234         Min.   :17.90  \
+##  1st Qu.: 7.60   Class :character   1st Qu.:25.90  \
+##  Median :10.20   Mode  :character   Median :33.90  \
+##  Mean   :15.02                      Mean   :32.27  \
+##  3rd Qu.:15.40                      3rd Qu.:35.90  \
+##  Max.   :91.90                      Max.   :78.60  \
+##  NA's   :77                         NA's   :1
+\fs25\fsmilli12600 \cb4 \
+\
+\
+\
+\
+\pard\pardeftab720\sl740\sa200\partightenfactor0
+
+\fs68 \cf2 Exploratory data analysis
+\fs25\fsmilli12600 \
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \
+\
+\pard\pardeftab720\sl740\sa200\partightenfactor0
+
+\fs68 \cf2 Data analysis
+\fs25\fsmilli12600 \
+\pard\pardeftab720\sl360\partightenfactor0
+\cf2 \
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+}

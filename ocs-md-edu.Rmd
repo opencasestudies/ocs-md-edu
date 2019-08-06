@@ -26,7 +26,9 @@ library(dplyr)
 
 # Motivation
 
-There are over 1400 public schools in Maryland and there are also outstanding students in each school. The federal Every Student Succeeds Act (ESSA) prompted states to develop long term plans to improve schools through accountability and innovation, which sets Maryland's schools on the path to continuous improvement. [Maryland Report Card website](http://reportcard.msde.maryland.gov/Graphs/#/Introduction/Intro/uction/17/uction/17/3) aims to share the most current information available to help stakeholders understand and measure student achievement in all 24 local school systems. Here is a message from the State Superintendent of Schools that enables you to know more about how it functions.
+[LRJ: Once we finalize the case study, we should come back and revisit the intro/motivation section]
+
+There are over 1400 public schools in Maryland and there are also outstanding students in each school. The federal Every Student Succeeds Act (ESSA) prompted states to develop long term plans to improve schools through accountability and innovation, which sets Maryland's schools on the path to continuous improvement. [Maryland Report Card website](http://reportcard.msde.maryland.gov/) aims to share the most current information available to help stakeholders understand and measure student achievement in all 24 local school systems. Here is a message from the State Superintendent of Schools that enables you to know more about how it functions.
 
 
 <div align="center">
@@ -38,7 +40,7 @@ There are over 1400 public schools in Maryland and there are also outstanding st
 [source: https://www.youtube.com/watch?time_continue=8&v=g5ylQgdisTM]
 </center>
 
-Our analysis is inspired by this plan - figure out how well schools were performing and how different factors influenced their performance. Once we indentify schools that need improvements and influential factors, both Maryland's government and local ordanizations can prompt actions and provide necessary support, in a way that is understanable and reliable.
+Our analysis is inspired by this plan - figure out how well schools were performing and how different factors influenced their performance. Once we indentify schools that need improvements and influential factors, both Maryland's government and local organizations can prompt actions and provide necessary support, in a way that is understanable and reliable.
 
 The libraries used in this study are listed in the following table, 
 along with their purpose in this particular case study:
@@ -60,23 +62,38 @@ The learning objectives for this case study include:
 # What is the data?
 
 
-The data files were downloaded from [the Maryland Report Card website](http://reportcard.msde.maryland.gov/Graphs/#/Introduction/Intro/uction/17/uction/17/3).You can find [`Data Download`](http://reportcard.msde.maryland.gov/Graphs/#/DataDownloads/datadownload/3/17/6/99/XXXX) on the bottom part of the web page, which provides public data for download. 
+The data files were downloaded from [the Maryland Report Card website](http://reportcard.msde.maryland.gov/).  Data files can be found by clicking [`Data Download`](http://reportcard.msde.maryland.gov/Graphs/#/DataDownloads/datadownload/3/17/6/99/XXXX) at the bottom of the web page.
 
-While all this knowledge can be empowering, too much information can be overwhelming. Important details may be lost in a flood of data, and a large amount of information can make it difficult to make decisions. These files are large because they contain information for 1400+ schools in Maryland, based on school level and county level, ranging from 2003 to 2018. Admittedly, county level data are less and tidier, and it is easier to deal with. But we believe it is the 'untidiness' of school level data that guarantees a detailed and diverse anaysis. So we decide to focus on 5 files of year 2017, and mainly make use of school level data. 
+At this link, you can find data for all 1400+ schools in Maryland from 2003 to 2018.  For this case study, we will focus on data from 2017.  In particular, we will extract data from 5 of the files for that year:
+
+* [LRJ: List the names of the 5 files here and give a brief description of what type of data is in each file.]
 
 # Data Import
 
-We saved all files in a folder - 'data2017'. In R, you can write a script to read all the files in the same folder and bring them relatively easily.
+After downloading the 5 data files, we can write a script to import all the files in the same folder into `R` relatively easily.  In this case, we've saved all files in a folder named `data2017`:
 
 ![](plots/import.png)
 
-Here, setting environment is necessary since it enables R to find what these files quickly and accurately. We use function `setwd()` to change the working directory (folder 'data2017'), and specify the path to the desired folder. Also, instead of importing them all individually, function `lapply()` can import them all simultaneously.
+Knowing which environment you are in is necessary since it enables `R` to find these files quickly and accurately. Since our data files are in the folder `data2017`, we will need to specify this in the path to each file.
 
-```{r }
-setwd('./data2017')
-files = list.files(pattern="*.csv")
+Also, instead of importing each file with an individual line of code, we can use the function `lapply()` to import them all simultaneously.  To do this, first we make a list of all of the files names for importing.  The `list.files()` function will make a list of all files in a folder that match a given pattern.  Here we want all `.csv` files, so we can use `pattern="*.csv"` to specify all files that end with a `.csv`.  The `*` character means any set of characters can be in that location in the file name.
 
-data <- lapply(files, function(x){
+```{r}
+files = list.files(path='./data2017',pattern="*.csv")
+files
+```
+
+Next we can add the folder name, `data2017`, to the path for each file:
+
+```{r}
+filePaths = paste0("./data2017/", files)
+filePaths
+```
+
+Finally, we can read in each data file using `lapply()`:
+
+```{r}
+data <- lapply(filePaths, function(x){
   read.csv(x, header=T)})
 ```
 
