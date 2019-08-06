@@ -104,6 +104,7 @@ There are totally `r ncol(data[[1]])` variables and `r nrow(data[[1]])` observat
 ### Feature Selection and Rename 
 
 The first step is to get school level data. We notice that if `School.Number` equals to 'A', then this row corresponds to county level data. Also, there are two kinds of graduation rate:
+
  * 4-year adjusted cohort: a school's cohort of first-time 9th grade students who graduate within four years, adjusted for students who transfer in and out of the cohort after 9th grade.
  * 3-year adjusted cohort: a school's cohort of first-time 9th grade students who graduate within three years, adjusted for students who transfer in and out of the cohort after 9th grade.
 4-year adjusted cohort is kept since it is more representative. The last step is the selection of necessary variables. 
@@ -283,7 +284,7 @@ df_parcc[indx3, 'pro'] <- rowSums(df_parcc[indx3,8:9])
 sum(is.na(df_parcc$pro)) 
 ```
 
-Now, we have `r sum(is.na(df_parcc$pro))` NAs, which proves the validity and feasibility of our methods. The following step is to create a unique id - still use the combination of county name and school name. 
+Now, we have `r sum(is.na(df_parcc$pro))` NAs, which proves the validity and feasibility of our methods. The following step is to create a unique id - still use the combination of county name and school name. And we only keep new variable `pro` in the final dataset
 
 ```{r}
 pac <- df_parcc %>%
@@ -291,7 +292,7 @@ pac <- df_parcc %>%
   select(1,2,3,4,10,11)
 ```
 
-This is how the final parcc file looks like:
+This is how the final parcc dataset looks like:
 
 ![](plots/parcc_4.png)
 
@@ -301,8 +302,6 @@ The proportion of high performance in these assessment ($p$) plays an role of re
 
 $$ p_{ela} = \beta_0+\beta_{1} x_1+ \beta_{2} x_2 $$
 
-we choose grade 10 since we believe grade 10 is the most representative.
-
 ```{r}
 df_ela <- pac[grep("English/Language Arts Grade 10", pac$subject), ]
 df_alg1 <- pac[grep("Algebra 1", pac$subject), ]
@@ -310,6 +309,8 @@ df_alg2 <- pac[grep("Algebra 2", pac$subject), ]
 ```
 
 ## Special Services
+
+The third file (Special_Services_2017.csv) records the percentage 
 
 ```{r}
 df_spc <- data[[3]] %>%
