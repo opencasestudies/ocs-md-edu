@@ -104,7 +104,7 @@ data <- lapply(filePaths, function(x){
 
 > Tidy datasets are all alike, but every messy dataset is messy in its own way. - Hadley Wickham
 
-This section includes large amount of data wrangling such as gather, merge, mutate etc. Each step requires a specific tool to complete, and we would like to show the data set again and again everytime we apply a specific tool. RStudio prodives a data viewer that enables you to look inside data frames and other rectangular data structures. You can invoke the viewer in a console by calling the `View()` function on the data frame you want to look at.
+This section includes large amount of data wrangling such as gather, merge, mutate etc. Each step requires a specific tool to complete, and we would like to show the dataset again and again everytime we apply a specific tool. RStudio prodives a data viewer that enables you to look inside data frames and other rectangular data structures. You can invoke the viewer in a console by calling the `View()` function on the data frame you want to look at.
 
 ## Graduation Rate
 
@@ -222,6 +222,7 @@ PARCC is a large file with `r nrow(data[[2]] )` observations and `r ncol(data[[2
 ### Feature Selection and Rename 
 
 Similiar to graduation rate file, only school level information and necessary variables will be kept and renamed.
+
 ```{r}
 df_parcc <- data[[2]] %>%
   filter( School.Number != 'A' ) %>%
@@ -288,18 +289,20 @@ If missing values exist both in these two levels, we will first use 100 percent 
 ```{r}
 indx3 <- is.na(df_parcc$pro)
 
-n <- rowSums(is.na(df_parcc[indx3, 5:9]))
+
 na_sum <- 100-rowSums(df_parcc[indx3, 5:9], na.rm = TRUE)
+n <- rowSums(is.na(df_parcc[indx3, 5:9]))
 na <- round(na_sum/n,1)
 
 for (i in 1:length(indx3)){
-  df_parcc[indx3, 5:9][i,
-                       which(is.na(df_parcc[indx3, 5:9][i,]))] <- na[i]
+  df_parcc[indx3, 5:9][i,which(is.na(df_parcc[indx3, 5:9][i,]))] <- na[i]
 }
 
 df_parcc[indx3, 'pro'] <- rowSums(df_parcc[indx3,8:9])
 sum(is.na(df_parcc$pro)) 
 ```
+
+What the above script does? First, rows containing NA in `pro` are filtered out and recorded as `indx3`, totally `r length(indx3)` observations. Then, for each row, we calculate the difference of 100 percent and sum of existing values - `na_sum`, and the number of missing value - `n`. Dividing `na_sum` by `n` gives the quotients `na`. All of these three variables are vectors which length are the same as `indx3` - `r length(na)`. The last step is replacement and we write a for loop here. For each row (`df_parcc[indx3, 5:9][i,]`), columns containing NA are selected out with the help of function `is.na()`. Applying function `which()` enables us to get the corresponding columns indexs. Once we determine the positions of NA, we can assign what we calculated before - `na` to these NAs.
 
 Now, we have `r sum(is.na(df_parcc$pro))` NAs, which proves the validity and feasibility of our methods. The following step is to create a unique id - still use the combination of county name and school name. And we only keep new variable `pro` in the final dataset
 
@@ -327,7 +330,9 @@ df_alg2 <- pac[grep("Algebra 2", pac$subject), ]
 
 ## Special Services
 
-The third file (Special_Services_2017.csv) records the percentage 
+Special_Services_2017.csv records the number and percentage of students who applied different special service and students approved through direct certification. Such variables make us know more about the school quality and students support. Here we choose service FARMS: receive free or reduced price meals. 
+
+What the following script does is similiar to previous wrangling steps except one step. Since in special service file there is a vairable called `School.Type`, we can filter high school information easily if we add a new condition `School.Type == 'High'`.
 
 ```{r}
 df_spc <- data[[3]] %>%
@@ -341,21 +346,34 @@ summary(df_spc)
 ```
 
 ![](plots/farms_1.png)
+There is only one problem in this dataset, also it is an old problem - missing value.
 
-### missing value
+### Missing Value
+
+Similiarly, let's have a look on what these schools with '*' in farms look like:
 
 ```{r}
 df_spc[df_spc$farms == '*',]
 ```
 
+It seems that they are still not 'normal' public schools so we change '*' to NA. 
+
+After replacing '<= 5.0' to '2.5' with function `gsub()`, if you apply `as.numeric()` function,  '*' will be transformed to NA automatically.
+
 ```{r}
 df_spc$farms <- gsub('<= 5.0','2.5', df_spc$farms)
-df_spc$farms <- na_if(df_spc$farms, '*')
+df_spc$farms <- as.numeric(df_spc$farms)
 ```
+
+This is how the final special serivce dataset looks like:
 
 ![](plots/farms_2.png)
 
 ## Student Mobility
+
+Student_Mobility_2017.csv includes information of the movement of students from one school to another during the school year. There are 3 types of mobility provided: total student mobility, entry mobility, and exit mobility. To some extent, exit mobility reflects students' satisfaction with their schools so we would like to use it as variable `withdraw` in our analysis.
+
+As usual, wrangling steps are high school observation selection, unique id creation, feature selection and missing value transformation.
 
 ```{r}
 df_mob <- data[[4]] %>%
@@ -375,13 +393,22 @@ summary(df_mob)
 df_mob$withdraw <- gsub('<= 5.00','2.5', df_mob$withdraw)
 df_mob$withdraw <- gsub('>= 95.00','97.5', df_mob$withdraw)
 df_mob$withdraw <- as.numeric(df_mob$withdraw)
-
-summary(df_mob)
 ```
+This is how the final mobility dataset looks like:
+
+![](plots/mob_2.png)
 
 ## Wealth Expenditures
 
+Wealth_Expenditures_Data_2017.csv contains information of different kinds of investments as well as wealth per pupil. What makes it special is that its size (`r ncol(data[[5]])` variables and `r nrow(data[[5]])` observations) is obsivously smaller than previous files. Let's have a look on it:
+
 ![](plots/exp_1.png)
+
+It turns out that this file only contains county level data! So we would like to keep variable `county` which will work as the key in later merge steps. Besides, a new variable `exp` will be created by the formula:
+
+$$exp = \frac{Wealth.Per.Pupil}{Expenditures.Per.Pupil}$$
+
+The quotient of Wealth.Per.Pupil and Expenditures.Per.Pupil captures the image of each county's financial condition. Function `mutate()` in package `dplyr` is a nice tool to adds new variables. Thus, wrangling steps are new variable creation, feature selection and rename.
 
 ```{r}
 df_exp <- data[[5]] %>%
@@ -391,10 +418,78 @@ df_exp <- data[[5]] %>%
 colnames(df_exp) <- c('county','exp')
 ```
 
+![](plots/exp_2.png)
 
-## Final dataset
+We notice the last row is information about 'All Public School', but it will be dropped automatically when we merge it.
 
-### example
+## Final Dataset
+
+### Relational Datasets
+
+Now we have totally 8 datasets:
+| Dataset  |     Size     |   
+|----------|-----------|
+| df_grad |`r nrow(df_grad)`*`r ncol(df_grad)`| 
+| df_mob |`r nrow(df_mob)`*`r ncol(df_mob)`| 
+| df_spc |`r nrow(df_spc)`*`r ncol(df_spc)`| 
+| df_exp |`r nrow(df_exp)`*`r ncol(df_exp)`| 
+| df_ela |`r nrow(df_ela)`*`r ncol(df_ela)`| 
+| df_alg1 |`r nrow(df_alg1)`*`r ncol(df_alg1)`|
+| df_alg2 |`r nrow(df_alg2)`*`r ncol(df_alg2)`|
+
+We have many datasets, requiring combination to answer the questions that we are interested in. They are called *relational data* because it is their relations, not just the individual datasets, that are important. Relations are defined between a pair in these datasets. In out case, relations presented in the form that the same variable exists in multiple datasets. The following plot describes how our datasets connect:
+
+ ![](plots/relation.png)
+
+We can see that variable `county` exists in all datasets, variable `sch`, `sch.name` and `id` exists in all datasets except `df_exp`. In addition, each dataset contain its unique variables. 
+
+To work with relational data, *mutating joins* is pretty powerful which combines variables from two datasets. It first matches observations by their *keys*, then copies across variables from one dataset to the other. *keys* is a variable that uniquely indentifies an observation so it can connect each pair of datasets. This is the meaning of the existence of variable `id` - sufficiently indentifies each observation in our datasets. 
+
+*mutating joins* includes *inner joins* and *outer joins*. An *inner join* keeps observations that appear in both datasets while *outer join* keeps observations that appear in at least one of the datasets. There are three types of *outer joins*: left join, right join and full join. The graphical explanation is given below:
+
+Inner join:
+
+![](https://d33wubrfki0l68.cloudfront.net/3abea0b730526c3f053a3838953c35a0ccbe8980/7f29b/diagrams/join-inner.png){width=400px}
+
+Outer join:
+ 
+ ![](https://d33wubrfki0l68.cloudfront.net/9c12ca9e12ed26a7c5d2aa08e36d2ac4fb593f1e/79980/diagrams/join-outer.png){width=400px}
+
+
+ 
+To be more specific, a table is provided to show detailed descriptions.
+
+| Types | How it works | Implementation in `dplyr` |
+|-------|-----------------------------------------------------|---------|
+|inner join | keeps observations that appear in both datasets| `inner_join()`|
+|left join| keeps all observations in `x` but drops bbservations in `y` but not in `x`| `left_join()`|
+|right join| keeps all observations in `y` but drops bbservations in `x` but not in `y`|`right_join()`|
+|full join| keeps all observations in `x` and `y`| `full_join()`|
+
+Left join is the most common and popular method, especially when we only need part of variables from another dataset. It preserves the original observations even when there isn't a match - just make it as NA. This is also our best choice and we will show how it works in our case.
+
+
+### Example
+
+The final dataset should include predict variables `grad.rate`, `withdraw`, `farms`, `exp` and target variable `pro`. Three datasets with this structure will be created for `df_ela`, `df_alg1` and `df_alg2` respectively. As mentioned, we would focus on left join with the help of function `left_join()`. Let's see an example for `df_ela` first:
+
+```{r}
+temp <- df_ela %>%
+  select(6,1,5) %>%
+  left_join(df_grad[, c('grad.rate', 'id')], by = 'id') 
+
+head(temp)
+```
+
+Look! `grad.rate` in `df_grad` was added to `df_ela` successfully. Option `by=` enables you to specify the *keys* you would like to use. Then, we repeat this step for `df_mob`, `df_spc` and `df_exp`.
+
+| Dataset  |  Variable Kept     | Keys |
+|--------|---------------------------------------------------------------------|------|
+| df_grad|`grad.rate`: 4-year graduation rate| `id` |
+| df_mob |`withdraw`: students' exit mobility| `id` |
+| df_spc |`farms`: percentage of students reciving free/reduced price meals | `id` |
+| df_exp |`exp`: quotient of wealth and expenditures | `county` |
+
 ```{r}
 temp1 <- df_ela %>%
   select(6,1,5) %>%
@@ -404,32 +499,52 @@ temp1 <- df_ela %>%
   left_join(df_exp, by = 'county')
 ```
 
+Instead of repeating by ourselves, the R base package provides a function `Reduce()`, which can come in handy. `Reduce()` takes a function $f$ of two arguments and a list or vector $x$ which is to be reduced using $f$. The function is first called on the first two components of $x$, then with the result of that as the first argument and the third component of $x$ as the second argument, then again with the result of the second step as first argument and the fourth component of $x$ as the second argument etc. The process is continued until all elements of $x$ have been processed.  
+
 ```{r}
-L_ela <- list(df_ela[, c('id', 'county', 'pro')], df_grad[, c('grad.rate', 'id')], 
-              df_mob[, c('withdraw', 'id')], df_spc[, c('farms', 'id')])
+L_ela <- list(df_ela[, c('id', 'county', 'pro')], 
+              df_grad[, c('id','grad.rate')], 
+              df_mob[, c('id','withdraw')], 
+              df_spc[, c('id','farms')], df_exp)
 
-temp2 <- Reduce(function(x, y) merge(x, y, by = 'id'), L_ela)
-temp3 <- Reduce(function(x,y) left_join(x, y, by = 'id'), L_ela)
-
-all(temp1$id== temp3$id)
+temp2 <- Reduce(function(x,y) left_join(x, y, 
+                                        by = colnames(y)[1]), L_ela)
+# `by = colnames(y)[1])` tells how to find the *keys* in each left_join. 
 ```
 
-### apply function
+The above script shows how `Reduce()` function works in out case. First, these five files are save in list `L_ela`. Then function `left_join()` was applied one by one in list `L_ela` with function `Reduce()`. `temp2` is the same dataset as `temp1`. So, let's write it as a function and apply it to `df_alg1` and `df_alg2`.
+
+### Apply Function
 
 ```{r}
 func_merge <- function(data){
-  L <- list(data[, c('id', 'county', 'pro')], df_grad[, c('grad.rate', 'id')], 
-              df_mob[, c('withdraw', 'id')], df_spc[, c('farms', 'id')])
-  d1 <- Reduce(function(x,y) left_join(x, y, by = 'id'), L)
-  final_data <- left_join(d1, df_exp, by = 'county')
+L <- list(data[, c('id', 'county', 'pro')], 
+              df_grad[, c('id','grad.rate')], 
+              df_mob[, c('id','withdraw')], 
+              df_spc[, c('id','farms')], df_exp)
+  
+  final_data<- Reduce(function(x,y) left_join(x, y, 
+                                        by = colnames(y)[1]), L)
   return(final_data)
 }
+
 df_ELA <- func_merge(df_ela)
-summary(df_ELA)
+df_ALG1 <- func_merge(df_alg1)
+df_ALG2 <- func_merge(df_alg2)
 ```
+
+Wonderful! Finally we get the ideal datasets: `df_ELA`, `df_ALG1` and `df_ALG2`. However, the size of `df_ALG1` is greatly larger than the other two. Let's have a look on it:
+
+![](plots/ALG1.png)
+
+Do you remember we didn't drop the middle school information before? Here comes the result - since `left_join()` preserves the original observations even when there isn't a match. All observations in `df_alg1` are kept, but we don't have data of `grad.rate`, `withdraw` and `farms` since we have selected high school information in their wrangling section. Therefore NAs are generated by function `left_join()` for these middle schools. Besides, `pro` of middle schools are much higher than that of high schools. It is because students who take Algebra1 test in middle schoos are more likely to be good at this subject. This fact makes them incompariable with students who take Algebra 1 test in high schools. If we delete middle school information, variable `pro` is pretty lower for the left high schools, so it fails to reflect this schools' academic achievements in Algebra 1. For `df_ELA` and `df_ALG2`, such problem doesn't exist so we would like to work on these two datasets.
+
+
 
 
 # Exploratory data analysis
 
 
 # Data analysis
+
+
