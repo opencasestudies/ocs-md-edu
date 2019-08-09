@@ -5,9 +5,6 @@ output:
   html_document:
     md_extensions: -startnum
     toc: yes
-    toc_float:
-      collapsed: yes
-      smooth_scroll: no
   pdf_document:
     toc: yes
 ---
@@ -159,7 +156,12 @@ summary(df_grad[2:4])
 
 Pay attention to the first kind of missing value. It is impossible to calculate the exact graduate rate because of the lack of information, so we decide to use [`gsub()` function](https://www.rdocumentation.org/packages/base/versions/3.6.1/topics/grep) to replace incomplete values. `gsub()` function replaces all matches of a string. Elements of string vectors which are not substituted will be returned unchanged.
 
-2.5 and 97.5 are used to replace '<= 5.00' and '>= 95.00' respectively.
+Without knowledge of exact value, 2.5 and 97.5 are used to replace '<= 5.00' and '>= 95.00' respectively. By the way, graduation rate lower than 5% sounds abnormal - let's look at these school before we replace them.
+```{r}
+head(df_grad[df_grad$grad.rate == '<= 5.00', ])
+```
+
+Search [Extended Day Learning Program](https://dci.bcps.org/department/innovative_learning/educational_options/extended_day_learning) and [Home Assignments-Secondary](https://www.niche.com/k12/home-assignments-secondary-school-towson-md/), they provides special education and special needs school programs, which may be designed for adults - explaining the low graduation rate.
 
 ```{r}
 df_grad$grad.rate<- gsub('<= 5.00','2.5', df_grad$grad.rate)
@@ -187,7 +189,7 @@ df_grad$grad.rate <- na_if(df_grad$grad.rate, '*')
 Our last step is to extract information from several files and merge them together, requiring a key that specifies each observation uniquely. Possible choices in present dataset can be `sch.num` or `sch.name` but we need to check whether each of them appear once in the dataset. If not, they are not suitable choice because of the lack of uniqueness.
 
 ```{r}
-summary(df_grad[,2:3])
+summary(df_grad[,c('sch.num', 'sch')])
 ```
 
 From the summary, whether `sch.num` or `sch.name`, the frequency of some values is larger than 1. Therefore it is definitely important to define a unique element by ourselves. 
@@ -221,7 +223,7 @@ PARCC is a large file with `r nrow(data[[2]] )` observations and `r ncol(data[[2
 
 ### Feature Selection and Rename 
 
-Similiar to graduation rate file, only school level information and necessary variables will be kept and renamed.
+Similiar to graduation rate file, only school level information and necessary variables (LEA.Name, School.Number, School.Name, Assessment and five level indicators) will be kept and renamed.
 
 ```{r}
 df_parcc <- data[[2]] %>%
@@ -235,8 +237,6 @@ colnames(df_parcc) <- c('county','sch.num',
 ```
 
 ![](plots/parcc_1.png)
-
-Different with graduation rate file that just contains high school information, PARCC file also includes information of middle schools and elementary school. We would leave them there ????? 
 
 Variable `subject` reflects the kind of subject test. English/Language Arts Grade 10, Algebra 1 and 2 are filtered out by function `filter()` in package `dplyr`. You are encouraged to keep other assessments that you are interested in.
 
@@ -309,7 +309,7 @@ Now, we have `r sum(is.na(df_parcc$pro))` NAs, which proves the validity and fea
 ```{r}
 pac <- df_parcc %>%
   within( id <- paste(county, sch, sep = '-')) %>%
-  select(1,2,3,4,10,11)
+  select(county, sch.num, sch, subject, pro, id)
 ```
 
 This is how the final parcc dataset looks like:
@@ -326,6 +326,24 @@ $$ p_{ela} = \beta_0+\beta_{1} x_1+ \beta_{2} x_2 $$
 df_ela <- pac[grep("English/Language Arts Grade 10", pac$subject), ]
 df_alg1 <- pac[grep("Algebra 1", pac$subject), ]
 df_alg2 <- pac[grep("Algebra 2", pac$subject), ]
+dim(df_ela)  #size of df_ela
+dim(df_alg1) #size of df_alg1
+dim(df_alg2) #size of df_alg2
+```
+
+It's wired! The size of `df_alg1` is larger than the other two so let's look at it:
+
+```{r}
+head(df_alg1)
+```
+
+It is because it contains middle school information! Actually for Algebra 1, students will take the exam the year they learn it so that's why both middle school and high school have this test. Besides, `pro` of middle schools are much higher than that of high schools. It is because students who take Algebra1 test in middle schoos are more likely to be good at this subject. This fact makes them incompariable with students who take Algebra 1 test in high schools. `pro` for high school can only reflect part of the academic achievements - those who may not be good at Algebra 1. Pay attention to this point in later analysis.
+
+How to extract the high school information? Here variable `id` comes to work! `df_grad` only includes information for high schools. So if obseravations in `df_alg1` also exist in `df_grad`, it corresponds to high school, otherwise to middle school. The unique variable `id` enables us to check the co-existness with the help of function `filter()`.
+
+```{r}
+df_alg1 <- df_alg1 %>%
+  filter(id %in% df_grad$id)
 ```
 
 ## Special Services
@@ -338,7 +356,8 @@ What the following script does is similiar to previous wrangling steps except on
 df_spc <- data[[3]] %>%
   filter( School.Number != 'A', School.Type == 'High' ) %>%
   within( id <- paste(LEA.Name, School.Name, sep = '-')) %>%
-  select(3,4,5,9,21) 
+  select(LEA.Name, School.Number, School.Name, 
+           FARMS.Pct, id)
 
 colnames(df_spc) <- c('county', 'sch.num', 'sch', 'farms', 'id')
 
@@ -379,7 +398,8 @@ As usual, wrangling steps are high school observation selection, unique id creat
 df_mob <- data[[4]] %>%
   filter( School.Number != 'A', School.Type == 'High' )%>%
   within( id <- paste(LEA.Name, School.Name, sep = '-')) %>%
-  select(3,4,5,11,15)
+  select(LEA.Name, School.Number, 
+           School.Name, Withdrawals.Pct, id)
 
 colnames(df_mob) <- c('county', 'sch.num', 'sch', 'withdraw', 'id')
 
@@ -413,7 +433,7 @@ The quotient of Wealth.Per.Pupil and Expenditures.Per.Pupil captures the image o
 ```{r}
 df_exp <- data[[5]] %>%
   mutate(exp = round(Wealth.Per.Pupil/Expenditures.Per.Pupil, 1)) %>%
-  select(3,12)
+  select(LEA.Name, exp)
 
 colnames(df_exp) <- c('county','exp')
 ```
@@ -426,19 +446,7 @@ We notice the last row is information about 'All Public School', but it will be 
 
 ### Relational Datasets
 
-Now we have totally 8 datasets:
-
-| Dataset  |   Size   |
-|----------|---------------|
-| df_grad |`r nrow(df_grad)`*`r ncol(df_grad)`| 
-| df_mob |`r nrow(df_mob)`*`r ncol(df_mob)`| 
-| df_spc |`r nrow(df_spc)`*`r ncol(df_spc)`| 
-| df_exp |`r nrow(df_exp)`*`r ncol(df_exp)`| 
-| df_ela |`r nrow(df_ela)`*`r ncol(df_ela)`| 
-| df_alg1 |`r nrow(df_alg1)`*`r ncol(df_alg1)`|
-| df_alg2 |`r nrow(df_alg2)`*`r ncol(df_alg2)`|
-
-We have many datasets, requiring combination to answer the questions that we are interested in. They are called *relational data* because it is their relations, not just the individual datasets, that are important. Relations are defined between a pair in these datasets. In out case, relations presented in the form that the same variable exists in multiple datasets. The following plot describes how our datasets connect:
+Now we have totally 8 datasets, requiring combination to answer the questions that we are interested in. They are called *relational data* because it is their relations, not just the individual datasets, that are important. Relations are defined between a pair in these datasets. In out case, relations presented in the form that the same variable exists in multiple datasets. The following plot describes how our datasets connect:
 
  ![](plots/relation.png)
 
@@ -469,14 +477,13 @@ To be more specific, a table is provided to show detailed descriptions.
 
 Left join is the most common and popular method, especially when we only need part of variables from another dataset. It preserves the original observations even when there isn't a match - just make it as NA. This is also our best choice and we will show how it works in our case.
 
-
 ### Example
 
 The final dataset should include predict variables `grad.rate`, `withdraw`, `farms`, `exp` and target variable `pro`. Three datasets with this structure will be created for `df_ela`, `df_alg1` and `df_alg2` respectively. As mentioned, we would focus on left join with the help of function `left_join()`. Let's see an example for `df_ela` first:
 
 ```{r}
 temp <- df_ela %>%
-  select(6,1,5) %>%
+   select(id, county, pro) %>%
   left_join(df_grad[, c('grad.rate', 'id')], by = 'id') 
 
 head(temp)
@@ -493,7 +500,7 @@ Look! `grad.rate` in `df_grad` was added to `df_ela` successfully. Option `by=` 
 
 ```{r}
 temp1 <- df_ela %>%
-  select(6,1,5) %>%
+  select(id, county, pro) %>%
   left_join(df_grad[, c('grad.rate', 'id')], by = 'id') %>%
   left_join( df_mob[, c('withdraw', 'id')], by = 'id') %>%
   left_join( df_spc[, c('farms', 'id')], by = 'id') %>%
@@ -534,14 +541,9 @@ df_ALG1 <- func_merge(df_alg1)
 df_ALG2 <- func_merge(df_alg2)
 ```
 
-Wonderful! Finally we get the ideal datasets: `df_ELA`, `df_ALG1` and `df_ALG2`. However, the size of `df_ALG1` is greatly larger than the other two. Let's have a look on it:
-
-![](plots/ALG1.png)
-
-Do you remember we didn't drop the middle school information before? Here comes the result - since `left_join()` preserves the original observations even when there isn't a match. All observations in `df_alg1` are kept, but we don't have data of `grad.rate`, `withdraw` and `farms` since we have selected high school information in their wrangling section. Therefore NAs are generated by function `left_join()` for these middle schools. Besides, `pro` of middle schools are much higher than that of high schools. It is because students who take Algebra1 test in middle schoos are more likely to be good at this subject. This fact makes them incompariable with students who take Algebra 1 test in high schools. If we delete middle school information, variable `pro` is pretty lower for the left high schools, so it fails to reflect this schools' academic achievements in Algebra 1. For `df_ELA` and `df_ALG2`, such problem doesn't exist so we would like to work on these two datasets.
+Wonderful! Finally we get the ideal datasets: `df_ELA`, `df_ALG1` and `df_ALG2`. 
 
 # Exploratory data analysis
-
 
 
 
