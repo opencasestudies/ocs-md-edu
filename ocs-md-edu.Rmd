@@ -18,6 +18,8 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE,
 library(kableExtra)
 library(tidyverse)
 library(dplyr)
+library(ggpubr)
+library(lattice)
 ```
 
 
@@ -63,7 +65,11 @@ The data files were downloaded from [the Maryland Report Card website](http://re
 
 At this link, you can find data for all 1400+ schools in Maryland from 2003 to 2018.  For this case study, we will focus on data from 2017.  In particular, we will extract data from 5 of the files for that year:
 
-* [LRJ: List the names of the 5 files here and give a brief description of what type of data is in each file.]
+ * [1] Cohort_Grad_Rate_2017.csv : graduation information       
+ * [2] PARCC_2017.csv : test performance of different assessments                
+ * [3] Special_Services_2017.csv : information of special education program participants         
+ * [4] Student_Mobility_2017.csv : percentage of students that either enter or withdraw from a school       
+ * [5] Wealth_Expenditures_Data_2017.csv : county level taxable wealth
 
 # Data Import
 
@@ -316,6 +322,19 @@ This is how the final parcc dataset looks like:
 
 ![](plots/parcc_4.png)
 
+What's more, the last two rows - The Seed School of Maryland, lacks information about which county it belongs to.
+
+```{r}
+tail(pac)
+```
+
+ After check [online](https://www.seedschoolmd.org/), we find it is not a traditional high school but a boarding school that draws students from all over the state of Maryland. So it wouldn't be right to assign them to any particular county.  We choose to exclude them from our analysis.
+
+```{r}
+pac <- pac %>%
+  filter( county != 'SEED')
+```
+
 ### Extract Assessment Information
 
 The proportion of high performance in these assessment ($p$) plays an role of response variable in our later analysis. Thus, splicting them out first makes further analysis convenient.
@@ -344,6 +363,8 @@ How to extract the high school information? Here variable `id` comes to work! `d
 ```{r}
 df_alg1 <- df_alg1 %>%
   filter(id %in% df_grad$id)
+
+dim(df_alg1)
 ```
 
 ## Special Services
@@ -410,8 +431,8 @@ summary(df_mob)
 ![](plots/mob_1.png)
 
 ```{r}
-df_mob$withdraw <- gsub('<= 5.00','2.5', df_mob$withdraw)
-df_mob$withdraw <- gsub('>= 95.00','97.5', df_mob$withdraw)
+df_mob$withdraw <- gsub('<= 5.0','2.5', df_mob$withdraw)
+df_mob$withdraw <- gsub('>= 95.0','97.5', df_mob$withdraw)
 df_mob$withdraw <- as.numeric(df_mob$withdraw)
 ```
 This is how the final mobility dataset looks like:
@@ -424,7 +445,7 @@ Wealth_Expenditures_Data_2017.csv contains information of different kinds of inv
 
 ![](plots/exp_1.png)
 
-It turns out that this file only contains county level data! So we would like to keep variable `county` which will work as the key in later merge steps. Besides, a new variable `exp` will be created by the formula:
+It turns out that this file only contains county level data! The last row is state level 'All Public School' which needs to will be deleted when we merge datasets. Then, we would like to keep variable `county` which will work as the key in later merge steps. Besides, a new variable `exp` will be created by the formula:
 
 $$exp = \frac{Wealth.Per.Pupil}{Expenditures.Per.Pupil}$$
 
@@ -487,9 +508,10 @@ temp <- df_ela %>%
   left_join(df_grad[, c('grad.rate', 'id')], by = 'id') 
 
 head(temp)
+tail(temp)
 ```
 
-Look! `grad.rate` in `df_grad` was added to `df_ela` successfully. Option `by=` enables you to specify the *keys* you would like to use. Then, we repeat this step for `df_mob`, `df_spc` and `df_exp`.
+Look! `grad.rate` in `df_grad` was added to `df_ela` successfully. Option `by=` enables you to specify the *keys* you would like to use. Then, we repeat this merge step for `df_mob`, `df_spc` and `df_exp`.
 
 | Dataset  |  Variable Kept     | Keys |
 |--------|---------------------------------------------------------------------|------|
@@ -544,6 +566,65 @@ df_ALG2 <- func_merge(df_alg2)
 Wonderful! Finally we get the ideal datasets: `df_ELA`, `df_ALG1` and `df_ALG2`. 
 
 # Exploratory data analysis
+
+```{r, fig.width= 10}
+
+# Boxplot
+p1 <- ggplot(df_ALG1, aes(x = reorder(county, pro), 
+  y = pro,fill = county)) + geom_boxplot()+
+  guides(fill = FALSE) + theme_bw() + 
+    theme(plot.title = element_text(hjust = 0.5 ), 
+          axis.text.x = element_text(angle = 90, hjust = 1,vjust = 0.5)) + 
+  labs( x = 'County', y = 'Distribution', 
+        caption = 'proportion of high performance for Algebra 1 in year 2017')
+
+ALG1_sum <- df_ALG1 %>% 
+  group_by(county) %>% 
+  summarise(mean = mean(pro),
+            sd = sd(pro))
+# Line plot
+p2 <- ggplot(ALG1_sum, aes( reorder(factor(county), mean), mean, group = 1)) +
+  geom_line(alpha = 1/3) +
+  geom_pointrange(aes(ymax = mean + sd, ymin = mean - sd)) +
+  labs(x = 'County', caption = 'Error bars') +
+  theme_minimal() + 
+    theme(plot.title = element_text(hjust = 0.5 ), 
+          axis.text.x = element_text(angle = 90, hjust = 1,vjust = 0.5))
+
+ggarrange(p1, p2, ncol = 2)
+```
+
+```{r, fig.width= 10, fig.height=8}
+distplot <- function(data, variable){
+  p <- ggplot(data, aes(x = reorder(county, variable), 
+  y = variable, fill = county)) + geom_boxplot()+
+  guides(fill = FALSE) + theme_bw() + 
+    theme(plot.title = element_text(hjust = 0.5 ), 
+          axis.text.x = element_text(angle = 90, hjust = 1,vjust = 0.5))+
+  xlab("County") + ylab("Distribution") 
+  
+  
+  return(p)
+}
+
+p3 <- distplot(df_ALG1, df_ALG1$pro)
+p4 <- distplot(df_ALG2, df_ALG2$pro)
+p5 <- distplot(df_ELA, df_ELA$pro)
+
+ggarrange(p3, p4, p5, nrow = 2, ncol = 2)
+```
+
+
+```{r eval = FALSE}
+ggplot(data = df_ALG1, aes(x = grad.rate, y = pro,group = county))+    
+  facet_grid( ~ county)+    
+  geom_point(aes(colour = county))+ 
+  geom_smooth(method = "lm", se = FALSE, aes(colour = county))+
+  theme(legend.position = "none")
+
+xyplot(pro~grad.rate |county, df_ALG1,
+        type = c("p", "smooth"))
+```
 
 
 
