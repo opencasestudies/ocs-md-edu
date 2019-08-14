@@ -97,17 +97,30 @@ filePaths
 Finally, we can read in each data file. The `lapply()` function will apply the same function repeatedly to each item in a vector and store the results in a list.  The function we want to apply repeatedly is the `read_csv()` function; by giving the vector of file paths and this function to `lapply()`, we can ready in all 5 data files at once.
 
 [**LRJ:** I think we want to use the read_csv() function here instead of read.csv() to stay within the tidyverse.  However, when I make this change it changes some of the names of the variables, since it doesn't replace spaces with dots.  I do want to make this change, but then will need you to update the later code so that the names will work and the screenshots are accurate.]
+
 ```{r}
-data <- lapply(filePaths, read.csv, header=TRUE)
-#data <- lapply(filePaths, read_csv)
+#data <- lapply(filePaths, read.csv, header=TRUE)
+data <- lapply(filePaths, read_csv)
+```
+Now we have a data object that consists of a list of data sets.  We can access an individual data set with the [[]] operator.
+
+```{r}
+data
+data[[1]]
+#head(data[[1]])
+```
+Right now we can see that many of the column names have spaces, which makes them harder to work with in R.  We can replace the spaces with . using the `make.names() function`
+```{r}
+names(data[[1]])
+make.names(names(data[[1]]))
+```
+We can do this for each of the 5 data sets using a for loop:
+```{r}
+for (i in 1:5) {
+  names(data[[i]]) <- make.names(names(data[[i]]))
+}
 ```
 
-Now we have a `data` object that consists of a list of data sets.  We can access an individual data set with the `[[]]` operator.
-```{r}
-#data
-#data[[1]]
-head(data[[1]])
-```
 
 # Data Wrangling
 
