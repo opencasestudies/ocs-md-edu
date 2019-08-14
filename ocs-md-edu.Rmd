@@ -625,15 +625,25 @@ ggarrange(p3, p4, p5, nrow = 2, ncol = 2)
 ```
 
 
-```{r eval = FALSE}
-ggplot(data = df_ALG1, aes(x = grad.rate, y = pro,group = county))+    
-  facet_grid( ~ county)+    
+```{r,fig.width= 10, fig.height= 8}
+p6 <- ggplot(data = df_ALG1, aes(x = grad.rate, y = pro))+    
+  geom_point()+ 
+  geom_smooth(method = "lm", se = FALSE)+
+  theme(legend.position = "none") 
+
+p7 <- ggplot(data = df_ALG1, aes(x = grad.rate, y = pro,group = county))+    
+  facet_grid( ~ county, switch = 'x')+
   geom_point(aes(colour = county))+ 
   geom_smooth(method = "lm", se = FALSE, aes(colour = county))+
-  theme(legend.position = "none")
+  theme(strip.text=element_text(angle = 90))+
+  theme(legend.position = "none") +
+  theme(axis.text = element_blank()) +
+  theme(axis.ticks = element_blank()) 
 
-xyplot(pro~grad.rate |county, df_ALG1,
-        type = c("p", "smooth"))
+ggarrange(p6, p7, nrow = 2)
+
+#xyplot(pro~grad.rate |county, df_ALG1,
+#        type = c("p", "smooth"))
 ```
 
 
