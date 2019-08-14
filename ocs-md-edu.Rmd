@@ -26,7 +26,7 @@ library(lme4)
 
 # Motivation
 
-[LRJ: Once we finalize the case study, we should come back and revisit the intro/motivation section]
+[**LRJ**: Once we finalize the case study, we should come back and revisit the intro/motivation section]
 
 There are over 1400 public schools in Maryland and there are also outstanding students in each school. The federal Every Student Succeeds Act (ESSA) prompted states to develop long term plans to improve schools through accountability and innovation, which sets Maryland's schools on the path to continuous improvement. [Maryland Report Card website](http://reportcard.msde.maryland.gov/) aims to share the most current information available to help stakeholders understand and measure student achievement in all 24 local school systems. Here is a message from the State Superintendent of Schools that enables you to know more about how it functions.
 
@@ -47,7 +47,7 @@ along with their purpose in this particular case study:
 
 |Library|Purpose|
 |---|-------------------------------------------------------------------------------------------|
-|`kableExtra`|Helps with building common complex tables and manipulating table styles; creates awesome HTML tables|
+|`kableExtra`|Helps with building common complex tables and manipulating table styles; creates nice-looking HTML tables|
 |`tidyverse`|A coherent system of packages for data manipulation, exploration and visualization |
 |`dplyr`| Helps you solve the most common data manipulation challenges|
 
@@ -64,13 +64,13 @@ The learning objectives for this case study include:
 
 The data files were downloaded from [the Maryland Report Card website](http://reportcard.msde.maryland.gov/).  Data files can be found by clicking [`Data Download`](http://reportcard.msde.maryland.gov/Graphs/#/DataDownloads/datadownload/3/17/6/99/XXXX) at the bottom of the web page.
 
-At this link, you can find data for all 1400+ schools in Maryland from 2003 to 2018.  For this case study, we will focus on data from 2017.  In particular, we will extract data from 5 of the files for that year:
+At this link, you can find data for all 1400+ schools in Maryland from 2003 to 2018.  For this case study, we will focus on data on high schools from 2017.  For this analysis, we will extract data from 5 of the files for that year:
 
- * [1] Cohort_Grad_Rate_2017.csv : graduation information       
- * [2] PARCC_2017.csv : test performance of different assessments                
- * [3] Special_Services_2017.csv : information of special education program participants         
- * [4] Student_Mobility_2017.csv : percentage of students that either enter or withdraw from a school       
- * [5] Wealth_Expenditures_Data_2017.csv : county level taxable wealth
+ * `Cohort_Grad_Rate_2017.csv`: graduation rates for each school      
+ * `PARCC_2017.csv`: school performance on the [Partnership for Assessment of Readiness for College and Careers (PARCC)](https://parcc-assessment.org/) learning assessments                 
+ * `Special_Services_2017.csv`: school participation in the Free and Reduced Meals (FARMs) program and school participation in Special Education programs        
+ * `Student_Mobility_2017.csv`: percentage of students that either enter or withdraw from the school       
+ * `Wealth_Expenditures_Data_2017.csv`: county level wealth and expenditure data for education
 
 # Data Import
 
@@ -80,39 +80,46 @@ After downloading the 5 data files, we can write a script to import all the file
 
 Knowing which environment you are in is necessary since it enables `R` to find these files quickly and accurately. Since our data files are in the folder `data2017`, we will need to specify this in the path to each file.
 
-Also, instead of importing each file with an individual line of code, we can use the function `lapply()` to import them all simultaneously.  To do this, first we make a list of all of the files names for importing.  The `list.files()` function will make a list of all files in a folder that match a given pattern.  Here we want all `.csv` files, so we can use `pattern="*.csv"` to specify all files that end with a `.csv`.  The `*` character means any set of characters can be in that location in the file name.
+Instead of importing each file with an individual line of code, we can use the function `lapply()` to import them all simultaneously.  To do this, first we make a vector of all of the names for the files we want to import.  The `list.files()` function will make a vector of all files in a folder that match a given pattern.  Here we want all `.csv` files, so we can use `pattern="*.csv"` to specify all files that end with a `.csv`.  The `*` character means any set of characters can be in that location in the file name.
 
 ```{r}
 files = list.files(path='./data2017',pattern="*.csv")
 files
 ```
 
-Next we can add the folder name, `data2017`, to the path for each file:
+Next we create a vector of paths to these files by pasting the folder name, `data2017`, to the path for each file.
 
 ```{r}
 filePaths = paste0("./data2017/", files)
 filePaths
 ```
 
-Finally, we can read in each data file using `lapply()`:
+Finally, we can read in each data file. The `lapply()` function will apply the same function repeatedly to each item in a vector and store the results in a list.  The function we want to apply repeatedly is the `read_csv()` function; by giving the vector of file paths and this function to `lapply()`, we can ready in all 5 data files at once.
 
+[**LRJ:** I think we want to use the read_csv() function here instead of read.csv() to stay within the tidyverse.  However, when I make this change it changes some of the names of the variables, since it doesn't replace spaces with dots.  I do want to make this change, but then will need you to update the later code so that the names will work and the screenshots are accurate.]
 ```{r}
-data <- lapply(filePaths, function(x){
-  read.csv(x, header=T)})
+data <- lapply(filePaths, read.csv, header=TRUE)
+#data <- lapply(filePaths, read_csv)
 ```
 
-
-`list.files(pattern="*.csv")` tries to find all the files whose names ending with 'csv', and stores the file location information into `files`. Function `lapply()` reads the files one by one and saves in list `data`.
+Now we have a `data` object that consists of a list of data sets.  We can access an individual data set with the `[[]]` operator.
+```{r}
+#data
+#data[[1]]
+head(data[[1]])
+```
 
 # Data Wrangling
 
 > Tidy datasets are all alike, but every messy dataset is messy in its own way. - Hadley Wickham
 
-This section includes large amount of data wrangling such as gather, merge, mutate etc. Each step requires a specific tool to complete, and we would like to show the dataset again and again everytime we apply a specific tool. RStudio prodives a data viewer that enables you to look inside data frames and other rectangular data structures. You can invoke the viewer in a console by calling the `View()` function on the data frame you want to look at.
+[**LRJ**: is the quote from a book?  then we need to cite the book and not just the author]
+
+A large part of the case study involves data wrangling to get these five data files into a single data set that we can analyze.  To do this, we will alternate between viewing the data and performing data wrangling steps.  In this case-study, we will provide screenshots of the data; you can view the data in the same way by using the `View()` function on the data frame we are working with.
 
 ## Graduation Rate
 
-The first file (Cohort_Grad_Rate_2017.csv) records the percentage of students who received a Maryland high school diploma during 2017. Before we extract this variable, let's have a qucik look of graduation rate file:
+The first data file (`Cohort_Grad_Rate_2017.csv`) records the percentage of students in each school who received a Maryland high school diploma during 2017. Let's look at the data frame that comes from this file:
 
 ```{r eval = FALSE}
 View(data[[1]])
@@ -120,15 +127,16 @@ View(data[[1]])
 
 ![](plots/grad.1.png)
 
-There are totally `r ncol(data[[1]])` variables and `r nrow(data[[1]])` observations in it. From above, in the original dataset, there are several problems need to be fixed, such as missing value. We will deal with them one by one in later steps.
+This data frame has a total of `r nrow(data[[1]])` rows with `r ncol(data[[1]])` variables. Looking at this data frame in `R`, we see there are several issues we will need to address, such as possible missing values designated by `*`.  We will deal with these issues in later steps.
 
 ### Feature Selection and Rename 
 
-The first step is to get school level data. We notice that if `School.Number` equals to 'A', then this row corresponds to county level data. Also, there are two kinds of graduation rate:
+Our first step is to subset to only school-level data. We notice that if `School.Number` equals 'A', then this row corresponds to county level data of all of the high-schools in the county. We also notice that there are two different graduation rates listed for different cohorts of students:
 
- * 4-year adjusted cohort: a school's cohort of first-time 9th grade students who graduate within four years, adjusted for students who transfer in and out of the cohort after 9th grade.
- * 3-year adjusted cohort: a school's cohort of first-time 9th grade students who graduate within three years, adjusted for students who transfer in and out of the cohort after 9th grade.
-4-year adjusted cohort is kept since it is more representative. The last step is the selection of necessary variables. 
+ * **4-year adjusted cohort** graduation rate: the percentage of a school's cohort of first-time 9th grade students who graduate within four years, adjusted for students who transfer in and out of the cohort after 9th grade.
+ * **3-year adjusted cohort** graduation rate: the percentage of a school's cohort of first-time 9th grade students who graduate within three years, adjusted for students who transfer in and out of the cohort after 9th grade.
+ 
+Since high school students typically graduate after four years, it makes more sense to use the 4-year adjusted cohort as our graduation rate variable.  We also see this by looking at the values for these two rates -- the 3-year rate is generally quite low while the 4-year rate is generally in the 80-100% range we would expect.
 
 Function `filter()` and `select()` in [package `dplyr`](https://dplyr.tidyverse.org) will help us to finish the first wrangling step.  
 
