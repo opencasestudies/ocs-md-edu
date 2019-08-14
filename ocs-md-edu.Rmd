@@ -20,6 +20,7 @@ library(tidyverse)
 library(dplyr)
 library(ggpubr)
 library(lattice)
+library(lme4)
 ```
 
 
@@ -186,6 +187,7 @@ If we search [Marley Glen School](https://www.aacps.org/domain/1364), we may fou
 
 ```{r}
 df_grad$grad.rate <- na_if(df_grad$grad.rate, '*')
+df_grad$grad.rate <- as.numeric(df_grad$grad.rate)
 ```
 
 ![](plots/grad_4.png)
@@ -630,4 +632,36 @@ xyplot(pro~grad.rate |county, df_ALG1,
 
 # Data analysis
 
+To evaluate influence of each predictor variable, linear regression may first comes to your mind. Let's fit a simple linear regression model here:
 
+```{r}
+m <- lm(pro ~ grad.rate + withdraw + farms + exp, data = df_ELA)
+summary(m)
+```
+
+Nevertheless, what makes our dataset different is its nested data structure: units are clustered into subgroups that are also nested within larger groups. We use a plot to indicate our dataset's structure:
+
+ ![](plots/nest.png)
+
+As shown above, the dataset can be devided into two levels: county level (L1) and school level (L2). Such structure is common in human and biological science. For instance, in educational settings, students are clustered into schools and schools are clustered nto districts, which are part of a larger system (county, state or country). The subgroup-specific characteristics may have some potential influence on outcomes. Another typical example can be longtitude data, a variable's values over time are correlated with each other. In this case, linear regression fail to capture the influence of clustering so we need a more nuanced analysis. 
+
+[Multilevel models (MLM)](https://en.wikipedia.org/wiki/Multilevel_model) are statistical models of parameters that vary at more than one level. To be specific, a two-level model allows for variation in both school level and county level, which cannot be accounted for in traditional ordinary least squares regression. County level variation, also called 'county effects', represents a source of dependence that influence schools' performance. MLM always includes fixed and random parameters. Fixed parameters are composed of a constant over all the groups, whereas a random parameter has a different value for each of the groups. 
+
+This section will go over how to run MLM for our dataset in R, and focus on estimating fixed and random parameters as well as how to interpret the output. This section will build fairly simple and slightly more complex models, as the primary focus of this section is on proper model building and interpretation rather than an exhaustive review of highly complex MLM models. This section will also include a short review of different library options for HLM analyses.
+
+
+## Simple model
+
+First, we will begin with an unconditional model, which will provide a general basis for more sophisticated models to follow. This unconditional model asks the question, 'Is there variability in Algebra 1 achievement across county?'
+
+```{r}
+m1 <- lmer (pro ~ 1 + 1|county, data=df_ALG1)
+```
+
+Function `lmer()` in [package `lme4`](https://cran.r-project.org/web/packages/lme4/lme4.pdf) is a powerful tool to fit MLM. Package `lme4` will allow you to analyze data using restricted maximum likelihood estimation (REML) rather than ordinary least squares (OLS), making it ideal for MLM analyses.
+
+## Multilevel model
+
+```{r}
+
+```
