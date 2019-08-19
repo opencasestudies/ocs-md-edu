@@ -104,10 +104,8 @@ data <- lapply(filePaths, read_csv)
 ```
 Now we have a data object that consists of a list of data sets.  We can access an individual data set with the [[]] operator.
 
-```{r}
-data
+```{r eval = FALSE}
 data[[1]]
-#head(data[[1]])
 ```
 Right now we can see that many of the column names have spaces, which makes them harder to work with in R.  We can replace the spaces with . using the `make.names() function`
 ```{r}
@@ -184,12 +182,7 @@ summary(df_grad[2:4])
 
 Pay attention to the first kind of missing value. It is impossible to calculate the exact graduate rate because of the lack of information, so we decide to use [`gsub()` function](https://www.rdocumentation.org/packages/base/versions/3.6.1/topics/grep) to replace incomplete values. `gsub()` function replaces all matches of a string. Elements of string vectors which are not substituted will be returned unchanged.
 
-Without knowledge of exact value, 2.5 and 97.5 are used to replace '<= 5.00' and '>= 95.00' respectively. By the way, graduation rate lower than 5% sounds abnormal - let's look at these school before we replace them.
-```{r}
-head(df_grad[df_grad$grad.rate == '<= 5.00', ])
-```
-
-Search [Extended Day Learning Program](https://dci.bcps.org/department/innovative_learning/educational_options/extended_day_learning) and [Home Assignments-Secondary](https://www.niche.com/k12/home-assignments-secondary-school-towson-md/), they provides special education and special needs school programs, which may be designed for adults - explaining the low graduation rate.
+Without knowledge of exact value, 2.5 and 97.5 are used to replace '<= 5.00' and '>= 95.00' respectively. By the way, graduation rate lower than 5% sounds abnormal - such as [Extended Day Learning Program](https://dci.bcps.org/department/innovative_learning/educational_options/extended_day_learning) and [Home Assignments-Secondary](https://www.niche.com/k12/home-assignments-secondary-school-towson-md/). Actually they mainly provide special education and special needs school programs, which may be designed for adults - explaining the low graduation rate.
 
 ```{r}
 df_grad$grad.rate<- gsub('<= 5.00','2.5', df_grad$grad.rate)
@@ -351,7 +344,7 @@ What's more, the last two rows - The Seed School of Maryland, lacks information 
 tail(pac)
 ```
 
- After check [online](https://www.seedschoolmd.org/), we find it is not a traditional high school but a boarding school that draws students from all over the state of Maryland. So it wouldn't be right to assign them to any particular county.  We choose to exclude them from our analysis.
+After check [online](https://www.seedschoolmd.org/), we find it is not a traditional high school but a boarding school that draws students from all over the state of Maryland. So it wouldn't be right to assign them to any particular county.  We choose to exclude them from our analysis.
 
 ```{r}
 pac <- pac %>%
@@ -590,6 +583,8 @@ Wonderful! Finally we get the ideal datasets: `df_ELA`, `df_ALG1` and `df_ALG2`.
 
 # Exploratory data analysis
 
+## Response Variable 
+
 ```{r, fig.width= 10}
 
 # Boxplot
@@ -597,8 +592,9 @@ p1 <- ggplot(df_ALG1, aes(x = reorder(county, pro),
   y = pro,fill = county)) + geom_boxplot()+
   guides(fill = FALSE) + theme_bw() + 
     theme(plot.title = element_text(hjust = 0.5 ), 
+          axis.title.x = element_blank(),
           axis.text.x = element_text(angle = 90, hjust = 1,vjust = 0.5)) + 
-  labs( x = 'County', y = 'Distribution', 
+  labs( y = 'Distribution', 
         caption = 'proportion of high performance for Algebra 1 in year 2017')
 
 ALG1_sum <- df_ALG1 %>% 
@@ -609,24 +605,23 @@ ALG1_sum <- df_ALG1 %>%
 p2 <- ggplot(ALG1_sum, aes( reorder(factor(county), mean), mean, group = 1)) +
   geom_line(alpha = 1/3) +
   geom_pointrange(aes(ymax = mean + sd, ymin = mean - sd)) +
-  labs(x = 'County', caption = 'Error bars') +
+  labs(caption = 'Error bars') +
   theme_minimal() + 
-    theme(plot.title = element_text(hjust = 0.5 ), 
-          axis.text.x = element_text(angle = 90, hjust = 1,vjust = 0.5))
+    theme( axis.title.x = element_blank(),
+      axis.text.x = element_text(angle = 90, hjust = 1,vjust = 0.5))
 
 ggarrange(p1, p2, ncol = 2)
 ```
 
-```{r, fig.width= 10, fig.height=8}
+```{r, fig.width= 10, fig.height= 8}
 distplot <- function(data, variable){
   p <- ggplot(data, aes(x = reorder(county, variable), 
   y = variable, fill = county)) + geom_boxplot()+
   guides(fill = FALSE) + theme_bw() + 
     theme(plot.title = element_text(hjust = 0.5 ), 
+          axis.title.x = element_blank(),
           axis.text.x = element_text(angle = 90, hjust = 1,vjust = 0.5))+
   xlab("County") + ylab("Distribution") 
-  
-  
   return(p)
 }
 
@@ -634,29 +629,59 @@ p3 <- distplot(df_ALG1, df_ALG1$pro)
 p4 <- distplot(df_ALG2, df_ALG2$pro)
 p5 <- distplot(df_ELA, df_ELA$pro)
 
-ggarrange(p3, p4, p5, nrow = 2, ncol = 2)
+
+ggarrange(p3, p4, p5, nrow = 2, ncol = 2, 
+          labels = c('df_ALG1', 'df_ALG2', 'df_ELA'), 
+          font.label = list(size = 16, color = "red"),
+          hjust = -2.5)
+```
+
+We notice that for the second plot, it lacks two counties information: Baltimore county and Dorchester. Still google online and you will find, Algebra 2 test is not mandatory for students in these two conties so there isn't information of their performance.
+
+## Predictor Variable
+```{r, fig.width= 10, fig.height=8}
+p6 <- distplot(df_ALG1, df_ALG1$grad.rate)
+p7 <- distplot(df_ALG2, df_ALG2$farms)
+p8 <- distplot(df_ALG1, df_ALG1$withdraw)
+p9 <- distplot(df_ALG2, df_ALG2$exp)
+
+
+ggarrange(p6,p7, p8, p9, nrow = 2, ncol = 2)
 ```
 
 
-```{r,fig.width= 10, fig.height= 8}
-p6 <- ggplot(data = df_ALG1, aes(x = grad.rate, y = pro))+    
-  geom_point()+ 
-  geom_smooth(method = "lm", se = FALSE)+
+## Replationship between Response Variable and Predictor Variable
+
+```{r, fig.height= 10}
+relaplot1 <- function(variable){
+  
+  p <- ggplot(df_ALG1, aes(x = variable, y = pro))+    
+  geom_point()+ geom_smooth(se = FALSE)+
   theme(legend.position = "none") 
+  
+  return(p)
+}
 
-p7 <- ggplot(data = df_ALG1, aes(x = grad.rate, y = pro,group = county))+    
-  facet_grid( ~ county, switch = 'x')+
+relaplot2 <- function(variable){
+
+  p <- ggplot(data = df_ALG1, aes(x = variable , y = pro,group = county))+    
+  facet_wrap( ~ county, switch = 'x', nrow = 3)+
   geom_point(aes(colour = county))+ 
-  geom_smooth(method = "lm", se = FALSE, aes(colour = county))+
-  theme(strip.text=element_text(angle = 90))+
+  geom_smooth(se = FALSE, aes(colour = county))+
+  theme(strip.text=element_text())+
   theme(legend.position = "none") +
-  theme(axis.text = element_blank()) +
-  theme(axis.ticks = element_blank()) 
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank())
+  
+  return(p)
+}
 
-ggarrange(p6, p7, nrow = 2)
+p10 <- relaplot1(df_ALG1$farms)
+p11 <- relaplot2(df_ALG1$farms)
+p12 <- relaplot1(df_ALG1$grad.rate)
+p13 <- relaplot2(df_ALG1$grad.rate)
 
-#xyplot(pro~grad.rate |county, df_ALG1,
-#        type = c("p", "smooth"))
+ggarrange(p10,p11,p12,p13, ncol = 2, nrow = 2, widths = c(3,6))
 ```
 
 
@@ -670,6 +695,8 @@ m <- lm(pro ~ grad.rate + withdraw + farms + exp, data = df_ELA)
 summary(m)
 ```
 
+## Multilevel Model Introduction
+
 Nevertheless, what makes our dataset different is its nested data structure: units are clustered into subgroups that are also nested within larger groups. We use a plot to indicate our dataset's structure:
 
  ![](plots/nest.png)
@@ -678,20 +705,72 @@ As shown above, the dataset can be devided into two levels: county level (L1) an
 
 [Multilevel models (MLM)](https://en.wikipedia.org/wiki/Multilevel_model) are statistical models of parameters that vary at more than one level. To be specific, a two-level model allows for variation in both school level and county level, which cannot be accounted for in traditional ordinary least squares regression. County level variation, also called 'county effects', represents a source of dependence that influence schools' performance. MLM always includes fixed and random parameters. Fixed parameters are composed of a constant over all the groups, whereas a random parameter has a different value for each of the groups. 
 
-This section will go over how to run MLM for our dataset in R, and focus on estimating fixed and random parameters as well as how to interpret the output. This section will build fairly simple and slightly more complex models, as the primary focus of this section is on proper model building and interpretation rather than an exhaustive review of highly complex MLM models. This section will also include a short review of different library options for HLM analyses.
+This section will go over how to run MLM for our dataset in R, and focus on estimating fixed and random parameters as well as how to interpret the output.  We will start from a fairly simple and then fir slightly more complex models, as the primary goal is to find a proper model and interpretation rather than an exhaustive review of highly complex MLM models. This section will also include a short review of different library options for MLM analyses.
 
 
-## Simple model
+## Simple Models
 
-First, we will begin with an unconditional model, which will provide a general basis for more sophisticated models to follow. This unconditional model asks the question, 'Is there variability in Algebra 1 achievement across county?'
+Let???s look at an example and examine a model that just estimates a random intercept. This simple model asks the question, 'Is there variability in Algebra 1 achievement across county?'
+
+$$y_{ij} = \alpha_{j} + \beta_j*x_{ij}+\varepsilon_{ij}$$
+
+|  Variables     | Definition |
+|--------|---------------------------------------------------------------------|
+| $y_{ij}$ | the dependent variable for the $i$ school observation in county $j$ |
+| $\alpha_{j}$ | the intercept of the dependent variable in county $j$ |
+| $x_{ij}$ | the $i$ school observation in county $j$ |
+| $\beta_j$ | the slope for the relationship in county $j$ between $x_{ij}$ and reponse variable |
 
 ```{r}
-m1 <- lmer (pro ~ 1 + 1|county, data=df_ALG1)
+m1 <- lmer(pro ~ 1 + 1|county, data = df_ALG1)
 ```
 
-Function `lmer()` in [package `lme4`](https://cran.r-project.org/web/packages/lme4/lme4.pdf) is a powerful tool to fit MLM. Package `lme4` will allow you to analyze data using restricted maximum likelihood estimation (REML) rather than ordinary least squares (OLS), making it ideal for MLM analyses.
+Function `lmer()` in  [package `lme4`](https://cran.r-project.org/web/packages/lme4/lme4.pdf) is a powerful tool to fit MLM. It allows you to analyze data using restricted maximum likelihood estimation (REML) rather than ordinary least squares (OLS), making it ideal for MLM analyses. Arguments for it includes:
 
-## Multilevel model
+ * `formula`: `lmer(formula = RV ~ Fixed_Factor + (Random_intercept + Random_Slope | Random_Factor), data = ,)` where `RV` is the response variable; `Fixed_Factor` means all groups have the same values; `Random_intercept` and `Random_Slope` refers to intercepts and slopes are different in the different groups, and that each have their own overall mean and variance; `Random_Factor` refers to grouping factors.
+* `data =`: the dataset used in analysis
+
+By setting fixed factor as 1,  ther eare no predictors included in `m1` - no fixed parameters;  `1|county` means we only estimate a random intercept. This intercept represents the average Algebra 1 achievement across counties. Then use `summary()` to display the result:
+
+```{r}
+summary(m1)
+```
+
+In the random effect part, it measures how much variability in the dependent variable `pro` there is due to the random effect `county`. The variance for `county` is 154.1 - how much variance there is between counties in Algebra 1 achievement. The residual is 201.1 - stands for the variability that???s not due to `county`. To partition the variance, we take the variance component of the intercept and divide it by the sum of the residual variance and the intercept variance. The result means county-level factors explain `r paste(round(100*154.1/(154.1+201.1), 2), "%", sep="")` of the variance. 
+
+The fixed effect part provides model intercepts that are not particularly meaningful in MLM. It is the average for all schools in our dataset.
+
+## Complex Models
+
+### Univariate
+
+```{r}
+df_temp <- na.omit(df_ALG1)
+df_temp$grad.rate <- df_temp$grad.rate - mean(df_temp$grad.rate)
+m2 <- lmer(pro ~ grad.rate + (1|county), data = df_temp)
+summary(m2)
+#isSingular(m2)
+```
+
+```{r}
+m3 <- lmer(pro ~ 1 + ( grad.rate |county), data = df_temp)
+summary(m3)
+```
+
+ses.model.3 <- lmer(mathach ~ groupmeanSES + (groupmeanSES|id), data=HSBfinal6) : In this model, we are still estimating the effect of SES on math achievement, but now, we are allowing the slope to vary between schools. We are also still estimating a random intercept. Notice now that, in contrast to the model above, the ???groupmeanSES??? variable is both a fixed and a random effect. In the ???Random Effects??? section, we now get an estimate of the variance component associated with the ???groupmeanSES??? variable, which tells us about the variability in the effect of SES on math achievement due to school. In the ???Random Effects??? section we also see a ???Corr??? section, which tells us whether the random effects of math achievement due to SES are related to the random effects of the slopes of the SES predictor. If the 'Corr' is larger than 0.9, close to 1, it is overfitting and we need to remove this predictor in the final model.
+
+### Multivariate
+
+```{r}
+m4 <- lmer(pro ~ grad.rate + withdraw + farms + exp + (1|county), data = df_temp)
+summary(m4)
+```
+
+```{r}
+m5 <- lmer(pro ~  1 + (grad.rate|county) + ( withdraw |county) + ( farms|county) + (exp  |county) , data = df_temp)
+summary(m5)
+```
+## Assumption Check
 
 ```{r}
 
