@@ -7,6 +7,8 @@ output:
     toc: yes
   pdf_document:
     toc: yes
+bibliography: ocs-md-edu.bib
+csl: jap.csl
 ---
 
 ```{r setup, include=FALSE}
@@ -595,16 +597,19 @@ Wonderful! Finally we get the ideal datasets: `df_ELA`, `df_ALG1` and `df_ALG2`.
 
 # Exploratory data analysis
 
+Before we move forward to the data analysis, let's first try data visualization to examine the distribution of our variables, and their relationship; This step can be crucial for model application.
+
 ## Response Variable 
 
-```{r, fig.width= 10}
+The variable we care about most is the response variable `pro`. As we mentioned, it is a multilevel dataset so 
+it is inspiring to check if there is variation in `pro` between- and within- counties.
 
+```{r, fig.width= 10}
 # Boxplot
 p1 <- ggplot(df_ALG1, aes(x = reorder(county, pro), 
   y = pro,fill = county)) + geom_boxplot()+
   guides(fill = FALSE) + theme_bw() + 
-    theme(plot.title = element_text(hjust = 0.5 ), 
-          axis.title.x = element_blank(),
+    theme(axis.title.x = element_blank(),
           axis.text.x = element_text(angle = 90, hjust = 1,vjust = 0.5)) + 
   labs( y = 'Distribution', 
         caption = 'proportion of high performance for Algebra 1 in year 2017')
@@ -615,26 +620,41 @@ ALG1_sum <- df_ALG1 %>%
             sd = sd(pro))
 # Line plot
 p2 <- ggplot(ALG1_sum, aes( reorder(factor(county), mean), mean, group = 1)) +
-  geom_line(alpha = 1/3) +
+  geom_line(alpha = 1/3) + theme_bw()
   geom_pointrange(aes(ymax = mean + sd, ymin = mean - sd)) +
-  labs(caption = 'Error bars') +
-  theme_minimal() + 
-    theme( axis.title.x = element_blank(),
-      axis.text.x = element_text(angle = 90, hjust = 1,vjust = 0.5))
+  labs(caption = 'Error bars') + 
+    theme(axis.title.x = element_blank(),
+          axis.text.x = element_text(angle = 90, hjust = 1,vjust = 0.5))
 
 ggarrange(p1, p2, ncol = 2)
 ```
+Arguments used and their functions are given below:
+ * `reorder(county, pro)`: Display the bars for each `county` in ascending order based on `pro`.
+ * `guides(fill = FALSE)`: Remove legend for a particular aesthetic.
+ * `theme_bw()`: Display the theme with a white background.
+ * `theme()`: Modify a single plot's theme by specifying different theme elements. Elements we use include
+    + `axis.title.x = element_blank()`: Remove labels of x axis.
+    + `axis.text.x = element_text(angle = 90, hjust = 1,vjust = 0.5))`: Horizontal, vertical and angle justification for text of x axis.
+ * `labs(y=, caption=)`: Change axis labels and legend titles.
+ * `summarise()`: Used on grouped data created by `group_by()`. The output will have one row for each group. Values we would like to use are mean and standard error of `pro` for each county.
+ * `geom_line(alpha = 1/3)`: Connect observations, ordered by x value. `alpha =` can modify colour transparency.
+ * `geom_pointrange`: Draw a vertical interval defined by ymin and ymax.
+ * `ggarrange()`: Arrange the subfigures into one plot. 
+ 
+Both of them indicate that `pro` varies a lot: there appears to be within-county variation in as indicated by the size of the boxes. Variation in the means across counties illustrate between-county variation ranging from 0 to 50. How about the other two datasets? Does the variation still holds there?
 
+Above scripts is used to defind a function `distplot`. A new function can be created to avoid repetitive work, especially when the work is lengthy and cumbersome.
+    
 ```{r, fig.width= 10, fig.height= 8}
 distplot <- function(data, var, var.name){
   p <- ggplot(data, aes(x = reorder(county, var), 
   y = var, fill = county)) + geom_boxplot()+
   guides(fill = FALSE) + theme_bw() + 
-    theme(plot.title = element_text(hjust = 0.5 ), 
-          axis.title.x = element_blank(),
+    theme(axis.title.x = element_blank(),
           axis.text.x = element_text(angle = 90, hjust = 1,vjust = 0.5))+
   labs( y = paste("Distribution of ", var.name), 
         caption = deparse(substitute(data)))
+  # specify differenct variables and datasets used here
   return(p)
 }
 
@@ -646,43 +666,44 @@ p5 <- distplot(df_ELA, df_ELA$pro, "pro")
 ggarrange(p3, p4, p5, nrow = 2, ncol = 2)
 ```
 
-We notice that for the second plot, it lacks two counties information: Baltimore county and Dorchester. Still google online and you will find, Algebra 2 test is not mandatory for students in these two conties so there isn't information of their performance.
+We notice that for the second plot, it lacks two counties information: Baltimore County and Dorchester. Still google online and it returns: Algebra 2 test is not mandatory for students in these two conties so there isn't information of their performance.
+
+Within-county variation in df_ELA is the most evident as indicated by the box size of Kent and that of Baltimore County; Between-county variation in df_ALG2 is the largest, ranging from 0 to 90.
 
 ## Predictor Variable
+
+In addition to the response variable, distribution of predictor variables can also be informative. Let's apply function `distplot` on them and we still use df_ALG1 as an example.
+
 ```{r, fig.width= 10, fig.height=8}
 p6 <- distplot(df_ALG1, df_ALG1$grad.rate, "grad.rate")
 p7 <- distplot(df_ALG1, df_ALG1$farms, "farms")
 p8 <- distplot(df_ALG1, df_ALG1$withdraw, "withdraw")
 p9 <- distplot(df_ALG1, df_ALG1$exp, "exp")
 
-
 ggarrange(p6,p7, p8, p9, nrow = 2, ncol = 2)
 ```
 
-It seems that `grad.rate` and `withdraw` are distributed evenly, we would like to center them.
+Distribution for `exp` and `farms` fits the routine of `pro`: variation across counties is obvious. But `grad.rate` and `withdraw` are distributed evenly and askew. What's worse, there are more outliers in these two variables, so we would like to scale them. Feature scaling means transforming the data to same scale so that the gradients don't have bias towards larger values, making outliers less important. In essence, centering the data will cause only the outliers to saturate, which is desirable since we always want to reduce the influence of outliers.
 
 ```{r, fig.width= 10, fig.height=4}
 df_ALG1 <- df_ALG1 %>%
   mutate( grad.rate.ct = grad.rate - mean(grad.rate, na.rm = TRUE)) %>%
   mutate( withdraw.ct = withdraw - mean(withdraw, na.rm = TRUE))
-
-p10 <- distplot(df_ALG1, df_ALG1$grad.rate.ct, "grad.rate.ct")
-p11 <- distplot(df_ALG1, df_ALG1$withdraw.ct, "withdraw.ct")
-
-ggarrange(p10, p11, ncol = 2 )
-
+#distplot(df_ALG1, df_ALG1$grad.rate.ct, "grad.rate.ct")
+#distplot(df_ALG1, df_ALG1$withdraw.ct, "withdraw.ct")
 ```
 
 ## Replationship between Response Variable and Predictor Variable
 
-```{r, fig.height= 10}
+Before the data gets ready for actual analysis, it needs to undergo some more steps. What we expect is a linear relationship between predictors and response so let's plot their relationship.
+
+```{r}
 relaplot1 <- function(var, var.name){
   
   p <- ggplot(df_ALG1, aes(x = var, y = pro))+    
   geom_point()+ geom_smooth(se = FALSE)+
   theme(legend.position = "none") +
     labs(x = var.name)
-  
   return(p)
 }
 
@@ -697,24 +718,48 @@ relaplot2 <- function(var, var.name){
   theme(axis.text = element_blank(),
         axis.ticks = element_blank()) +
     labs(x = var.name)
-  
   return(p)
 }
-
-p12 <- relaplot1(df_ALG1$farms, "farms")
-p13 <- relaplot2(df_ALG1$farms, "farms")
-p14 <- relaplot1(df_ALG1$grad.rate.ct, "grad.rate.ct")
-p15 <- relaplot2(df_ALG1$grad.rate.ct, "grad.rate.ct")
-
-ggarrange(p12,p13,p14,p15, ncol = 2, nrow = 2, widths = c(3,6))
 ```
+
+Function `relaplot1()` is used to plot the general relationship while `relaplot2()` is able to capture differences between counties as a result of `facet_wrap()`. Function [`facet_wrap()`](https://www.rdocumentation.org/packages/ggplot2/versions/3.2.1/topics/facet_wrap) in package `ggplot` 
+
+Use `farms` and `grad.rate.ct` as examples:
+```{r, fig.height= 10}
+p10 <- relaplot1(df_ALG1$farms, "farms")
+p11 <- relaplot2(df_ALG1$farms, "farms")
+p12 <- relaplot1(df_ALG1$grad.rate.ct, "grad.rate.ct")
+p13 <- relaplot2(df_ALG1$grad.rate.ct, "grad.rate.ct")
+ggarrange(p10,p11,p12,p13, 
+          ncol = 2, nrow = 2, widths = c(3,6))
+```
+The overall relationship between `farms` and `pro` can be considered linear. However, for `grad.rate.ct`, it is not surprising to see non-linear relationship - actually the skewed distribution plot (p6) foreshadows this condition. And `withdraw.ct` is also positively skewed. To deal with positive skewness, common transformation can be applied such as the square root, log transformation.  
+
+```{r}
+df_ALG1 <- df_ALG1 %>%
+  mutate( grad.rate.sqt = sqrt(grad.rate.ct)) %>%
+  mutate( grad.rate.log = log(grad.rate.ct)) %>%
+  mutate( withdraw.sqt = ifelse(withdraw.ct > 0, sqrt(withdraw.ct),
+                        -sqrt(abs(withdraw.ct)))) %>%
+  mutate( withdraw.log = ifelse(withdraw.ct > 0, log(withdraw.ct),
+                        -log(abs(withdraw.ct))))
+
+p14 <- relaplot1(df_ALG1$grad.rate.sqt, "sqrt grad.rate.ct")
+p15 <- relaplot1(df_ALG1$grad.rate.log, "log grad.rate.ct")
+p16 <- relaplot1(df_ALG1$withdraw.sqt, "sqrt withdraw.ct")
+p17 <- relaplot1(df_ALG1$withdraw.log, "log withdraw.ct")
+
+ggarrange(p14,p15,p16,p17, ncol = 2, nrow = 2)
+```
+
+Square root performs better on `grad.rate.ct` and log transformation tends to be more influential for `withdraw.ct`.
 
 # Data analysis
 
 To evaluate influence of each predictor variable, linear regression may first comes to your mind. Let's fit a simple linear regression model here:
 
 ```{r}
-m <- lm(pro ~ grad.rate + withdraw + farms + exp, data = df_ELA)
+m <- lm(pro ~ grad.rate.sqt + withdraw.log + farms + exp, data = df_ALG1)
 summary(m)
 ```
 
@@ -768,32 +813,32 @@ The fixed effects part provides model intercepts that are not particularly meani
 ### Univariate
 
 ```{r}
-m2 <- lmer(pro ~ grad.rate.ct + (1|county), data = df_ALG1)
+m2 <- lmer(pro ~ grad.rate.sqt + (1|county), data = df_ALG1)
 summary(m2)
 ```
 
-In this model, we are estimating the effect of `grad.rate.ct` on Algebra 1 achievement. Pay attention to random effects, compared to `m1` without the fixed effect, the variance of `county` - `r round(as.data.frame(VarCorr(m2))[1,4],2)` decreased considerably. This is because the variation that's due to `grad.rate.ct` was confounded with the variation that's due to `county`. Also, `m1` doesn't know about variation that's associated with `grad.rate.ct` so its predictions was relatively more off, leading to relatively larger residuals. Now that the effect of `grad.rate.ct` is specified, a considerable amount of the variance that was previously in the random effects component (differences between `grad.rate.ct`) is shifted to the fixed effects component.
+In this model, we are estimating the effect of `grad.rate.sqt` on Algebra 1 achievement. Pay attention to random effects, compared to `m1` without the fixed effect, the variance of `county` - `r round(as.data.frame(VarCorr(m2))[1,4],2)` decreased considerably. This is because the variation that's due to `grad.rate.sqt` was confounded with the variation that's due to `county`. Also, `m1` doesn't know about variation that's associated with `grad.rate.sqt` so its predictions was relatively more off, leading to relatively larger residuals. Now that the effect of `grad.rate.sqt` is specified, a considerable amount of the variance that was previously in the random effects component (differences between `grad.rate.sqt`) is shifted to the fixed effects component.
 
-In the fixed effects, estimated coefficient for `grad.rate.ct` is `r round(coef(summary(m2))[2,1],2)`, which is 
-also the slope for the effect of `grad.rate.ct`. It means that to one unit increase(1%) in `grad.rate.ct`, there is `r round(100*coef(summary(m2))[2,1],2)` increase in `pro`. Then, there???s a standard error associated with this slope, and a t- value, which is simply the estimate divided by the standard error.
+In the fixed effects, estimated coefficient for `grad.rate.sqt` is `r round(coef(summary(m2))[2,1],2)`, which is
+also the slope for the effect of `grad.rate.sqt`. It means that to one unit increase(1%) in `grad.rate.sqt`, there is `r round(100*coef(summary(m2))[2,1],2)` increase in `pro`. Then, there???s a standard error associated with this slope, and a t- value, which is simply the estimate divided by the standard error.
 
 
 ```{r}
-m3 <- lmer(pro ~ grad.rate.ct + (grad.rate.ct |county), data = df_ALG1,
+m3 <- lmer(pro ~ grad.rate.sqt + (grad.rate.sqt |county), data = df_ALG1,
            control = lmerControl(optimizer ="Nelder_Mead"))
 summary(m3)
 as.data.frame(VarCorr(m3))
 ```
 
-In contrast to the model above, `1|county` was updated to `grad.rate.ct|county`. Thus, we have specified both `grad.rate.ct` and `county` to be random effects. This will enable the slopes for `grad.rate.ct` predicting Algebra 1 achievement to vary from county to county. 
+In contrast to the model above, `1|county` was updated to `grad.rate.sqt|county`. Thus, we have specified both `grad.rate.sqt` and `county` to be random effects. This will enable the slopes for `grad.rate.sqt` predicting Algebra 1 achievement to vary from county to county. 
 
 Additionally, `optimizer ="Nelder_Mead"` specifies the optimizer we would like to use. From EDA we find the relationship between predictor variables and response variable is non-linear. [Nelder_Mead](https://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method) is often applied to nonlinear optimization problems, so it is a good choice when we include random slope.
 
-In the random effects, we now get an estimate of the variance component associated with the `grad.rate.ct`, which tells us about the variability in the `grad.rate.ct` on Algebra 1 achievement due to counties. The value is extremely small, `r round(as.data.frame(VarCorr(m3))[2,4],2)`,  and we get a singular fit warning in the bottom. Singularity leads to random-effect variance estimates of (nearly) zero, or estimates of correlations that are almost -1 or 1. Look at the *Corr* section, it tells us whether the random effects of Algebra 1 achievement due to `county` are related to the random effects of the slopes of the `grad.rate.ct` predictor. The correlation value is `r round(as.data.frame(VarCorr(m3))[3,5],2)`, proving the model's singularity. 
+In the random effects, we now get an estimate of the variance component associated with the `grad.rate.sqt`, which tells us about the variability in the `grad.rate.sqt` on Algebra 1 achievement due to counties. The value is extremely small, `r round(as.data.frame(VarCorr(m3))[2,4],2)`,  and we get a singular fit warning in the bottom. Singularity leads to random-effect variance estimates of (nearly) zero, or estimates of correlations that are almost -1 or 1. Look at the *Corr* section, it tells us whether the random effects of Algebra 1 achievement due to `county` are related to the random effects of the slopes of the `grad.rate.sqt` predictor. The correlation value is `r round(as.data.frame(VarCorr(m3))[3,5],2)`, proving the model's singularity. 
 
-In all, even though the residual variance decreases, the model is overfitting and `grad.rate.ct` should not be included in random part. Actually if we look back to EDA section, the plot indicating relationship between `grad.rate.ct` and `pro` (p15) has foretold the result here - there is not an obvious difference of their relationship within different counties.
+In all, even though the residual variance decreases, the model is overfitting and `grad.rate.sqt` should not be included in random part. Actually if we look back to EDA section, the plot indicating relationship between `grad.rate.sqt` and `pro` (p15) has foretold the result here - there is not an obvious difference of their relationship within different counties.
 
-Except `grad.rate.ct`, we also show the relationship between `farms` and `pro` in EDA. Therefore we may apply the above models on variable `frams` and try to detect the difference.
+Except `grad.rate.sqt`, we also show the relationship between `farms` and `pro` in EDA. Therefore we may apply the above models on variable `frams` and try to detect the difference.
 
 ```{r}
 m4 <- lmer(pro ~ farms + (1 |county), data = df_ALG1)
@@ -812,7 +857,7 @@ summary(m5)
 
 Similiar to the performance of `m3`, the residual variance in `m5` decreases compared to `m4`. 
 
-So far, we haven???t talked about significance yet. [see @papaer1] mentioned: "p values for the corresponding F and t tests are not provided by the lme4 package. The reason is connected with the fact that generally the exact null distributions for the parameter estimates and test statistics are unknown." But this can be remedied by [package `lmerTest`](https://cran.r-project.org/web/packages/lmerTest/lmerTest.pdf). Let's load it:
+So far, we haven???t talked about significance yet. [see @kuznetsova_2017] mentioned: "p values for the corresponding F and t tests are not provided by the lme4 package. The reason is connected with the fact that generally the exact null distributions for the parameter estimates and test statistics are unknown." But this can be remedied by [package `lmerTest`](https://cran.r-project.org/web/packages/lmerTest/lmerTest.pdf). Let's load it:
 
 ```{r}
 library(lmerTest)
@@ -828,13 +873,56 @@ After gettting familiar with MLM, let's try to find a multivariate model with al
 
 ```{r}
 df_temp <- na.omit(df_ALG1)
-m6 <- lmer(pro ~ grad.rate.ct + withdraw.ct + farms + exp + 
+m6 <- lmer(pro ~ grad.rate.sqt + withdraw.ct + farms + exp + 
              (farms|county), data = df_temp,
            control = lmerControl(optimizer ="Nelder_Mead"))
 summary(m6)
 ```
 In the random effects, residual variance is `r round(sigma(m6)^2,2)` - almost the lowest value we get. Also, the correlation value is `r round(as.data.frame(VarCorr(m6))[3,5],2)` so random slope for `farms` should be kept.
-Then look at the fixed effects part: based on the p value, only intercept and `farms` are significant and the left variables should be dropped. The last correlation part tells us there exists a strong correlation between `exp` and intercept, which is reasonable since `exp` is county level data; Besides, `grad.rate.ct` tends to correlate with `with.draw`. The large correation reflects that it is unecessary to include all of them, which explains their small p values.
+Then look at the fixed effects part: based on the p value, only intercept and `farms` are significant and the left variables should be dropped. The last correlation part tells us there exists a strong correlation between `exp` and intercept, which is reasonable since `exp` is county level data; Besides, `grad.rate.sqt` tends to correlate with `withdraw.log`. The large correation reflects that it is unecessary to include all of them, which explains their small p values.
 
-Here question comes, do we really want to exclude `grad.rate.ct`, `withdraw.ct` and `exp`? From our point of view, they shouldn't be dropped since we can not rely on p value blindly. What we should do is to interpret the results and make decision based on an informed judgement. 
+Here question comes, do we really want to exclude `grad.rate.sqt`, `withdraw.log` and `exp`? From our point of view, they shouldn't be dropped since we can not rely on p value blindly. What we should do is to interpret the results and make decision based on an informed judgement. 
+
+### Assumption Check
+
+The assumption for Multilevel Model includes:
+
+  * the variables are related linearly to response variable 
+  * the residuals are independent 
+  * the residuals have constant variance
+  * the residuals are normally distributed
+  
+The linearity assumption can be simply checked by ploting the residuals and predictors. Any non-random patterns may be a sign of assumption violation. We will use function `resid()` to call for the residuals of model, then use function `plot()` to do graphic check:
+
+```{r}
+par(mfrow = c(2, 2)) 
+resi <- resid(m6)
+plot(resi, df_temp$farms)
+plot(resi, log(df_temp$grad.rate.sqt))
+plot(resi, log(df_temp$withdraw.log))
+plot(resi, df_temp$exp)
+```
+
+
+In our dataset, each row corresponds to a specific school so our observtions are independent, so the residuals are independent too. Then let's check the last two assumption.
+
+The `plot()` function will produce a residual plot if you put a `lmer()` returned object in, and we will use it to check the assumption for constant variance.
+
+```{r}
+plot( m6)
+```
+
+From the residual plot, it does not indicate any deviations from a linear form. It also shows relatively constant variance as there isn't any evident patterns across the fitted range. The slight reduction in variance on the left part maybe a result of the skewed distribution of our response variable. As shown from the distribution plot in EDA part, the mean of `pro` in both cases is below 30. 
+
+Then let's check the normality asspumtion with the help of function `qqnorm()` and `qqline()`:
+
+```{r}
+qqnorm(resid(m6))
+qqline(resid(m6))
+```
+There is some slight deviation from the expected normal line towards the heads and tails, but overall points fall nicely on the line!
+
+# Summary
+
+
 
