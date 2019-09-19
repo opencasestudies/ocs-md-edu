@@ -25,7 +25,6 @@ library(lattice)
 library(lme4)
 ```
 
-
 # Motivation
 
 [**LRJ**: Once we finalize the case study, we should come back and revisit the intro/motivation section]
@@ -139,7 +138,7 @@ A large part of the case study involves data wrangling to get these five data fi
 
 ## Graduation Rate
 
-The first data file (`Cohort_Grad_Rate_2017.csv`) records the percentage of students in each school who received a Maryland high school diploma during 2017. Let's look at the data frame that comes from this file:
+The first data file (`Cohort_Grad_Rate_2016.csv`) records the percentage of students in each school who received a Maryland high school diploma during 2016. Let's look at the data frame that comes from this file:
 
 ```{r eval = FALSE}
 View(data[[1]])
@@ -301,7 +300,7 @@ df_parcc[,5:9] <-
 
 ![](plots/parcc_3.png)
 
-We only care about the proportion of L4 and L5 but NAs are distributed differently. To simply wrangling steps, we reduce these five levels into two new levels : 'Level weak' (L1, L2 and L3) and 'Level excellent' (L4 and L5). Then deal with NAs in three ways. If values of 'Level excellent' are complete, then `pro` equals to sum of L4 and L5. Such as Algebra 1 assessment of 'Washington Middle', its `pro` should be $85.5 + 9.7 = 95.2$; If values of 'Level weak' all exist, `pro` equals to 100 percent minus the sum of L1, L2 and L3. For example, the `pro` of Algebra 1 for 'Fort Hill High' equals to $100-23.9-44.6-21.7 = 9.8$; 
+We only care about the proportion of L4 and L5, but NAs are distributed differently. To simplify wrangling steps, we reduce these five levels into two new levels : 'Level weak' (L1, L2 and L3) and 'Level excellent' (L4 and L5). Then deal with NAs in three ways. If values of 'Level excellent' are complete, then `pro` equals to sum of L4 and L5. Such as Algebra 1 assessment of 'Washington Middle', its `pro` should be $85.5 + 9.7 = 95.2$; If values of 'Level weak' all exist, `pro` equals to 100 percent minus the sum of L1, L2 and L3. For example, the `pro` of Algebra 1 for 'Fort Hill High' equals to $100-23.9-44.6-21.7 = 9.8$; 
 
 ```{r}
 df_parcc$pro <- NA
@@ -324,8 +323,6 @@ If missing values exist both in these two levels, we will first use 100 percent 
 
 ```{r}
 indx3 <- is.na(df_parcc$pro)
-
-
 na_sum <- 100-rowSums(df_parcc[indx3, 5:9], na.rm = TRUE)
 n <- rowSums(is.na(df_parcc[indx3, 5:9]))
 na <- round(na_sum/n,1)
@@ -368,8 +365,6 @@ pac <- pac %>%
 ### Extract Assessment Information
 
 The proportion of high performance in these assessment ($p$) plays an role of response variable in our later analysis. Thus, splicting them out first makes further analysis convenient.
-
-$$ p_{ela} = \beta_0+\beta_{1} x_1+ \beta_{2} x_2 $$
 
 ```{r}
 df_ela <- pac[grep("English/Language Arts Grade 10", pac$subject), ]
@@ -479,7 +474,7 @@ It turns out that this file only contains county level data! The last row is sta
 
 $$exp = \frac{Wealth.Per.Pupil}{Expenditures.Per.Pupil}$$
 
-The quotient of Wealth.Per.Pupil and Expenditures.Per.Pupil captures the image of each county's financial condition. Function `mutate()` in package `dplyr` is a nice tool to adds new variables. Thus, wrangling steps are new variable creation, feature selection and rename.
+The quotient of Wealth.Per.Pupil and Expenditures.Per.Pupil captures the image of each county's financial condition as well as how much does this county care about . Function `mutate()` in package `dplyr` is a nice tool to adds new variables. Thus, wrangling steps are new variable creation, feature selection and rename.
 
 ```{r}
 df_exp <- data[[5]] %>%
@@ -740,8 +735,8 @@ The overall relationship between `farms` and `pro` can be considered linear. How
 
 ```{r, fig.height= 5}
 df_ALG1 <- df_ALG1 %>%
-  mutate(grad.rate.log = log(grad.rate)) %>%
-  mutate( withdraw.log = log(withdraw))
+  mutate(grad.rate.log = log2(grad.rate)) %>%
+  mutate( withdraw.log = log2(withdraw))
 
 p14 <- relaplot1(df_ALG1$grad.rate, " grad.rate")
 p15 <- relaplot1(df_ALG1$grad.rate.log, "log grad.rate")
@@ -759,7 +754,7 @@ To deal with the special condition, we would like to firstly use 100 minus the `
 ```{r, fig.width = 12, fig.height=5}
 df_ALG1 <- df_ALG1 %>%
   mutate(non.grad.rate = -grad.rate+100) %>%
-  mutate( non.grad.rate.log = log(non.grad.rate))
+  mutate( non.grad.rate.log = log2(non.grad.rate))
 
 p18 <- relaplot1(df_ALG1$non.grad.rate.log, "log non.grad.rate")
 ggarrange(p14,p15,p18,ncol = 3)
@@ -795,15 +790,6 @@ This section will go over how to run MLM for our dataset in R, and focus on esti
 
 Let's look at an example and examine a model that just estimates a random intercept. This simple model asks the question, 'Is there variability in Algebra 1 achievement across county?'
 
-$$y_{ij} = \alpha_{j} + \beta_j*x_{ij}+\varepsilon_{ij}$$
-
-|  Variables     | Definition |
-|--------|---------------------------------------------------------------------|
-| $y_{ij}$ | the dependent variable for the $i$ school observation in county $j$ |
-| $\alpha_{j}$ | the intercept of the dependent variable in county $j$ |
-| $x_{ij}$ | the $i$ school observation in county $j$ |
-| $\beta_j$ | the slope for the relationship in county $j$ between $x_{ij}$ and reponse variable |
-
 ```{r}
 m1 <- lmer(pro ~ 1 + 1|county, data = df_ALG1)
 ```
@@ -834,14 +820,23 @@ Let's start! We would first estimate the effect of `non.grad.rate.log` on Algebr
 ```{r}
 m2 <- lmer(pro ~ non.grad.rate.log + (1|county), data = df_ALG1)
 summary(m2)
+
 ```
 
 Pay attention to random effects, compared to `m1` without the fixed effect, the variance of `county` - `r round(as.data.frame(VarCorr(m2))[1,4],2)` decreased considerably. This is because the variation that's due to `non.grad.rate.log` was confounded with the variation that's due to `county`. Also, `m1` doesn't know about variation that's associated with `non.grad.rate.log` so its predictions was relatively more off, leading to relatively larger residuals. Now that the effect of `non.grad.rate.log` is specified, a considerable amount of the variance that was previously in the random effects component (differences between `non.grad.rate.log`) is shifted to the fixed effects component.
 
 In the fixed effects, estimated coefficient for `non.grad.rate.log` is `r round(coef(summary(m2))[2,1],2)`, which is
-also the slope for the effect of `non.grad.rate.log`. It means that to 1 unit decrease(1%) in the `non.grad.rate.log`, there is `r round((-coef(summary(m2))[2,1]),2)` increase in `pro`. Then, there’s a standard error associated with this slope, and a t- value, which is simply the estimate divided by the standard error.
+also the slope for the effect of `non.grad.rate.log`. As we did log transformation to produce a linear relationship, so the estimated effect of original non.grad.rate is no longer linear. Generally we will intepret such result with a ratio form, suppose we have two value for non.grad.rate - $x_1$ and $x_2$, which correspond to two value of `pro`, $y_1$ and $y_2$.
+
+$$y_1= \beta * log(x_1), y_2= \beta * log(x_2)$$
+The expected mean difference in writing score at $x_1$ and $x_2$, holding the other predictor variables constant, is
+
+$$y_1 - y_2 = \beta *(log(x_1) - log(x_2)) = \beta * log(x_1/x_2)$$
+
+This means that as long as the percent increase in non.grad.rate is fixed, we will see the same difference in `pro`, regardless where the baseline reading score is. In our case, suppose 10% increase in non.grad.rate, there is `r round((-coef(summary(m2))[2,1])*log(1.1),2)` increase in `pro`. The following models can be interpreted in the same way like this. Then, there's a standard error associated with this slope, and a t value, which is simply the estimate divided by the standard error.
 
 Then we allow `non.grad.rate.log` to be a random effect and try to see their difference:
+
 ```{r}
 m3 <- lmer(pro ~ non.grad.rate.log + (non.grad.rate.log |county), data = df_ALG1,
            control = lmerControl(optimizer ="Nelder_Mead"))
@@ -873,7 +868,7 @@ summary(m5)
 
 Similiar to the performance of `m3`, the residual variance in `m5` decreases compared to `m4` but not that much. In all, random slopes may not be a good choice in our condition and it is mainly because the unbalanced data - the number of observations for each county is not same and some counties even just has one observation. 
 
-So far, we haven’t talked about significance yet. [see @kuznetsova_2017] mentioned: "p values for the corresponding F and t tests are not provided by the lme4 package. The reason is connected with the fact that generally the exact null distributions for the parameter estimates and test statistics are unknown." But this can be remedied by [package `lmerTest`](https://cran.r-project.org/web/packages/lmerTest/lmerTest.pdf). Let's load it:
+So far, we haven???t talked about significance yet. [see @kuznetsova_2017] mentioned: "p values for the corresponding F and t tests are not provided by the lme4 package. The reason is connected with the fact that generally the exact null distributions for the parameter estimates and test statistics are unknown." But this can be remedied by [package `lmerTest`](https://cran.r-project.org/web/packages/lmerTest/lmerTest.pdf). Let's load it:
 
 ```{r}
 library(lmerTest)
@@ -888,14 +883,24 @@ Have you seen the difference? In the fixed effects, we get information of degree
 After gettting familiar with MLM, let's try to find a multivariate model with all predictors:
 
 ```{r}
-m7 <- lmer(pro ~ non.grad.rate.log + withdraw.log + farms + exp + 
+m7 <- lmer(pro ~ non.grad.rate.log +withdraw.log+farms + exp + 
              ( 1 |county), data = df_ALG1, na.action = 'na.exclude',
            control = lmerControl(optimizer ="Nelder_Mead"))
 summary(m7)
 ```
-In the random effects, residual variance is `r round(sigma(m6)^2,2)`, which is the smallest value in above tries. Here county-level factors explain `r paste(round(100*as.data.frame(VarCorr(m7))[1,4]/(as.data.frame(VarCorr(m7))[1,4]+sigma(m7)^2), 2), "%", sep="")` of the variance. Admittedly, the decrease in residuals is not that large compared with `m6`. It is because previous transformation strench out their range to create a linear and balanced distribution. The variance that's due to graduation rate and withdraw rate consolidate simutaneously, resulting in a tiny decrease. 
 
-Then look at the fixed effects part: based on the p value, intercept, `farms` and `non.grad.rate.log` are significant and the left variables should be dropped. Here question comes, do we really want to exclude `withdraw.log` and `exp`? P value is not a strict criterior we should rely on blindly. What we should do is to interpret the results and make decision based on an informed judgement. 
+Look at the fixed effects part: based on the p value, intercept, `farms` and `non.grad.rate.log` are significant and the left variables should be dropped. If we have a look on the correlation part we can find `withdraw.log` is highly correlated with `non.grad.rate.log`, and `exp` is relevant to the intercept as well. Therefore these two are 'redundant' variables in the model. 
+
+Here question comes, how should we deal with the `withdraw.log` and `exp`? We will delete `withdraw.log` because of the high correlation but leave `exp`. Actually p value is not a strict criterior we should rely on blindly, and what we should do is to interpret the results and make decision based on an informed judgement. This case study doesn't aim to give a perfect model but to show how we deal with multilevel dataset. 
+
+```{r}
+m7 <- lmer(pro ~ non.grad.rate.log +farms + exp + 
+             ( 1 |county), data = df_ALG1, na.action = 'na.exclude',
+           control = lmerControl(optimizer ="Nelder_Mead"))
+summary(m7)
+```
+
+In the random effects, residual variance is `r round(sigma(m6)^2,2)`, which is the smallest value in above tries. Here county-level factors explain `r paste(round(100*as.data.frame(VarCorr(m7))[1,4]/(as.data.frame(VarCorr(m7))[1,4]+sigma(m7)^2), 2), "%", sep="")` of the variance. Admittedly, the decrease in residuals is not that large compared with `m6`. It is because previous transformation strench out their range to create a linear and balanced distribution. The variance that's due to graduation rate and withdraw rate consolidate simutaneously, resulting in a tiny decrease. 
 
 ### Assumption Check
 
@@ -938,14 +943,58 @@ There is some slight deviation from the expected normal line towards the heads a
 
 ## Fit Other Dataset
 
-Until now, we use `df_ALG1` as an example and `m7` is our ideal model. Then apply it on other datasets and compare the results. 
+Until now, we use `df_ALG1` as an example and `m7` is our ideal model. Then apply it on other datasets and compare the results. The first step is still variable transformation - apply the same transformation on the other two datasets since it is originated from the same dataset as df_ALG1.
 
 ### df_ALG2
 
+```{r}
+df_ALG2 <- df_ALG2 %>%
+  mutate(withdraw.log = log2(withdraw)) %>%
+  mutate(non.grad.rate = -grad.rate+100) %>%
+  mutate( non.grad.rate.log = log2(non.grad.rate))
+```
 
+```{r}
+m8 <- lmer(pro ~  non.grad.rate.log+ farms + exp +
+             ( 1 |county), data = df_ALG2, na.action = 'na.exclude',
+           control = lmerControl(optimizer ="Nelder_Mead"))
+
+summary(m8)
+```
+Here county-level factors explain `r paste(round(100*as.data.frame(VarCorr(m8))[1,4]/(as.data.frame(VarCorr(m8))[1,4]+sigma(m8)^2), 2), "%", sep="")` of the variance. In previous plot we have seen between-county level is pretty obvious in df_AlG 2, so this high proportion is what we expected. In addition, `non.grad.rate.log` comes to be insignificant now as it is highly correlated with `farms`. 
+
+### df_ELA
+
+Different with previous results, for English and Art assessment, we didn't separate the original data so it covers all of the information we need. We will include all of the variables in following analysis.
+
+```{r}
+df_ELA <- df_ELA %>%
+  mutate(withdraw.log = log2(withdraw)) %>%
+  mutate(non.grad.rate = -grad.rate+100) %>%
+  mutate( non.grad.rate.log = log2(non.grad.rate))
+```
+
+```{r}
+m9 <- lmer(pro ~ non.grad.rate.log+ withdraw.log+farms+ exp+
+             ( 1 |county), data = df_ELA, na.action = 'na.exclude',
+           control = lmerControl(optimizer ="Nelder_Mead"))
+summary(m9)
+```
+
+Here county-level factors explain `r paste(round(100*as.data.frame(VarCorr(m9))[1,4]/(as.data.frame(VarCorr(m9))[1,4]+sigma(m9)^2), 2), "%", sep="")` of the variance. It is far more lower than that for ALgebra 2 and 1, which is why we see a lower between-county variance in previous EDA part.
 
 # Summary
 
-*Note*: what kind of county level data can we include?
+In this case study, we mainly showed how to import multiple, unstructured, but ralational datasets and how to wrangle them step by step. Merging them together and constructing a multilevel dataset was also a challenging step. Then, we performed graphic interpretation and applied various transformation on variables to make them balance, neat and interpretable. In the last step, multilevel model was taught since it is the most suitable choice to deal with such data structure. The analysis results just fits our initial conclusion based on graphic analysis: between-county variance is low in English and Arts and `farms` contributes to student performance the most.
+
+We started by downloading original resources and saved all useful files in a big list, which enables us to manipulate easily. After taking a first look on them, we found different kinds of problems like missing value, unnecessary information and the lack of key elements. All of these problems just reflect the characteristics of real world data, they are difficult to deal with but contain great value. Luckily, `dplyr package` is a powerful tool for us to move on following steps such as feature selection, unique id creation, dealing with missing value and converting data type. With the help of it, all these files became cleaner and more tidy. 
+
+Next, these files have been merged together to make up our multilevel dataset. Here function `left_join` came into works and we used it to write create a suitable function in our case, avoiding repeating the same procedure again and again. This can be crucial to deal with a huge size of data considering reducing running time. And we hope you could learn how to develop and modify existing tools as needed from this step.
+
+Rich visualization have beed designed to interpret complex data structure in exploratory data analysis. Distribution of response variables was a good way to investigate between-county and within-county variance. For predictor variables, their distribution plots were more diverse so that we could grasp a general ideal of what our data looks like - some are extremely skewed and need to be transformed. Even though there are lots of choices, base 2 logarithm transformation was inplemented so as to get a interpretable result as well as guarantee a linear regression.
+
+Once the preparation work is done, multilevel model was applied in various forms, both with and without random components. Began with univariate models and test it on Algebra 1 dataset, we explained how to use `lmer`, how to define random parts where you want and how to make conclusion based on R output. In order to get p value, package `lmerTest` was given and performed in further multivariate analysis. Finally we applied the model on these three datasets but keep different sets of variables. To sum up, the result fits our initial conclusion: between-level difference is larger in Algebra 2.
+
+Our case study aims to give a systematic method to translate unstructured and messy data resources into a neat form as needed, that's why we didn't investigate deeply to persue a perfect model with the highest accuracy. But there are much space for you to explore such as except for `exp`, is there any other county level variables you could use? We encouage you to build up your own model and try to do more research.
 
 
